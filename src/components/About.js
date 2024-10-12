@@ -35,7 +35,7 @@ const DesktopAbout = () => {
         <AboutText />
       </div>
       <div className="aboutRight">
-        <div className="pictureContainer"><img className="aboutPicture" alt="About" /></div>
+        <div className="pictureContainer"><img className="aboutPicture"/></div>
       </div>
       <AboutButtons />
     </>
@@ -46,7 +46,7 @@ const MobileAbout = () => {
   return (
     <div className="buttonsAndPicture">
       <AboutButtons />
-      <div className="pictureContainer"><img className="aboutPicture" alt="About" /></div>
+      <div className="pictureContainer">{/* <img className="aboutPicture"/> */}</div>
     </div>
   );
 };
