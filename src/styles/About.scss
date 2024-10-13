@@ -1,16 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import './variables';
 
 .about{
     display: flex;
     flex-direction: column;
     width: 100%;
     margin-top: 2rem;
-
-    @media (min-width: 768px) { // Adjust the min-width as needed
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    }
 }
 
 .buttonsAndPicture{
@@ -27,6 +22,10 @@
     gap: 10%;
     width: auto;
     margin-right: auto;
+    @media (min-width: 768px) { // Adjust the min-width as needed
+        flex-direction: row;
+        margin-top: 1rem;
+    }
 }
 
 .aboutButtonSquare{
@@ -36,34 +35,82 @@
     align-items: center;
     width: 2.5rem;
     height: 2.5rem;
+    cursor: pointer;
+    @media (min-width: 768px) {
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+.contactText{
+    font-size: clamp(1rem, 1.2rem, 2rem);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
 }
 
 .aboutContactButton{
+    all: unset;
     display: none;
+    width: 5em;
+    cursor: pointer;
+    @media (min-width: 768px) {
+        display: flex;
+        height: 3.25rem;
+        width: 15rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: $accentColor;
+        
+    }
+}
+
+.contactArrowImg{
+    width: 20%;
+    height: auto;
 }
 
 .aboutPicture{
     height: 100%;
     width: auto;
+    user-select: none;
 }
 .pictureContainer{
     width: 11rem;
     height: 11rem;
     background-color: lightgray;
     border-radius:  50%;
+    @media (min-width: 768px) {
+        width: 20rem;
+        height: 20rem;
+    }
 }
 
 .introText{
     font-size: clamp(1rem, 2.5rem, 3.5rem);
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
-    margin-bottom: .2rem;
+    margin: 0 0 .2rem 0;
+    @media (min-width: 768px) {
+        font-size: clamp(3.125rem, 3.125rem, 3.5rem);
+    }
+    
+}
+
+.aboutTextWrapper{
+    display: flex;
+    flex-direction: column;
 }
 
 .aboutMeText{
     font-size: clamp(1rem, 1.25rem, 2rem);
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
+}
+
+.aboutWrapper{
+    display: flex;
+    justify-content: space-between;
 }
 
 .aboutLeft{

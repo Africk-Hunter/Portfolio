@@ -12,7 +12,7 @@ const IndexPage = () => {
   return (
     <>
       <main>
-{/*         <Navbar /> */}
+        <Navbar />
         <About />
         <Projects />
         <Contact />
