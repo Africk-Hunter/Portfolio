@@ -84,6 +84,11 @@
         width: 20rem;
         height: 20rem;
     }
+
+    @media (min-width: 1921px) {
+        width: 30rem;
+        height: 30rem;
+    }
 }
 
 .introText{
@@ -91,10 +96,14 @@
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     margin: 0 0 .2rem 0;
+
     @media (min-width: 768px) {
         font-size: clamp(3.125rem, 3.125rem, 3.5rem);
     }
-    
+
+    @media (min-width: 1921px) {
+        font-size: clamp(3.5rem, 4rem, 4.5em);
+    }
 }
 
 .aboutTextWrapper{
@@ -106,6 +115,10 @@
     font-size: clamp(1rem, 1.25rem, 2rem);
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
+
+    @media (min-width: 1921px) {
+        font-size: clamp(1.5rem, 2rem, 2em);
+    }
 }
 
 .aboutWrapper{
@@ -116,7 +129,9 @@
 .aboutLeft{
     display: flex;
     width: 55%;
+    user-select: none;
 }
 .aboutRight{
     width: auto;
+    user-select: none;
 }
