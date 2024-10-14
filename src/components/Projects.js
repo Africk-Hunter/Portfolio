@@ -3,15 +3,25 @@ import externalLink from '../images/externalLink.svg';
 import githubIcon from '../images/githubIconBlack.svg';
 
 const Projects = () => {
+
+  const technologyArray = [
+    { name: 'Javascript' },
+    { name: 'HTML' },
+    { name: 'Tailwind CSS' },
+  ];
+
   return (
     <section id="projects" className="projects">
-        <h1 className='projectsLabel'>Projects</h1>
-        <section className='projectCardHolder'>
-          <ProjectCard />
-        </section>
+      <h1 className='projectsLabel'>Projects</h1>
+      <section className='projectCardHolder'>
+        <ProjectCard technologyArray={technologyArray} />
+        <ProjectCard technologyArray={technologyArray} />
+        <ProjectCard technologyArray={technologyArray} />
+      </section>
     </section>
   );
 };
+
 
 export default Projects;
 
@@ -39,15 +49,14 @@ const ProjectCard = (props) => {
                 <>
                     <div className='projectImageHolder'><img className='projectImg' /></div>
                     <section className='projectDescriptionWrapper'>
-                        <ProjectDescription projectName="Stock Z" description="Test Desc" />
+                        <ProjectDescription projectName="Stock Z" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat." />
                         <section className='projectDescirptionBottomBar'>
-                            <ProjectTechnologies technologies={['hi', 'hello']} />
+                            <ProjectTechnologies technologies={props.technologyArray} />
                             <section className='cardButtonWrapper'>
                               <button className='cardLinkButton'><img className='cardLinkImg' src={githubIcon}/></button>
                               <button className='cardLinkButton'><img className='cardLinkImg' src={externalLink}/></button>
                             </section>
                         </section>
-                        <ProjectTechnologies />
                     </section>
                 </>
             )}
@@ -68,16 +77,17 @@ const ProjectDescription = (props) => {
 
 
 const ProjectTechnologies = ({ technologies }) => {
-    return (
-      <section className="projectTechnologies">
-        {technologies?.map((tech, index) => (
-          <div key={index} className="technology">
-            <span className="technology-name">{tech.name}</span>
-          </div>
-        ))}
-      </section>
-    );
-  };
+  return (
+    <section className="projectTechnologies">
+      {technologies?.map((tech, index) => (
+        <div key={index} className="technology">
+          <span className="technologyName">{tech.name}</span>
+        </div>
+      ))}
+    </section>
+  );
+};
+
   
 
   
