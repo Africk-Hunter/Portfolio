@@ -1,5 +1,6 @@
 .navbar{
     position: sticky;
+    top: 0px;
     @media (max-width: 768px) { // Adjust the min-width as needed
         display: none;
     }
@@ -8,6 +9,7 @@
     justify-content: space-between;
     align-items: center;
     margin: 2rem 0 8rem 0;
+    background: $backgroundColor;
     
 }
 

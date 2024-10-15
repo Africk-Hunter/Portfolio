@@ -1,27 +1,50 @@
-import React from 'react';
-import scrollTo from 'gatsby-plugin-smoothscroll';
+import React, { useEffect, useState } from 'react';
 
 const Projects = () => {
+  const [navbarHeight, setNavbarHeight] = useState(0);
+
+  useEffect(() => {
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+      setNavbarHeight(navbar.offsetHeight);
+    }
+  }, []);
+
   return (
     <nav id="navbar" className="navbar">
-        <h1 className='nameText'>Hunter Africk</h1>
-        <section className='navButtonsWrapper'>
-            <NavBarItems linkName='Home'/>
-            <NavBarItems linkName='Projects'/>
-            <NavBarItems linkName='Contact Me'/>
-        </section>
+      <h1 className="nameText">Hunter Africk</h1>
+      <section className="navButtonsWrapper">
+        <NavBarItems linkName="Home" offset={navbarHeight} />
+        <NavBarItems linkName="Projects" offset={navbarHeight} />
+        <NavBarItems linkName="Contact Me" offset={navbarHeight} />
+      </section>
     </nav>
   );
 };
 
-const NavBarItems = (props) => {
-
-  let scrollToName = '#' + props.linkName
-
-    return (
-      <nav className="navbarLink">
-        <button className='navBarLinkButton' onClick={() => scrollTo(scrollToName)}><h2 className='linkName'>{props.linkName}</h2></button>
-      </nav>
-    );
+const NavBarItems = ({ linkName, offset }) => {
+  const scrollToSection = (id) => {
+    const section = document.querySelector(id);
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop - offset,
+        behavior: 'smooth',
+      });
+    }
   };
+
+  const scrollToName = '#' + linkName;
+
+  return (
+    <nav className="navbarLink">
+      <button
+        className="navBarLinkButton"
+        onClick={() => scrollToSection(scrollToName)}
+      >
+        <h2 className="linkName">{linkName}</h2>
+      </button>
+    </nav>
+  );
+};
+
 export default Projects;
