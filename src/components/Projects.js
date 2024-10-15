@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import externalLink from '../images/externalLink.svg';
 import githubIcon from '../images/githubIconBlack.svg';
+import stockZImage from '../images/stockZ.png';
+import ghostwryteImage from '../images/ghostwryte.png';
+import portfolioImage from '../images/portfolio.png';
+import twentyOnImage from '../images/20on20off.png';
+
 
 const Projects = () => {
 
   const projectInformationStockZ = {
     projectTitle: 'Stock Z',
-    projectDesc: 'StockZ is a web application designed to assist users in identifying optimal purchasing price ranges for stocks. Leveraging historical data, StockZ provides valuable insights to aid users in making informed decisions.',
+    projectDesc: 'Stock Z is a web application designed to assist users in identifying optimal purchasing price ranges for stocks. Leveraging historical data, StockZ provides valuable insights to aid users in making informed decisions.',
     projectLink: 'https://www.Stock-Z.com',
     githubLink: 'https://github.com/Africk-Hunter/StockZ',
-    projectImage: '../images/stockZ.png',
+    projectImage: stockZImage,
     technologyArray: [
       { name: 'Javascript' },
       { name: 'HTML' },
@@ -23,7 +28,7 @@ const Projects = () => {
     projectDesc: 'Ghostwryte.ai is an AI assistant designed for knowledge-based content creators on platforms such as LinkedIn. Ghostwryte helps users craft authentic content that reflects their unique voices through a minimalist, intuitive interface. Ghostwryte leverages machine learning to accurately mimic a user\'s writing style when generating content.',
     projectLink: 'https://ghostwryte-ai-c7cf4cf60c87.herokuapp.com/',
     githubLink: 'https://github.com/CS425Team46/Ghostwryrte.ai',
-    projectImage: '../images/ghostwryte.png',
+    projectImage: ghostwryteImage,
     technologyArray: [
       { name: 'Javascript' },
       { name: 'HTML' },
@@ -37,7 +42,7 @@ const Projects = () => {
     projectDesc: 'This portfolio website you are on now.',
     projectLink: '',
     githubLink: 'https://github.com/Africk-Hunter/Portfolio',
-    projectImage: '../images/portfolio.png',
+    projectImage: portfolioImage,
     technologyArray: [
       { name: 'React.JS' },
       { name: 'Sass' },
@@ -50,7 +55,7 @@ const Projects = () => {
     projectDesc: '20ON20OFF is a timer program designed to help users follow the 20-20-20 rule: for every 20 minutes spent looking at a screen, take a 20-second break and look at something 20 feet away. This app assists in reducing eye strain and promoting better eye health during prolonged screen use.',
     projectLink: 'https://two0on20off.onrender.com/',
     githubLink: 'https://github.com/Africk-Hunter/20ON20OFF',
-    projectImage: '../images/20on20off.png',
+    projectImage: twentyOnImage,
     technologyArray: [
       { name: 'React.JS' },
       { name: 'CSS' },
@@ -95,7 +100,7 @@ const ProjectCard = (props) => {
                 <section className='mobileInnerProjectCard'>
                   <section className='projectPictureAndDescriptionWrapper'>
                     <section className='pictureAndLinksWrapper'>
-                      <div className='projectImageHolder'><img className='projectImg' /></div>
+                      <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage}/></div>
                       <ProjectCardButtonLinks projectLink={props.projectInfo.projectLink} githubLink={props.projectInfo.githubLink} />
                     </section>
                     <ProjectDescription projectName={props.projectInfo.projectTitle} description="" />
@@ -104,7 +109,7 @@ const ProjectCard = (props) => {
                 </section>
             ) : (
                 <>
-                    <div className='projectImageHolder'><img className='projectImg' /></div>
+                    <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage}/></div>
                     <section className='projectDescriptionWrapper'>
                         <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} />
                         <section className='projectDescirptionBottomBar'>
