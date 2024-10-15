@@ -11,7 +11,7 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="projects">
+    <section id="Projects" className="projects">
       <h1 className='projectsLabel'>Projects</h1>
       <section className='projectCardHolder'>
         <ProjectCard technologyArray={technologyArray} />
@@ -42,19 +42,16 @@ const ProjectCard = (props) => {
     return (
         <div className='projectCard'>
             {windowWidth < 768 ? (
-                <>
-                  <div className='projectImageHolder'><img className='projectImg' /></div>
-                    <section className='projectDescriptionWrapper'>
-                        <ProjectDescription projectName="Stock Z" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat." />
-                        <section className='projectDescirptionBottomBar'>
-                            <ProjectTechnologies technologies={props.technologyArray} />
-                            <section className='cardButtonWrapper'>
-                              <button className='cardLinkButton'><img className='cardLinkImg' src={githubIcon}/></button>
-                              <button className='cardLinkButton'><img className='cardLinkImg' src={externalLink}/></button>
-                            </section>
-                        </section>
+                <section className='mobileInnerProjectCard'>
+                  <section className='projectPictureAndDescriptionWrapper'>
+                    <section className='pictureAndLinksWrapper'>
+                      <div className='projectImageHolder'><img className='projectImg' /></div>
+                      <ProjectCardButtonLinks />
                     </section>
-                </>
+                    <ProjectDescription projectName="Stock Z" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat." />
+                  </section>
+                  <ProjectTechnologies technologies={props.technologyArray} />
+                </section>
             ) : (
                 <>
                     <div className='projectImageHolder'><img className='projectImg' /></div>
@@ -62,10 +59,7 @@ const ProjectCard = (props) => {
                         <ProjectDescription projectName="Stock Z" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat." />
                         <section className='projectDescirptionBottomBar'>
                             <ProjectTechnologies technologies={props.technologyArray} />
-                            <section className='cardButtonWrapper'>
-                              <button className='cardLinkButton'><img className='cardLinkImg' src={githubIcon}/></button>
-                              <button className='cardLinkButton'><img className='cardLinkImg' src={externalLink}/></button>
-                            </section>
+                            <ProjectCardButtonLinks />
                         </section>
                     </section>
                 </>
@@ -82,6 +76,14 @@ const ProjectDescription = (props) => {
             <h1 className='projectName'>{props.projectName}</h1>
             <p className='projectDesc'>{props.description}</p>
         </section>
+    );
+};
+const ProjectCardButtonLinks = (props) => {
+    return (
+      <section className='cardButtonWrapper'>
+        <button className='cardLinkButton'><img className='cardLinkImg' src={githubIcon}/></button>
+        <button className='cardLinkButton'><img className='cardLinkImg' src={externalLink}/></button>
+      </section>
     );
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import scrollTo from 'gatsby-plugin-smoothscroll';
 
 const Projects = () => {
   return (
@@ -14,9 +15,12 @@ const Projects = () => {
 };
 
 const NavBarItems = (props) => {
+
+  let scrollToName = '#' + props.linkName
+
     return (
       <nav className="navbarLink">
-        <div><h2 className='linkName'>{props.linkName}</h2></div>
+        <button className='navBarLinkButton' onClick={() => scrollTo(scrollToName)}><h2 className='linkName'>{props.linkName}</h2></button>
       </nav>
     );
   };

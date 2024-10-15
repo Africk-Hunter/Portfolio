@@ -16,7 +16,7 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" className="about">
+    <section id="Home" className="about">
       {windowWidth < 768 ? (
         <>
           <MobileAbout />
