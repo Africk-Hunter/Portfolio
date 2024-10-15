@@ -103,7 +103,7 @@ const ProjectCard = (props) => {
                       <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage}/></div>
                       <ProjectCardButtonLinks projectLink={props.projectInfo.projectLink} githubLink={props.projectInfo.githubLink} />
                     </section>
-                    <ProjectDescription projectName={props.projectInfo.projectTitle} description="" />
+                    <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} />
                   </section>
                   <ProjectTechnologies technologies={props.projectInfo.technologyArray} />
                 </section>
@@ -147,8 +147,6 @@ const ProjectCardButtonLinks = (props) => {
     </section>
   );
 };
-
-
 
 
 const ProjectTechnologies = ({ technologies }) => {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import linkedinIcon from '../images/linkedinIcon.svg';
 import githubIcon from '../images/githubIcon.svg';
 import arrow from '../images/arrow.svg';
+import aboutPicture from '../images/aboutPicture.jpg';
 
 const About = () => {
   const [windowWidth, setWindowWidth] = useState(0);
@@ -37,7 +38,7 @@ const DesktopAbout = () => {
                 <AboutText />   
             </div>
             <div className="aboutRight">
-                <div className="pictureContainer"><img className="aboutPicture"/></div>
+                <div className="pictureContainer"><img className="aboutPicture" src={aboutPicture}/></div>
             </div>
         </div>
         <AboutButtons />
@@ -49,7 +50,7 @@ const MobileAbout = () => {
   return (
     <div className="buttonsAndPicture">
       <AboutButtons />
-      <div className="pictureContainer">{/* <img className="aboutPicture"/> */}</div>
+      <div className="pictureContainer"><img className="aboutPicture" src={aboutPicture}/></div>
     </div>
   );
 };
@@ -58,10 +59,10 @@ const AboutButtons = () => {
   return (
     <div className="aboutButtons">
       <button className="aboutButtonSquare">
-        <img src={githubIcon} alt="GitHub" className='aboutPicture' />
+        <img src={githubIcon} alt="GitHub" className='buttonPicture' />
       </button>
       <button className="aboutButtonSquare">
-        <img src={linkedinIcon} alt="LinkedIn" className='aboutPicture' />
+        <img src={linkedinIcon} alt="LinkedIn" className='buttonPicture' />
       </button>
       <button className="aboutContactButton">
         <span className="contactText">Contact Me</span>
