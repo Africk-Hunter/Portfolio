@@ -43,7 +43,17 @@ const ProjectCard = (props) => {
         <div className='projectCard'>
             {windowWidth < 768 ? (
                 <>
-
+                  <div className='projectImageHolder'><img className='projectImg' /></div>
+                    <section className='projectDescriptionWrapper'>
+                        <ProjectDescription projectName="Stock Z" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat." />
+                        <section className='projectDescirptionBottomBar'>
+                            <ProjectTechnologies technologies={props.technologyArray} />
+                            <section className='cardButtonWrapper'>
+                              <button className='cardLinkButton'><img className='cardLinkImg' src={githubIcon}/></button>
+                              <button className='cardLinkButton'><img className='cardLinkImg' src={externalLink}/></button>
+                            </section>
+                        </section>
+                    </section>
                 </>
             ) : (
                 <>
