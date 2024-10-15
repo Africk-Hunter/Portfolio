@@ -75,10 +75,12 @@
     background: none;
     height: 11rem;
     min-width: 11rem;
+    max-width: 11rem;
 
     @media (max-width: 768px) { 
         height: 7rem;
         min-width: 7rem;
+        max-width: 7rem;
     }
 }
 
