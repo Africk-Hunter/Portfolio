@@ -142,8 +142,8 @@ const ProjectCardButtonLinks = (props) => {
         target="_blank" 
         rel="noopener noreferrer"
         style={{
-          visibility: props.projectLink ? 'visible' : 'hidden',  // Make the link visible if projectLink is provided
-          pointerEvents: props.projectLink ? 'auto' : 'none',  // Enable interaction if projectLink is provided
+          visibility: props.projectLink ? 'visible' : 'hidden', 
+          pointerEvents: props.projectLink ? 'auto' : 'none', 
         }}
       >
         <img className='cardLinkImg' src={externalLink} alt="External Link" />

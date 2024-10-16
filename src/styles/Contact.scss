@@ -9,7 +9,7 @@
     margin: 1rem 0 4rem 0;
     @media (min-width: 769px) { 
         margin: 3rem 0 3rem 0;
-        width: 100%;
+        width: 60%;
     }
 }
 
@@ -24,7 +24,7 @@
 .contactTagline{
     margin: 0;
     text-align: center;
-    font-size: clamp(1.875rem, 1.875rem, 2em);
+    font-size: clamp(1rem, 2.5rem, 2.5rem);
     @media (min-width: 1921px) { 
         font-size: clamp(2rem, 2.5rem, 3em);
     }
@@ -33,9 +33,12 @@
 .contactSecondaryTagline{
     text-align: center;
     font-weight: 500;
-    font-size: clamp(0.75rem, 0.75rem, 1em);
+    font-size: clamp(0.75rem, 1.125rem, 1.125rem);
+    @media (min-width: 768px) { 
+        font-size: clamp(.7rem, .9rem, 1em);
+    }
     @media (min-width: 1921px) { 
-        font-size: clamp(2rem, 2.5rem, 3em);
+        font-size: clamp(1rem, 1.3rem, 3em);
     }
 }
 
@@ -53,6 +56,9 @@
     width: 100%;
     gap: 1rem;
     font-family: 'Montserrat', sans-serif;
+    @media (min-width: 1921px) { 
+        font-size: clamp(1rem, 1.3rem, 3em);
+    }
 }
 
 .userEmailContainer{
@@ -76,8 +82,10 @@
     border: 3px solid $mainColor;
     border-radius: 10px;
     height: 10rem;
+    @media (min-width: 1921px) { 
+        height: 15rem;
+    }
 }
-
 
 .messageInput{
     all:unset;
@@ -86,15 +94,25 @@
 }
 
 .messageSubmitButton{
-    all:unset;
+    all: unset;
     display: flex;
-    justify-content: center;
-    gap: .3rem;
+    justify-content: start;
+    align-items: center;
+    gap: .25rem;
     width: 20%;
     border: 3px solid $mainColor;
-    padding: .75rem;
     border-radius: 10px;
     padding: .5rem .75rem;
+    cursor: pointer;
+
+    @media (min-width: 768px) { 
+        justify-content: center;
+        gap: .75rem;
+    }
+    @media (min-width: 1921px) { 
+        justify-content: center;
+        gap: .75rem;
+    }
 }
 
 .buttonWrapper{
@@ -103,5 +121,5 @@
 }
 
 .submitImg{
-    width: 25%;
+    width: 20%;
 }
