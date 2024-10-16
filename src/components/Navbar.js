@@ -16,7 +16,7 @@ const Projects = () => {
       <section className="navButtonsWrapper">
         <NavBarItems linkName="Home" offset={navbarHeight} />
         <NavBarItems linkName="Projects" offset={navbarHeight} />
-        <NavBarItems linkName="Contact Me" offset={navbarHeight} />
+        <NavBarItems linkName="Contact" offset={navbarHeight} />
       </section>
     </nav>
   );
