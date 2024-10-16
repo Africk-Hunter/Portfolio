@@ -58,12 +58,12 @@ const MobileAbout = () => {
 const AboutButtons = () => {
   return (
     <div className="aboutButtons">
-      <button className="aboutButtonSquare">
+      <a className="aboutButtonSquare" href='https://github.com/Africk-Hunter' target="_blank" rel="noopener noreferrer">
         <img src={githubIcon} alt="GitHub" className='buttonPicture' />
-      </button>
-      <button className="aboutButtonSquare">
+      </a>
+      <a className="aboutButtonSquare" href='https://www.linkedin.com/in/hunter-africk-3a6485209/' target="_blank" rel="noopener noreferrer">
         <img src={linkedinIcon} alt="LinkedIn" className='buttonPicture' />
-      </button>
+      </a>
       <button className="aboutContactButton">
         <span className="contactText">Contact Me</span>
         <img className='contactArrowImg' src={arrow} />

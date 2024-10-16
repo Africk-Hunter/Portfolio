@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const Projects = () => {
+const Navbar = () => {
   const [navbarHeight, setNavbarHeight] = useState(0);
 
   useEffect(() => {
@@ -40,14 +40,11 @@ const NavBarItems = ({ linkName, offset }) => {
 
   return (
     <nav className="navbarLink">
-      <button
-        className="navBarLinkButton"
-        onClick={() => scrollToSection(scrollToName)}
-      >
+      <button className="navBarLinkButton" onClick={() => scrollToSection(scrollToName)}>
         <h2 className="linkName">{linkName}</h2>
       </button>
     </nav>
   );
 };
 
-export default Projects;
+export default Navbar;

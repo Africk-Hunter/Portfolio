@@ -148,12 +148,7 @@ const ProjectCardButtonLinks = (props) => {
       >
         <img className='cardLinkImg' src={externalLink} alt="External Link" />
       </a>
-      <a 
-        className='cardLinkButton' 
-        href={props.githubLink} 
-        target="_blank" 
-        rel="noopener noreferrer"
-      >
+      <a className='cardLinkButton' href={props.githubLink} target="_blank" rel="noopener noreferrer">
         <img className='cardLinkImg' src={githubIcon} alt="GitHub Link" />
       </a>
     </section>
