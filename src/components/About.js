@@ -38,7 +38,7 @@ const DesktopAbout = () => {
                 <AboutText />   
             </div>
             <div className="aboutRight">
-                <div className="pictureContainer"><img className="aboutPicture" src={aboutPicture}/></div>
+                <div className="pictureContainer"><img className="aboutPicture" src={aboutPicture} alt='Myself'/></div>
             </div>
         </div>
         <AboutButtons />
@@ -50,7 +50,7 @@ const MobileAbout = () => {
   return (
     <div className="buttonsAndPicture">
       <AboutButtons />
-      <div className="pictureContainer"><img className="aboutPicture" src={aboutPicture}/></div>
+      <div className="pictureContainer"><img className="aboutPicture" src={aboutPicture} alt='Myself'/></div>
     </div>
   );
 };
@@ -66,7 +66,7 @@ const AboutButtons = () => {
       </a>
       <button className="aboutContactButton">
         <span className="contactText">Contact Me</span>
-        <img className='contactArrowImg' src={arrow} />
+        <img className='contactArrowImg' src={arrow} alt=''/>
       </button>
     </div>
   );

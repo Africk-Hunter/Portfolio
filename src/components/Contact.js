@@ -17,7 +17,7 @@ const Contact = () => {
                 <textarea className='messageInput' placeholder='Your Message'></textarea>
             </div>
             <div className='buttonWrapper'>
-                <button className='messageSubmitButton'>Submit<img className='submitImg' src={plane}></img></button>
+                <button className='messageSubmitButton'>Submit<img className='submitImg' src={plane} alt=''></img></button>
             </div>
         </section>
     </section>

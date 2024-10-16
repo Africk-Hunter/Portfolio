@@ -100,7 +100,7 @@ const ProjectCard = (props) => {
                 <section className='mobileInnerProjectCard'>
                   <section className='projectPictureAndDescriptionWrapper'>
                     <section className='pictureAndLinksWrapper'>
-                      <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage}/></div>
+                      <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview'/></div>
                       <ProjectCardButtonLinks projectLink={props.projectInfo.projectLink} githubLink={props.projectInfo.githubLink} />
                     </section>
                     <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} />
@@ -109,7 +109,7 @@ const ProjectCard = (props) => {
                 </section>
             ) : (
                 <>
-                    <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage}/></div>
+                    <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview'/></div>
                     <section className='projectDescriptionWrapper'>
                         <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} />
                         <section className='projectDescirptionBottomBar'>
