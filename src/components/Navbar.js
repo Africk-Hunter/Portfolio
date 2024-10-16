@@ -33,7 +33,10 @@ const NavBarItems = ({ linkName, offset }) => {
     }
   };
 
-  const scrollToName = '#' + linkName;
+  let scrollToName = '#' + linkName;
+  if(linkName === 'Home'){
+    scrollToName = '#main'
+  }
 
   return (
     <nav className="navbarLink">

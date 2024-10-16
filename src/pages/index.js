@@ -10,7 +10,7 @@ import '../styles/index.scss';
 const IndexPage = () => {
   return (
     <>
-      <main>
+      <main id="main">
         <Navbar />
         <About />
         <Projects />

@@ -136,28 +136,17 @@ const ProjectDescription = (props) => {
 const ProjectCardButtonLinks = (props) => {
   return (
     <section className='cardButtonWrapper'>
-      <a
-        className='cardLinkButton'
-        href={props.githubLink}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      {props.projectLink !== '' && (
+        <a className='cardLinkButton' href={props.projectLink} target="_blank" rel="noopener noreferrer">
+          <img className='cardLinkImg' src={externalLink} alt="External Link" />
+        </a>
+      )}
+      <a className='cardLinkButton' href={props.githubLink} target="_blank" rel="noopener noreferrer">
         <img className='cardLinkImg' src={githubIcon} alt="GitHub Link" />
       </a>
-      <a
-        className='cardLinkButton'
-        href={props.projectLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ visibility: props.projectLink === '' ? 'hidden' : 'visible' }}
-      >
-        <img className='cardLinkImg' src={externalLink} alt="External Link" />
-      </a>
-
     </section>
   );
 };
-
 
 
 const ProjectTechnologies = ({ technologies }) => {
