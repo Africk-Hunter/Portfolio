@@ -47,6 +47,10 @@
     white-space: nowrap;
 }
 
+#myEmailAddress{
+    cursor: pointer;
+}
+
 .emailOptionsWrapper{
     display: flex;
     flex-direction: column;
@@ -72,6 +76,7 @@
 
 .emailInput{
     all:unset;
+    width: 100%;
     padding: .75rem;
 }
 
