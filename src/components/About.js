@@ -3,6 +3,8 @@ import linkedinIcon from '../images/linkedinIcon.svg';
 import githubIcon from '../images/githubIcon.svg';
 import arrow from '../images/arrow.svg';
 import aboutPicture from '../images/aboutPicture.jpg';
+import scrollTo from 'gatsby-plugin-smoothscroll';
+
 
 const About = () => {
   const [windowWidth, setWindowWidth] = useState(0);
@@ -15,6 +17,8 @@ const About = () => {
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+
 
   return (
     <section id="Home" className="about">
@@ -64,7 +68,7 @@ const AboutButtons = () => {
       <a className="aboutButtonSquare" href='https://www.linkedin.com/in/hunter-africk-3a6485209/' target="_blank" rel="noopener noreferrer">
         <img src={linkedinIcon} alt="LinkedIn" className='buttonPicture' />
       </a>
-      <button className="aboutContactButton">
+      <button className="aboutContactButton" onClick={() => scrollTo('#Contact')}>
         <span className="contactText">Contact Me</span>
         <img className='contactArrowImg' src={arrow} alt=''/>
       </button>
@@ -83,5 +87,6 @@ const AboutText = () => {
     </div>
   );
 };
+
 
 export default About;

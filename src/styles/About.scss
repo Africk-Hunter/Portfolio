@@ -6,6 +6,9 @@
     flex-direction: column;
     width: 100%;
     margin-top: 2rem;
+    @media (max-width: 768px) {
+        margin: 0;
+    }
 }
 
 .buttonsAndPicture{

@@ -1,8 +1,9 @@
 .navbar{
     position: sticky;
     top: 0px;
-    @media (max-width: 768px) { // Adjust the min-width as needed
-        display: none;
+    @media (max-width: 768px) {
+        position: relative;
+        margin: 1rem 0 0 0;
     }
     display: flex;
     width: 100%;
@@ -28,6 +29,9 @@
 .navButtonsWrapper{
     display: flex;
     gap: 4rem;
+    @media (max-width: 768px) {
+        display: none;
+    }
 }
 
 .linkName{
