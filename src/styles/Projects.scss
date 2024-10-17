@@ -189,6 +189,10 @@
         width: 2.5rem;
         height: 2.5rem;
     }
+    :hover {
+        transition: all 0.1s ease-in-out;
+        transform: scale(1.1);
+    }
 }
 .cardLinkImg{
     height: 100%;

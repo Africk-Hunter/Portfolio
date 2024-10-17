@@ -26,7 +26,7 @@ const Contact = () => {
     <section id="Contact" className="contact">
       <section className="contactTaglinesWrapper">
         <h2 className="contactTagline">Want to get in touch?</h2>
-        <h1 className="contactSecondaryTagline">You can contact me directly at <span className="underlined" id="myEmailAddress">HunterAfrick@gmail.com</span> or through this form</h1>
+        <h1 className="contactSecondaryTagline">You can contact me directly at <a className="underlined" id="myEmailAddress" href='mailto:HunterAfrick@Gmail.com'>HunterAfrick@gmail.com</a> or through this form</h1>
       </section>
 
       <section className="emailOptionsWrapper">

@@ -49,6 +49,7 @@
 
 #myEmailAddress{
     cursor: pointer;
+    color: black;
 }
 
 .emailOptionsWrapper{
@@ -64,7 +65,10 @@
         font-size: clamp(1rem, 1.3rem, 3em);
     }
 }
-
+.thankYouText{
+    display: flex;
+    justify-content: center;
+}
 .userEmailContainer{
     display: flex;
     width: 100%;
