@@ -31,7 +31,7 @@ const Contact = () => {
 
       <section className="emailOptionsWrapper">
         {submitted ? (
-          <p>Thanks for your message! I'll get back to you soon.</p>
+          <p className='thankYouText'>Thanks for your message! I'll get back to you soon.</p>
         ) : (
           <form className='emailOptionsWrapper' onSubmit={handleSubmit} name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="contact" />

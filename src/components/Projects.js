@@ -134,7 +134,7 @@ const ProjectDescription = (props) => {
     );
 };
 const ProjectCardButtonLinks = (props) => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
