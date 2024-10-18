@@ -127,6 +127,11 @@
         justify-content: center;
         gap: .75rem;
     }
+
+    &:hover{
+        transform: scale(1.05);
+        transition: all .1s ease-in-out;
+    }
 }
 
 .buttonWrapper{

@@ -16,9 +16,13 @@
         width: 100%;
         gap: 17.5rem
     }
+    @media (min-width: 1300px) and (max-width: 1440px) {
+        gap: 8rem
+    }
     @media (min-width: 1921px) { 
         padding: 4rem 3rem;
     }
+
 }
 
 .nameTextFooter{
@@ -27,6 +31,7 @@
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0 3rem;
+ 
     @media (min-width: 1921px) { 
         font-size: clamp(1rem, 1.75rem, 2rem);
     }

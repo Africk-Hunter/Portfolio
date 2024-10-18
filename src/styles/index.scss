@@ -12,19 +12,23 @@ html{
     background: $backgroundColor;
     overflow-x: hidden;
 }
+
 body {
-    display: flex;
+    display: block;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     justify-content: center;
-  }
+    min-width: 100%;
+}
+
 #gatsby-focus-wrapper{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
+
 main {
     display: flex;
     flex-direction: column;
@@ -38,4 +42,8 @@ main {
     }
 }
 
- 
+@media (min-width: 1300px) and (max-width: 1440px) {
+    main {
+        width: 65%;
+    }
+}
