@@ -11,7 +11,7 @@ const Projects = () => {
 
   const projectInformationStockZ = {
     projectTitle: 'Stock Z',
-    projectDesc: 'Stock Z is a web application designed to assist users in identifying optimal purchasing price ranges for stocks. Leveraging historical data, StockZ provides valuable insights to aid users in making informed decisions.',
+    projectDesc: 'A web app that helps users identify optimal stock purchasing price ranges using historical data to provide insights for informed decision-making.',
     projectLink: 'https://www.Stock-Z.com',
     githubLink: 'https://github.com/Africk-Hunter/StockZ',
     projectImage: stockZImage,
@@ -25,7 +25,7 @@ const Projects = () => {
   
   const projectInformationGhostwryte = {
     projectTitle: 'Ghostwryte.ai',
-    projectDesc: 'Ghostwryte.ai is an AI assistant designed for knowledge-based content creators on platforms such as LinkedIn. Ghostwryte helps users craft authentic content that reflects their unique voices through a minimalist, intuitive interface. Ghostwryte leverages machine learning to accurately mimic a user\'s writing style when generating content.',
+    projectDesc: 'An AI copilot for knowledge-based content creators, designed to help users craft authentic, personalized content with a minimalist, intuitive interface.',
     projectLink: 'https://ghostwryte-ai-c7cf4cf60c87.herokuapp.com/',
     githubLink: 'https://github.com/CS425Team46/Ghostwryrte.ai',
     projectImage: ghostwryteImage,
@@ -39,7 +39,7 @@ const Projects = () => {
   
   const projectInformationPortfolio = {
     projectTitle: 'Portfolio Website',
-    projectDesc: 'This portfolio website you are on now.',
+    projectDesc: 'The website you’re viewing now, built with React, Sass, and Gatsby.',
     projectLink: '',
     githubLink: 'https://github.com/Africk-Hunter/Portfolio',
     projectImage: portfolioImage,
@@ -52,7 +52,7 @@ const Projects = () => {
   
   const projectInformation20On = {
     projectTitle: '20ON20OFF',
-    projectDesc: '20ON20OFF is a timer program designed to help users follow the 20-20-20 rule: for every 20 minutes spent looking at a screen, take a 20-second break and look at something 20 feet away. This app assists in reducing eye strain and promoting better eye health during prolonged screen use.',
+    projectDesc: 'A timer app that supports the 20-20-20 rule to reduce eye strain by encouraging breaks during extended screen use.',
     projectLink: 'https://two0on20off.onrender.com/',
     githubLink: 'https://github.com/Africk-Hunter/20ON20OFF',
     projectImage: twentyOnImage,
@@ -93,7 +93,6 @@ const ProjectCard = (props) => {
       return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-
     return (
         <div className='projectCard'>
             {windowWidth < 768 ? (
@@ -124,7 +123,6 @@ const ProjectCard = (props) => {
     );
   };
 
-
 const ProjectDescription = (props) => {
     return (
         <section className="projectDescriptionText">
@@ -137,9 +135,11 @@ const ProjectCardButtonLinks = (props) => {
   const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
+    setWindowWidth(window.innerWidth);
+
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
-    
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -167,9 +167,6 @@ const ProjectCardButtonLinks = (props) => {
     </section>
   );
 };
-
-
-
 
 const ProjectTechnologies = ({ technologies }) => {
   return (

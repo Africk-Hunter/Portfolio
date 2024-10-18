@@ -7,15 +7,19 @@
     align-items: center;
     margin: 8rem 0 4rem 0;
     @media (max-width: 768px) { 
-        margin: 3rem 0 3rem 0;
+        margin: 1rem 0 3rem 0;
         width: 115%;
     }
 }
 
 .projectsLabel{
-    font-size: clamp(1rem, 2.5rem, 2.5rem);
+    font-size: clamp(2rem, 2rem, 2rem);
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
+    @media (min-width: 768px) { 
+        font-size: clamp(1rem, 2.5rem, 2.5rem);
+    }
+    
 }
 
 .projectCardHolder{

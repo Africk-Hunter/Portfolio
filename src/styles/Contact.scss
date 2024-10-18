@@ -24,7 +24,7 @@
 .contactTagline{
     margin: 0;
     text-align: center;
-    font-size: clamp(1rem, 2.5rem, 2.5rem);
+    font-size: clamp(2rem, 2rem, 2rem);
     @media (min-width: 1921px) { 
         font-size: clamp(2rem, 2.5rem, 3em);
     }
@@ -33,7 +33,7 @@
 .contactSecondaryTagline{
     text-align: center;
     font-weight: 500;
-    font-size: clamp(0.75rem, 1.125rem, 1.125rem);
+    font-size: clamp(0.75rem, 1rem, 1rem);
     @media (min-width: 768px) { 
         font-size: clamp(.7rem, .9rem, 1em);
     }
@@ -61,6 +61,7 @@
     width: 100%;
     gap: 1rem;
     font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1rem, 1rem, 3em);
     @media (min-width: 1921px) { 
         font-size: clamp(1rem, 1.3rem, 3em);
     }
