@@ -1,19 +1,20 @@
 @import './variables';
 
-.contact{
+.contact {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 115%;
     margin: 1rem 0 4rem 0;
-    @media (min-width: 769px) { 
+
+    @media (min-width: 769px) {
         margin: 3rem 0 3rem 0;
         width: 60%;
     }
 }
 
-.contactTaglinesWrapper{
+.contactTaglinesWrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,38 +22,41 @@
     margin: 1rem;
 }
 
-.contactTagline{
+.contactTagline {
     margin: 0;
     text-align: center;
     font-size: clamp(2rem, 2rem, 2rem);
-    @media (min-width: 1921px) { 
+
+    @media (min-width: 1921px) {
         font-size: clamp(2rem, 2.5rem, 3em);
     }
 }
 
-.contactSecondaryTagline{
+.contactSecondaryTagline {
     text-align: center;
     font-weight: 500;
     font-size: clamp(0.75rem, 1rem, 1rem);
-    @media (min-width: 768px) { 
+
+    @media (min-width: 768px) {
         font-size: clamp(.7rem, .9rem, 1em);
     }
-    @media (min-width: 1921px) { 
+
+    @media (min-width: 1921px) {
         font-size: clamp(1rem, 1.3rem, 3em);
     }
 }
 
-.underlined{
+.underlined {
     text-decoration: underline;
     white-space: nowrap;
 }
 
-#myEmailAddress{
+#myEmailAddress {
     cursor: pointer;
     color: black;
 }
 
-.emailOptionsWrapper{
+.emailOptionsWrapper {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -62,51 +66,49 @@
     gap: 1rem;
     font-family: 'Montserrat', sans-serif;
     font-size: clamp(1rem, 1rem, 3em);
-    @media (min-width: 1921px) { 
+
+    @media (min-width: 1921px) {
         font-size: clamp(1rem, 1.3rem, 3em);
     }
 }
-.thankYouText{
+
+.thankYouText {
     display: flex;
     justify-content: center;
 }
-.userEmailContainer{
+
+.userEmailContainer {
     display: flex;
     width: 100%;
     height: 100%;
     border: 3px solid $mainColor;
     border-radius: 10px;
-    
 }
 
-.emailInput{
-    all:unset;
-    width: 100%;
-    padding: .75rem;
-}
-
-.userMessageContainer{
+.userMessageContainer {
     display: flex;
     width: 100%;
     height: 100%;
     border: 3px solid $mainColor;
     border-radius: 10px;
     height: 10rem;
-    @media (min-width: 768px) { 
+
+    @media (min-width: 768px) {
         height: 13rem;
     }
-    @media (min-width: 1921px) { 
+
+    @media (min-width: 1921px) {
         height: 18rem;
     }
 }
 
-.messageInput{
-    all:unset;
+.formInput {
+    all: unset;
     width: 100%;
     padding: .75rem
 }
 
-.messageSubmitButton{
+.messageSubmitButton {
     all: unset;
     display: flex;
     justify-content: start;
@@ -118,27 +120,28 @@
     padding: .5rem .75rem;
     cursor: pointer;
 
-    @media (min-width: 768px) { 
+    @media (min-width: 768px) {
         justify-content: center;
         gap: .75rem;
         width: 15%;
     }
-    @media (min-width: 1921px) { 
+
+    @media (min-width: 1921px) {
         justify-content: center;
         gap: .75rem;
     }
 
-    &:hover{
+    &:hover {
         transform: scale(1.05);
         transition: all .1s ease-in-out;
     }
 }
 
-.buttonWrapper{
+.buttonWrapper {
     display: flex;
     width: 100%;
 }
 
-.submitImg{
+.submitImg {
     width: 20%;
 }

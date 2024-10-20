@@ -18,8 +18,6 @@ const About = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-
-
   return (
     <section id="Home" className="about">
       {windowWidth < 768 ? (
@@ -37,15 +35,15 @@ const About = () => {
 const DesktopAbout = () => {
   return (
     <>
-        <div className='aboutWrapper'>
-            <div className="aboutLeft">
-                <AboutText />   
-            </div>
-            <div className="aboutRight">
-                <div className="pictureContainer"><img className="aboutPicture" src={aboutPicture} alt='Myself'/></div>
-            </div>
+      <div className='aboutWrapper'>
+        <div className="aboutLeft">
+          <AboutText />
         </div>
-        <AboutButtons />
+        <div className="aboutRight">
+          <div className="pictureContainer"><img className="aboutPicture" src={aboutPicture} alt='Myself' /></div>
+        </div>
+      </div>
+      <AboutButtons />
     </>
   );
 };
@@ -54,7 +52,7 @@ const MobileAbout = () => {
   return (
     <div className="buttonsAndPicture">
       <AboutButtons />
-      <div className="pictureContainer"><img className="aboutPicture" src={aboutPicture} alt='Myself'/></div>
+      <div className="pictureContainer"><img className="aboutPicture" src={aboutPicture} alt='Myself' /></div>
     </div>
   );
 };
@@ -70,7 +68,7 @@ const AboutButtons = () => {
       </a>
       <button className="aboutContactButton" onClick={() => scrollTo('#Contact')}>
         <span className="contactText">Contact Me</span>
-        <img className='contactArrowImg' src={arrow} alt=''/>
+        <img className='contactArrowImg' src={arrow} alt='' />
       </button>
     </div>
   );

@@ -22,7 +22,7 @@ const Projects = () => {
       { name: 'Firebase' }
     ]
   };
-  
+
   const projectInformationGhostwryte = {
     projectTitle: 'Ghostwryte.ai',
     projectDesc: 'An AI copilot for knowledge-based content creators, designed to help users craft authentic, personalized content with a minimalist, intuitive interface.',
@@ -36,7 +36,7 @@ const Projects = () => {
       { name: 'Firebase' }
     ]
   };
-  
+
   const projectInformationPortfolio = {
     projectTitle: 'Portfolio Website',
     projectDesc: 'The website you’re viewing now, built with React, Sass, and Gatsby.',
@@ -49,7 +49,7 @@ const Projects = () => {
       { name: 'Gatsby' },
     ]
   };
-  
+
   const projectInformation20On = {
     projectTitle: '20ON20OFF',
     projectDesc: 'A timer app that supports the 20-20-20 rule to reduce eye strain by encouraging breaks during extended screen use.',
@@ -61,17 +61,17 @@ const Projects = () => {
       { name: 'CSS' },
     ]
   };
-  
-  
+
+
 
   return (
     <section id="Projects" className="projects">
       <h1 className='projectsLabel'>Projects</h1>
       <section className='projectCardHolder'>
         <ProjectCard projectInfo={projectInformationStockZ} />
-        <ProjectCard projectInfo={projectInformationGhostwryte}/>
+        <ProjectCard projectInfo={projectInformationGhostwryte} />
         <ProjectCard projectInfo={projectInformationPortfolio} />
-        <ProjectCard projectInfo={projectInformation20On}/>
+        <ProjectCard projectInfo={projectInformation20On} />
       </section>
     </section>
   );
@@ -82,54 +82,54 @@ export default Projects;
 
 const ProjectCard = (props) => {
 
-    const [windowWidth, setWindowWidth] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(0);
 
-    useEffect(() => {
-      setWindowWidth(window.innerWidth);
-  
-      const handleResize = () => setWindowWidth(window.innerWidth);
-      window.addEventListener('resize', handleResize);
-  
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
 
-    return (
-        <div className='projectCard'>
-            {windowWidth < 768 ? (
-                <section className='mobileInnerProjectCard'>
-                  <section className='projectPictureAndDescriptionWrapper'>
-                    <section className='pictureAndLinksWrapper'>
-                      <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview'/></div>
-                      <ProjectCardButtonLinks projectLink={props.projectInfo.projectLink} githubLink={props.projectInfo.githubLink} />
-                    </section>
-                    <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} />
-                  </section>
-                  <ProjectTechnologies technologies={props.projectInfo.technologyArray} />
-                </section>
-            ) : (
-                <>
-                    <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview'/></div>
-                    <section className='projectDescriptionWrapper'>
-                        <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} />
-                        <section className='projectDescirptionBottomBar'>
-                            <ProjectTechnologies technologies={props.projectInfo.technologyArray} />
-                            <ProjectCardButtonLinks projectLink={props.projectInfo.projectLink} githubLink={props.projectInfo.githubLink} />
-                        </section>
-                    </section>
-                </>
-            )}
-                
-        </div>
-    );
-  };
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+    <div className='projectCard'>
+      {windowWidth < 768 ? (
+        <section className='mobileInnerProjectCard'>
+          <section className='projectPictureAndDescriptionWrapper'>
+            <section className='pictureAndLinksWrapper'>
+              <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview' /></div>
+              <ProjectCardButtonLinks projectLink={props.projectInfo.projectLink} githubLink={props.projectInfo.githubLink} />
+            </section>
+            <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} />
+          </section>
+          <ProjectTechnologies technologies={props.projectInfo.technologyArray} />
+        </section>
+      ) : (
+        <>
+          <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview' /></div>
+          <section className='projectDescriptionWrapper'>
+            <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} />
+            <section className='projectDescirptionBottomBar'>
+              <ProjectTechnologies technologies={props.projectInfo.technologyArray} />
+              <ProjectCardButtonLinks projectLink={props.projectInfo.projectLink} githubLink={props.projectInfo.githubLink} />
+            </section>
+          </section>
+        </>
+      )}
+
+    </div>
+  );
+};
 
 const ProjectDescription = (props) => {
-    return (
-        <section className="projectDescriptionText">
-            <h1 className='projectName'>{props.projectName}</h1>
-            <p className='projectDesc'>{props.description}</p>
-        </section>
-    );
+  return (
+    <section className="projectDescriptionText">
+      <h1 className='projectName'>{props.projectName}</h1>
+      <p className='projectDesc'>{props.description}</p>
+    </section>
+  );
 };
 const ProjectCardButtonLinks = (props) => {
   const [windowWidth, setWindowWidth] = useState(0);
@@ -180,6 +180,6 @@ const ProjectTechnologies = ({ technologies }) => {
   );
 };
 
-  
 
-  
+
+

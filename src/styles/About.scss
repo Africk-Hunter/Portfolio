@@ -1,23 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 @import './variables';
 
-.about{
+.about {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin-top: 2rem;
+
     @media (max-width: 768px) {
         margin: 0;
     }
 }
 
-.buttonsAndPicture{
+.buttonsAndPicture {
     display: flex;
     width: 100%;
     margin: 2rem 0 2rem 0
 }
 
-.aboutButtons{
+.aboutButtons {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,7 +26,8 @@
     gap: 10%;
     width: auto;
     margin-right: auto;
-    @media (min-width: 768px) { 
+
+    @media (min-width: 768px) {
         flex-direction: row;
         margin-top: 1rem;
     }
@@ -39,11 +41,12 @@
     width: 2.5rem;
     height: 2.5rem;
     cursor: pointer;
-    
+
     @media (min-width: 768px) {
         width: 3rem;
         height: 3rem;
     }
+
     &:hover {
         transition: all 0.1s ease-in-out;
         transform: scale(1.1);
@@ -51,7 +54,7 @@
 }
 
 
-.contactText{
+.contactText {
     font-size: clamp(1rem, 1.2rem, 2rem);
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
@@ -77,24 +80,25 @@
 
 .aboutContactButton:hover {
     transform: scale(1.05);
-    
+
 }
 
-.contactArrowImg{
+.contactArrowImg {
     width: 20%;
     height: auto;
 }
 
 
-.pictureContainer{
+.pictureContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 11rem;
     height: 11rem;
     background-color: lightgray;
-    border-radius:  50%;
+    border-radius: 50%;
     overflow: hidden;
+
     @media (min-width: 768px) {
         width: 20rem;
         height: 20rem;
@@ -106,19 +110,19 @@
     }
 }
 
-.aboutPicture{
+.aboutPicture {
     height: 150%;
     width: auto;
     user-select: none;
 }
 
-.buttonPicture{
+.buttonPicture {
     height: 100%;
     width: auto;
     user-select: none;
 }
 
-.introText{
+.introText {
     font-size: clamp(2rem, 2rem, 2rem);
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
@@ -133,37 +137,41 @@
     }
 }
 
-.aboutTextWrapper{
+.aboutTextWrapper {
     display: flex;
     flex-direction: column;
 }
 
-.aboutMeText{
+.aboutMeText {
     font-size: clamp(1rem, 1rem, 2rem);
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
+
     @media (min-width: 1300px) and (max-width: 1440px) {
         font-size: clamp(1.25rem, 1.25rem, 1.25rem);
     }
+
     @media (min-width: 768px) {
         font-size: clamp(1rem, 1.5rem, 2rem);
     }
+
     @media (min-width: 1921px) {
         font-size: clamp(1.5rem, 2rem, 2em);
     }
 }
 
-.aboutWrapper{
+.aboutWrapper {
     display: flex;
     justify-content: space-between;
 }
 
-.aboutLeft{
+.aboutLeft {
     display: flex;
     width: 55%;
     user-select: none;
 }
-.aboutRight{
+
+.aboutRight {
     width: auto;
     user-select: none;
 }

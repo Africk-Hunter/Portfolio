@@ -6,7 +6,7 @@
 @import './Footer';
 @import './variables';
 
-html{
+html {
     display: flex;
     justify-content: center;
     background: $backgroundColor;
@@ -22,7 +22,7 @@ body {
     min-width: 100%;
 }
 
-#gatsby-focus-wrapper{
+#gatsby-focus-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;

@@ -34,7 +34,7 @@ const NavBarItems = ({ linkName, offset }) => {
   };
 
   let scrollToName = '#' + linkName;
-  if(linkName === 'Home'){
+  if (linkName === 'Home') {
     scrollToName = '#main'
   }
 
