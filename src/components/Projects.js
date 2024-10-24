@@ -99,18 +99,34 @@ const ProjectCard = (props) => {
         <section className='mobileInnerProjectCard'>
           <section className='projectPictureAndDescriptionWrapper'>
             <section className='pictureAndLinksWrapper'>
-              <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview' /></div>
+              {props.projectInfo.projectLink ? (
+                <a className='projectImageHolder' href={props.projectInfo.projectLink} target="_blank" rel="noopener noreferrer">
+                  <img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview' />
+                </a>
+              ) : (
+                <div className='projectImageHolder'>
+                  <img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview' />
+                </div>
+              )}
               <ProjectCardButtonLinks projectLink={props.projectInfo.projectLink} githubLink={props.projectInfo.githubLink} />
             </section>
-            <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} />
+            <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} link={props.projectInfo.projectLink} />
           </section>
           <ProjectTechnologies technologies={props.projectInfo.technologyArray} />
         </section>
       ) : (
         <>
-          <div className='projectImageHolder'><img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview' /></div>
+          {props.projectInfo.projectLink ? (
+            <a className='projectImageHolder' href={props.projectInfo.projectLink} target="_blank" rel="noopener noreferrer">
+              <img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview' />
+            </a>
+          ) : (
+            <div className='projectImageHolder'>
+              <img className='projectImg' src={props.projectInfo.projectImage} alt='Project Preview' />
+            </div>
+          )}
           <section className='projectDescriptionWrapper'>
-            <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} />
+            <ProjectDescription projectName={props.projectInfo.projectTitle} description={props.projectInfo.projectDesc} link={props.projectInfo.projectLink} />
             <section className='projectDescirptionBottomBar'>
               <ProjectTechnologies technologies={props.projectInfo.technologyArray} />
               <ProjectCardButtonLinks projectLink={props.projectInfo.projectLink} githubLink={props.projectInfo.githubLink} />
@@ -126,7 +142,11 @@ const ProjectCard = (props) => {
 const ProjectDescription = (props) => {
   return (
     <section className="projectDescriptionText">
-      <h1 className='projectName'>{props.projectName}</h1>
+      {props.link ? (
+        <a className='projectName' href={props.link} target="_blank" rel="noopener noreferrer">{props.projectName}</a>
+      ) : (
+        <span className='projectName nonClickable'>{props.projectName}</span>
+      )}
       <p className='projectDesc'>{props.description}</p>
     </section>
   );
