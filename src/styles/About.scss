@@ -58,6 +58,7 @@
     font-size: clamp(1rem, 1.2rem, 2rem);
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
+    font-display: swap;
 }
 
 .aboutContactButton {
@@ -127,6 +128,7 @@
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     margin: 0 0 .2rem 0;
+    font-display: swap;
 
     @media (min-width: 768px) {
         font-size: clamp(3.125rem, 3.125rem, 3.5rem);
@@ -146,6 +148,7 @@
     font-size: clamp(1rem, 1rem, 2rem);
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
+    font-display: swap;
 
     @media (min-width: 1300px) and (max-width: 1440px) {
         font-size: clamp(1.25rem, 1.25rem, 1.25rem);
