@@ -1,8 +1,28 @@
 import React, { useState } from 'react';
+import emailjs from 'emailjs-com';
 import plane from '../images/planeIcon.svg';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevState) => ({ ...prevState, [id]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    emailjs.sendForm('service_cxyb1s5', 'template_oylvcbn', e.target, 'CBZDxMNtzcxxOowCO')
+      .then((result) => {
+        console.log(result.text);
+        setSubmitted(true);
+      }, (error) => {
+        console.log(error.text);
+        alert('Error: ' + error.text);
+      });
+  };
 
   return (
     <section id="Contact" className="contact">
@@ -15,46 +35,18 @@ const Contact = () => {
         {submitted ? (
           <p className='thankYouText'>Thanks for your message! I'll get back to you soon.</p>
         ) : (
-          <ContactForm setSubmitted={setSubmitted} />
+          <form className='emailOptionsWrapper' onSubmit={handleSubmit}>
+            <FormField id='name' elementName='name' placeholderText='Your Name' elementValue={formData.name} onChangeFunc={handleChange} />
+            <FormField id='email' elementName='email' placeholderText='Your Email Address' elementValue={formData.email} onChangeFunc={handleChange} elementType="email" />
+            <FormField id='message' elementName='message' placeholderText='Your Message' elementValue={formData.message} onChangeFunc={handleChange} />
+
+            <div className="buttonWrapper">
+              <button className="messageSubmitButton" type="submit">Submit <img className="submitImg" src={plane} alt="" /></button>
+            </div>
+          </form>
         )}
       </section>
     </section>
-  );
-};
-
-const ContactForm = ({ setSubmitted }) => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [id]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(new FormData(form)).toString(),
-    })
-      .then(() => setSubmitted(true))
-      .catch((error) => alert('Error: ' + error));
-  };
-
-  return (
-    <form className='emailOptionsWrapper' onSubmit={handleSubmit} name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="contact" />
-      <input type="hidden" name="bot-field" />
-
-      <FormField id='name' elementName='name' placeholderText='Your Name' elementValue={formData.name} onChangeFunc={handleChange} />
-      <FormField id='email' elementName='email' placeholderText='Your Email Address' elementValue={formData.email} onChangeFunc={handleChange} elementType="email" />
-      <FormField id='message' elementName='message' placeholderText='Your Message' elementValue={formData.message} onChangeFunc={handleChange} />
-
-      <div className="buttonWrapper">
-        <button className="messageSubmitButton" type="submit">Submit <img className="submitImg" src={plane} alt="" /></button>
-      </div>
-    </form>
   );
 };
 
