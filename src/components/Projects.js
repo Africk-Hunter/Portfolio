@@ -5,6 +5,7 @@ import stockZImage from '../images/stockZ.png';
 import ghostwryteImage from '../images/ghostwryte.png';
 import portfolioImage from '../images/portfolio.png';
 import twentyOnImage from '../images/20on20off.png';
+import llabcImage from '../images/lunalashlogo.svg';
 
 
 const Projects = () => {
@@ -61,6 +62,19 @@ const Projects = () => {
       { name: 'CSS' },
     ]
   };
+  const llabc = {
+    projectTitle: 'Luna Lash & Beauty Co',
+    projectDesc: 'Website for Luna Lash & Beauty Co., designed to highlight services and connect with clients effortlessly.',
+    projectLink: 'https://llabc.netlify.app/',
+    githubLink: 'https://github.com/Africk-Hunter/luna-lash-beauty-site',
+    projectImage: llabcImage,
+    technologyArray: [
+      { name: 'React.JS' },
+      { name: 'SCSS' },
+      { name: 'Gatsby' },
+      { name: 'Typescript' },
+    ]
+  };
 
 
 
@@ -69,6 +83,7 @@ const Projects = () => {
       <h1 className='projectsLabel'>Projects</h1>
       <section className='projectCardHolder'>
         <ProjectCard projectInfo={projectInformationStockZ} />
+        <ProjectCard projectInfo={llabc} />
         <ProjectCard projectInfo={projectInformationGhostwryte} />
         <ProjectCard projectInfo={projectInformationPortfolio} />
         <ProjectCard projectInfo={projectInformation20On} />
