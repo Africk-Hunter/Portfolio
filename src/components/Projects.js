@@ -70,7 +70,7 @@ const Projects = () => {
     projectImage: llabcImage,
     technologyArray: [
       { name: 'React.JS' },
-      { name: 'SCSS' },
+      { name: 'Sass' },
       { name: 'Gatsby' },
       { name: 'Typescript' },
     ]
@@ -82,9 +82,9 @@ const Projects = () => {
     <section id="Projects" className="projects">
       <h1 className='projectsLabel'>Projects</h1>
       <section className='projectCardHolder'>
-        <ProjectCard projectInfo={projectInformationStockZ} />
         <ProjectCard projectInfo={llabc} />
         <ProjectCard projectInfo={projectInformationGhostwryte} />
+        <ProjectCard projectInfo={projectInformationStockZ} />
         <ProjectCard projectInfo={projectInformationPortfolio} />
         <ProjectCard projectInfo={projectInformation20On} />
       </section>
