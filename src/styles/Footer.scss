@@ -18,6 +18,10 @@
         gap: 17.5rem
     }
 
+    @media (min-width: $macbook-air-13) and (max-width: $macbook-air-15) {
+        gap: 6rem;
+    }
+
     @media (min-width: 1300px) and (max-width: 1440px) {
         gap: 8rem
     }

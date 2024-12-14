@@ -42,6 +42,12 @@ main {
     }
 }
 
+@media (min-width: $macbook-air-13) and (max-width: $macbook-air-15) {
+    main {
+        width: 75%;
+    }
+}
+
 @media (min-width: 1300px) and (max-width: 1440px) {
     main {
         width: 65%;
