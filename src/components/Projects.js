@@ -6,6 +6,7 @@ import ghostwryteImage from '../images/ghostwryte.png';
 import portfolioImage from '../images/portfolio.png';
 import twentyOnImage from '../images/20on20off.png';
 import llabcImage from '../images/lunalashlogo.svg';
+import archImg from '../images/archivist.svg';
 
 
 const Projects = () => {
@@ -75,6 +76,19 @@ const Projects = () => {
       { name: 'Typescript' },
     ]
   };
+  const archivist = {
+    projectTitle: 'Archivist',
+    projectDesc: 'A Vue and Flask-based web app that dynamically displays random words and their definitions, powered by a Python web scraper and an SQL database.',
+    projectLink: '',
+    githubLink: 'https://github.com/Africk-Hunter/Archivist',
+    projectImage: archImg,
+    technologyArray: [
+      { name: 'Vue.js' },
+      { name: 'Python' },
+      { name: 'SQL' },
+      { name: 'Flask' },
+    ]
+  };
 
 
 
@@ -83,6 +97,7 @@ const Projects = () => {
       <h1 className='projectsLabel'>Projects</h1>
       <section className='projectCardHolder'>
         <ProjectCard projectInfo={llabc} />
+        <ProjectCard projectInfo={archivist} />
         <ProjectCard projectInfo={projectInformationGhostwryte} />
         <ProjectCard projectInfo={projectInformationStockZ} />
         <ProjectCard projectInfo={projectInformationPortfolio} />
