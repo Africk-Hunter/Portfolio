@@ -66,7 +66,7 @@ const Projects = () => {
   const llabc = {
     projectTitle: 'Luna Lash & Beauty Co',
     projectDesc: 'Website for Luna Lash & Beauty Co., designed to highlight services and connect with clients effortlessly.',
-    projectLink: 'https://llabc.netlify.app/',
+    projectLink: 'https://lunalashandbeautyco.com/',
     githubLink: 'https://github.com/Africk-Hunter/luna-lash-beauty-site',
     projectImage: llabcImage,
     technologyArray: [
@@ -90,8 +90,6 @@ const Projects = () => {
       { name: 'AWS' },
     ]
   };
-
-
 
   return (
     <section id="Projects" className="projects">
