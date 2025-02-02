@@ -79,7 +79,7 @@ const Projects = () => {
   const archivist = {
     projectTitle: 'Archivist',
     projectDesc: 'A Vue and Flask-based web app that dynamically displays random words and their definitions, powered by a Python web scraper and an SQL database.',
-    projectLink: 'https://word-archivist.com/',
+    projectLink: '',
     githubLink: 'https://github.com/Africk-Hunter/Archivist',
     projectImage: archImg,
     technologyArray: [
