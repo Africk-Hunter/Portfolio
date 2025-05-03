@@ -7,6 +7,7 @@ import portfolioImage from '../images/portfolio.png';
 import twentyOnImage from '../images/20on20off.png';
 import llabcImage from '../images/lunalashlogo.svg';
 import archImg from '../images/archivist.svg';
+import intraconnectedImg from '../images/intraconnected.svg';
 
 
 const Projects = () => {
@@ -28,7 +29,7 @@ const Projects = () => {
   const projectInformationGhostwryte = {
     projectTitle: 'Ghostwryte.ai',
     projectDesc: 'An AI copilot for knowledge-based content creators, designed to help users craft authentic, personalized content with a minimalist, intuitive interface.',
-    projectLink: 'https://ghostwryte-ai-c7cf4cf60c87.herokuapp.com/',
+    projectLink: '',
     githubLink: 'https://github.com/CS425Team46/Ghostwryrte.ai',
     projectImage: ghostwryteImage,
     technologyArray: [
@@ -90,11 +91,24 @@ const Projects = () => {
       { name: 'AWS' },
     ]
   };
+  const IntraConnected = {
+    projectTitle: 'Intraconnected',
+    projectDesc: 'An idea tracking tool that helps users organize thoughts, concepts, and hierarchies using a visual, node-based layout, enabling users to explore and manage their ideas intuitively.',
+    projectLink: 'https://intraconnected.app',
+    githubLink: 'https://github.com/Africk-Hunter/Intraconnected',
+    projectImage: intraconnectedImg,
+    technologyArray: [
+      { name: 'React.js' },
+      { name: 'TypeScript' },
+      { name: 'SCSS' },
+    ]
+  };
 
   return (
     <section id="Projects" className="projects">
       <h1 className='projectsLabel'>Projects</h1>
       <section className='projectCardHolder'>
+        <ProjectCard projectInfo={IntraConnected} />
         <ProjectCard projectInfo={llabc} />
         <ProjectCard projectInfo={archivist} />
         <ProjectCard projectInfo={projectInformationGhostwryte} />
