@@ -105,8 +105,8 @@ const Projects = () => {
   };
 
   return (
-    <section id="Projects" className="projects">
-      <h1 className='projectsLabel'>Projects</h1>
+    <section id="Websites" className="projects">
+      <h1 className='projectsLabel'>Websites</h1>
       <section className='projectCardHolder'>
         <ProjectCard projectInfo={IntraConnected} />
         <ProjectCard projectInfo={llabc} />
