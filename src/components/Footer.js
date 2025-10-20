@@ -18,6 +18,7 @@ const Footer = () => {
       <h1 className="nameTextFooter">Hunter Africk</h1>
       <section className="navButtonsWrapperFooter">
         <NavBarItemFooter linkName="Home" offset={navbarHeight} />
+        <NavBarItemFooter linkName="Music" offset={navbarHeight} />
         <NavBarItemFooter linkName="Projects" offset={navbarHeight} />
         <NavBarItemFooter linkName="Contact" offset={navbarHeight} />
       </section>

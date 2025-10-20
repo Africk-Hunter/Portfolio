@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import About from '../components/About';
+import Music from '../components/music';
 import Projects from '../components/Projects';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
@@ -14,6 +15,7 @@ const IndexPage = () => {
       <main id="main">
         <Navbar />
         <About />
+        <Music />
         <Projects />
         <Contact />
       </main>

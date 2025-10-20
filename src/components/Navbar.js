@@ -15,6 +15,7 @@ const Navbar = () => {
       <h1 className="nameText">Hunter Africk</h1>
       <section className="navButtonsWrapper">
         <NavBarItems linkName="Home" offset={navbarHeight} />
+        <NavBarItems linkName="Music" offset={navbarHeight} />
         <NavBarItems linkName="Projects" offset={navbarHeight} />
         <NavBarItems linkName="Contact" offset={navbarHeight} />
       </section>

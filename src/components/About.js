@@ -79,8 +79,8 @@ const AboutText = () => {
     <div className='aboutTextWrapper'>
       <h1 className="introText">Hi, <br />I'm Hunter</h1>
       <p className="aboutMeText">
-        I am a software developer based in Reno, NV. I enjoy designing and building engaging web experiences with a focus on intuitive design. <br /><br />
-        When I’m not coding, you'll find me either drawing, hitting the gym, listening to music, or relaxing at the park.
+        I’m a creative based in Reno, NV. I enjoy making music, writing stories, building websites, drawing, and putting myself in a position to learn something new!<br /><br />
+        I have a bachelors degree in Computer Science & Engineering from UNR. When I’m not creating I enjoy listening to music, reading books,  relaxing at the park, and hanging out with my girlfriend :)
       </p>
     </div>
   );
