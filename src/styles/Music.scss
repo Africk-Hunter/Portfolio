@@ -46,11 +46,11 @@
 .details {
     display: flex;
     flex-direction: column;
-    height: 20rem;
+    height: auto;
     justify-content: space-between;
 
     @media (max-width: 768px) {
-        height: 22rem;
+        min-height: 22rem;
     }
 }
 

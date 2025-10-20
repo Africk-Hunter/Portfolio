@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import linkedinIcon from '../images/linkedinIcon.svg';
 import githubIcon from '../images/githubIcon.svg';
+import spotifyIcon from '../images/greenSpotify.svg';
 import arrow from '../images/arrow.svg';
 import aboutPicture from '../images/aboutPicture.jpg';
 import scrollTo from 'gatsby-plugin-smoothscroll';
@@ -65,6 +66,9 @@ const AboutButtons = () => {
       </a>
       <a className="aboutButtonSquare" href='https://www.linkedin.com/in/hunter-africk-3a6485209/' target="_blank" rel="noopener noreferrer">
         <img src={linkedinIcon} alt="LinkedIn" className='buttonPicture' />
+      </a>
+      <a className="aboutButtonSquare" href='https://open.spotify.com/artist/05U3xSvJfM2puhp2Uk7AZG?si=cSqDi4u4R36B5qK-LBw6WA' target="_blank" rel="noopener noreferrer">
+        <img src={spotifyIcon} alt="LinkedIn" className='buttonPicture' />
       </a>
       <button className="aboutContactButton" onClick={() => scrollTo('#Contact')}>
         <span className="contactText">Contact Me</span>
