@@ -114,6 +114,7 @@ const Projects = () => {
       { name: 'React.js' },
       { name: 'TypeScript' },
       { name: 'SCSS' },
+      { name: 'Claude' },
     ]
   };
 
