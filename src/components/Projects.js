@@ -125,11 +125,8 @@ const Projects = () => {
         <ProjectCard projectInfo={IntraConnected} />
         <ProjectCard projectInfo={biggestLittleMedia} />
         <ProjectCard projectInfo={llabc} />
-        <ProjectCard projectInfo={archivist} />
         <ProjectCard projectInfo={projectInformationStockZ} />
-        <ProjectCard projectInfo={projectInformationGhostwryte} />
-        <ProjectCard projectInfo={projectInformationPortfolio} />
-        <ProjectCard projectInfo={projectInformation20On} />
+        <ProjectCard projectInfo={archivist} />
       </section>
     </section>
   );
