@@ -1,10 +1,12 @@
+@use './variables' as vars;
+
 .footer {
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
     width: 100%;
     height: auto;
-    background: $accentColor;
+    background: vars.$accentColor;
     align-items: start;
     padding: 3rem 0;
     gap: 2rem;
@@ -18,7 +20,7 @@
         gap: 17.5rem
     }
 
-    @media (min-width: $macbook-air-13) and (max-width: $macbook-air-15) {
+    @media (min-width: vars.$macbook-air-13) and (max-width: vars.$macbook-air-15) {
         gap: 6rem;
     }
 

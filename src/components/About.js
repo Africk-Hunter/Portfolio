@@ -3,7 +3,7 @@ import linkedinIcon from '../images/linkedinIcon.svg';
 import githubIcon from '../images/githubIcon.svg';
 import spotifyIcon from '../images/greenSpotify.svg';
 import arrow from '../images/arrow.svg';
-import aboutPicture from '../images/aboutPicture.jpg';
+import aboutPicture from '../images/NewPic.png';
 import scrollTo from 'gatsby-plugin-smoothscroll';
 
 

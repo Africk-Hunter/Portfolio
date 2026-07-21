@@ -1,15 +1,16 @@
-@import './About';
-@import './Navbar';
-@import './Music';
-@import './Projects';
-@import './Contact';
-@import './Footer';
-@import './variables';
+@use 'sass:color';
+@use './variables' as vars;
+@use './About';
+@use './Navbar';
+@use './Music';
+@use './Projects';
+@use './Contact';
+@use './Footer';
 
 html {
     display: flex;
     justify-content: center;
-    background: $backgroundColor;
+    background: vars.$backgroundColor;
     overflow-x: hidden;
 }
 
@@ -42,7 +43,7 @@ main {
     }
 }
 
-@media (min-width: $macbook-air-13) and (max-width: $macbook-air-15) {
+@media (min-width: vars.$macbook-air-13) and (max-width: vars.$macbook-air-15) {
     main {
         width: 75%;
     }
@@ -63,11 +64,11 @@ main {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: $accentColor;
+    background-color: vars.$accentColor;
     border-radius: 10px;
-    border: 3px solid $mainColor;
+    border: 3px solid vars.$mainColor;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: darken($accentColor, 10%);
+    background-color: color.adjust(vars.$accentColor, $lightness: -10%);
 }
