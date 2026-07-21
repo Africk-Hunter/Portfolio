@@ -83,8 +83,8 @@ const AboutText = () => {
     <div className='aboutTextWrapper'>
       <h1 className="introText">Hi, <br />I'm Hunter</h1>
       <p className="aboutMeText">
-        I’m a creative based in Reno, NV. I enjoy making music, writing stories, building websites, drawing, and putting myself in a position to learn something new!<br /><br />
-        I have a bachelors degree in Computer Science & Engineering from UNR. When I’m not creating I enjoy listening to music, reading books,  relaxing at the park, and hanging out with my girlfriend :)
+        I’m a creative based in Reno, NV making cool shit. I enjoy making music, writing stories, building websites, drawing, and otherwise putting myself in a position to grow.<br /><br />
+        I have a bachelors degree in Computer Science & Engineering from UNR. When I’m not creating I enjoy listening to music, reading books, relaxing at the park, and hanging out with my girlfriend :)
       </p>
     </div>
   );

@@ -8,6 +8,7 @@ import twentyOnImage from '../images/20on20off.png';
 import llabcImage from '../images/lunalashlogo.svg';
 import archImg from '../images/archivist.svg';
 import intraconnectedImg from '../images/intraconnected.svg';
+import biggestLittleMediaImg from '../images/BiggestLittleMedia.svg';
 
 
 const Projects = () => {
@@ -103,12 +104,25 @@ const Projects = () => {
       { name: 'SCSS' },
     ]
   };
+  const biggestLittleMedia = {
+    projectTitle: 'Biggest Little Media',
+    projectDesc: 'Website for Biggest Little Media, a social media strategy and brand consulting studio helping Reno, NV small businesses grow their online presence.',
+    projectLink: 'https://biggestlittlemedia.com',
+    githubLink: 'https://github.com/Africk-Hunter/Biggest-Little-Media',
+    projectImage: biggestLittleMediaImg,
+    technologyArray: [
+      { name: 'React.js' },
+      { name: 'TypeScript' },
+      { name: 'SCSS' },
+    ]
+  };
 
   return (
     <section id="Websites" className="projects">
       <h1 className='projectsLabel'>Websites</h1>
       <section className='projectCardHolder'>
         <ProjectCard projectInfo={IntraConnected} />
+        <ProjectCard projectInfo={biggestLittleMedia} />
         <ProjectCard projectInfo={llabc} />
         <ProjectCard projectInfo={archivist} />
         <ProjectCard projectInfo={projectInformationStockZ} />
