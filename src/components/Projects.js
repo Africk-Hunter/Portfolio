@@ -9,6 +9,7 @@ import llabcImage from '../images/lunalashlogo.svg';
 import archImg from '../images/archivist.svg';
 import intraconnectedImg from '../images/intraconnected.svg';
 import biggestLittleMediaImg from '../images/BiggestLittleMedia.svg';
+import whoseDebutImg from '../images/whoseDebut.svg';
 
 
 const Projects = () => {
@@ -104,6 +105,19 @@ const Projects = () => {
       { name: 'SCSS' },
     ]
   };
+  const whoseDebut = {
+    projectTitle: 'WHOSE DEBUT?',
+    projectDesc: 'A music discovery platform spotlighting weekly album releases from local Reno, NV artists, giving them a space to grow their audience beyond crowded streaming platforms.',
+    projectLink: 'https://whosedebut.com',
+    githubLink: 'https://github.com/Africk-Hunter/WHOSE-DEBUT-',
+    projectImage: whoseDebutImg,
+    technologyArray: [
+      { name: 'React.js' },
+      { name: 'TypeScript' },
+      { name: 'Firebase' },
+      { name: 'Cloudinary' },
+    ]
+  };
   const biggestLittleMedia = {
     projectTitle: 'Biggest Little Media',
     projectDesc: 'Website for Biggest Little Media, a social media strategy and brand consulting studio helping Reno, NV small businesses grow their online presence.',
@@ -123,6 +137,7 @@ const Projects = () => {
       <h1 className='projectsLabel'>Websites</h1>
       <section className='projectCardHolder'>
         <ProjectCard projectInfo={IntraConnected} />
+        <ProjectCard projectInfo={whoseDebut} />
         <ProjectCard projectInfo={biggestLittleMedia} />
         <ProjectCard projectInfo={llabc} />
         <ProjectCard projectInfo={projectInformationStockZ} />
