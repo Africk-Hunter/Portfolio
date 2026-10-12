@@ -67,7 +67,7 @@ const AboutButtons = () => {
       <a className="aboutButtonSquare" href='https://www.linkedin.com/in/hunter-africk-3a6485209/' target="_blank" rel="noopener noreferrer">
         <img src={linkedinIcon} alt="LinkedIn" className='buttonPicture' />
       </a>
-      <a className="aboutButtonSquare" href='https://open.spotify.com/artist/05U3xSvJfM2puhp2Uk7AZG?si=cSqDi4u4R36B5qK-LBw6WA' target="_blank" rel="noopener noreferrer">
+      <a className="aboutButtonSquare" href='https://open.spotify.com/artist/5u2QScv7e1WEwV17Oy2vpb?si=qoekf4dAQe6_hVAVKaWreQ' target="_blank" rel="noopener noreferrer">
         <img src={spotifyIcon} alt="LinkedIn" className='buttonPicture' />
       </a>
       <button className="aboutContactButton" onClick={() => scrollTo('#Contact')}>
