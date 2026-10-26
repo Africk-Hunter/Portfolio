@@ -97,7 +97,7 @@ const Projects = () => {
     projectTitle: 'Intraconnected',
     projectDesc: 'An idea tracking tool that helps users organize thoughts, concepts, and hierarchies using a visual, node-based layout, enabling users to explore and manage their ideas intuitively.',
     projectLink: 'https://intraconnected.app',
-    githubLink: 'https://github.com/Africk-Hunter/Intraconnected',
+    githubLink: 'https://github.com/Africk-Hunter/Intraconnected-Releases',
     projectImage: intraconnectedImg,
     technologyArray: [
       { name: 'React.js' },
