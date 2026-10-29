@@ -12,7 +12,7 @@
     gap: 2rem;
     margin-top: 4rem;
 
-    @media (min-width: 769px) {
+    @include vars.up(md) {
         flex-direction: row;
         justify-content: center;
         align-items: center;
@@ -20,15 +20,15 @@
         gap: 17.5rem
     }
 
-    @media (min-width: vars.$macbook-air-13) and (max-width: vars.$macbook-air-15) {
+    @include vars.between(lg, 1440px) {
         gap: 6rem;
     }
 
-    @media (min-width: 1300px) and (max-width: 1440px) {
+    @include vars.between(xl, 1440px) {
         gap: 8rem
     }
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         padding: 4rem 3rem;
     }
 
@@ -41,7 +41,7 @@
     margin: 0;
     padding: 0 3rem;
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         font-size: clamp(1rem, 1.75rem, 2rem);
     }
 }
@@ -52,7 +52,7 @@
     gap: 1rem;
     padding: 0 3rem;
 
-    @media (min-width: 769px) {
+    @include vars.up(md) {
         flex-direction: row;
         gap: 3rem;
     }
@@ -65,7 +65,7 @@
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         font-size: clamp(1rem, 1.5rem, 1.5rem);
     }
 }
@@ -75,7 +75,7 @@
     gap: 1rem;
     padding: 0 3rem;
 
-    @media (min-width: 769px) {
+    @include vars.up(md) {
         gap: 2rem
     }
 }
@@ -89,7 +89,7 @@
     height: 2.5rem;
     cursor: pointer;
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         width: 3rem;
         height: 3rem;
     }

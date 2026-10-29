@@ -8,7 +8,7 @@
     width: 100%;
     margin-top: 2rem;
 
-    @media (max-width: 768px) {
+    @include vars.down(md) {
         margin: 0;
     }
 }
@@ -28,7 +28,7 @@
     width: auto;
     margin-right: auto;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         flex-direction: row;
         margin-top: 1rem;
     }
@@ -43,7 +43,7 @@
     height: 2.5rem;
     cursor: pointer;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         width: 3rem;
         height: 3rem;
     }
@@ -69,7 +69,7 @@
     cursor: pointer;
     transition: all 0.1s ease-in-out;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         display: flex;
         height: 3.25rem;
         width: 19rem;
@@ -101,12 +101,12 @@
     border-radius: 50%;
     overflow: hidden;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         width: 20rem;
         height: 20rem;
     }
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         width: 30rem;
         height: 30rem;
     }
@@ -133,11 +133,11 @@
     margin: 0 0 .2rem 0;
     font-display: swap;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         font-size: clamp(3.125rem, 3.125rem, 3.5rem);
     }
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         font-size: clamp(3.5rem, 4rem, 4.5em);
     }
 }
@@ -153,15 +153,15 @@
     font-weight: 500;
     font-display: swap;
 
-    @media (min-width: 1300px) and (max-width: 1440px) {
+    @include vars.between(xl, 1440px) {
         font-size: clamp(1.25rem, 1.25rem, 1.25rem);
     }
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         font-size: clamp(1rem, 1.5rem, 2rem);
     }
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         font-size: clamp(1.5rem, 2rem, 2em);
     }
 }

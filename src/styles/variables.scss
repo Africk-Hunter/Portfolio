@@ -1,6 +1,49 @@
+@use 'sass:map';
+@use 'sass:meta';
+
 $backgroundColor: #FFFFF1;
 $accentColor: #66B851;
 $mainColor: #D9D9D9;
 
-$macbook-air-13: 1000px;
-$macbook-air-15: 1439px;
+
+// Breakpoints (min-width, in px). Single source of truth: never hard-code
+// a media-query width in a component stylesheet, use the mixins below.
+$breakpoints: (
+    md: 768px,   // tablet and up
+    lg: 1000px,  // small laptop
+    xl: 1300px,  // laptop
+    xxl: 1921px  // above 1080p
+);
+
+// Smallest step between two widths, so `down(x)` and `up(x)` never match at the same time.
+$bp-gap: 0.02px;
+
+@function bp($name) {
+    @if not map.has-key($breakpoints, $name) {
+        @error "Unknown breakpoint `#{$name}`. Use one of: #{map.keys($breakpoints)}.";
+    }
+    @return map.get($breakpoints, $name);
+}
+
+// viewport >= breakpoint
+@mixin up($name) {
+    @media (min-width: bp($name)) {
+        @content;
+    }
+}
+
+// viewport < breakpoint (exclusive, so it never overlaps `up` of the same name)
+@mixin down($name) {
+    @media (max-width: bp($name) - $bp-gap) {
+        @content;
+    }
+}
+
+// min <= viewport <= max, with both ends given as breakpoint names or raw lengths
+@mixin between($min, $max) {
+    $lo: if(meta.type-of($min) == 'string', bp($min), $min);
+    $hi: if(meta.type-of($max) == 'string', bp($max), $max);
+    @media (min-width: $lo) and (max-width: $hi) {
+        @content;
+    }
+}

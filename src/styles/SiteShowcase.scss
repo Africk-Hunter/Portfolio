@@ -8,7 +8,6 @@ $sw-dur-fade: 250ms;
 // The section breaks out of `main` to this width and stays centered on the page.
 $sw-width: min(1180px, 92vw);
 // Rows sit side by side from this width up and stack below it.
-$sw-wide: vars.$macbook-air-13;
 
 // Inner radius of a 10px-radius box with a 3px border.
 $sw-inner-radius: 7px;
@@ -24,7 +23,7 @@ $sw-inner-radius: 7px;
     // Negative side margins center the wider section regardless of how `main` aligns it.
     margin: 1rem calc((100% - #{$sw-width}) / 2) 3rem;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         gap: 3rem;
         margin-top: 8rem;
         margin-bottom: 4rem;
@@ -37,7 +36,7 @@ $sw-inner-radius: 7px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         font-size: 2.5rem;
     }
 }
@@ -48,7 +47,7 @@ $sw-inner-radius: 7px;
     gap: 3.5rem;
     width: 100%;
 
-    @media (min-width: $sw-wide) {
+    @include vars.up(lg) {
         gap: 6rem;
     }
 }
@@ -62,11 +61,11 @@ $sw-inner-radius: 7px;
         'info';
     gap: 1.25rem;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         gap: 1.75rem;
     }
 
-    @media (min-width: $sw-wide) {
+    @include vars.up(lg) {
         grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
         grid-template-areas: 'frame info';
         gap: 3.5rem;
@@ -294,7 +293,7 @@ $sw-inner-radius: 7px;
     line-height: 1.2;
     letter-spacing: -.01em;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         font-size: 1.75rem;
     }
 
@@ -325,7 +324,7 @@ $sw-inner-radius: 7px;
     font-weight: 500;
     color: #1b1b1b;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         font-size: 1.05rem;
     }
 }

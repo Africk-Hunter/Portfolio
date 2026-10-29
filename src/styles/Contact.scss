@@ -8,7 +8,7 @@
     width: 115%;
     margin: 1rem 0 4rem 0;
 
-    @media (min-width: 769px) {
+    @include vars.up(md) {
         margin: 3rem 0 3rem 0;
         width: 60%;
     }
@@ -28,7 +28,7 @@
     font-size: clamp(2rem, 2rem, 2rem);
     font-display: swap;
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         font-size: clamp(2rem, 2.5rem, 3em);
     }
 }
@@ -39,11 +39,11 @@
     font-size: clamp(0.75rem, 1rem, 1rem);
     font-display: swap;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         font-size: clamp(.7rem, .9rem, 1em);
     }
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         font-size: clamp(1rem, 1.3rem, 3em);
     }
 }
@@ -70,7 +70,7 @@
     font-size: clamp(1rem, 1rem, 3em);
     font-display: swap;
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         font-size: clamp(1rem, 1.3rem, 3em);
     }
 }
@@ -96,11 +96,11 @@
     border-radius: 10px;
     height: 10rem;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         height: 13rem;
     }
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         height: 18rem;
     }
 }
@@ -123,13 +123,13 @@
     padding: .5rem .75rem;
     cursor: pointer;
 
-    @media (min-width: 768px) {
+    @include vars.up(md) {
         justify-content: center;
         gap: .75rem;
         width: 15%;
     }
 
-    @media (min-width: 1921px) {
+    @include vars.up(xxl) {
         justify-content: center;
         gap: .75rem;
     }

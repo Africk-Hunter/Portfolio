@@ -1,0 +1,75 @@
+@use './variables' as vars;
+
+.notFoundHeader {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 0 0 0;
+
+    @include vars.down(md) {
+        margin: 1rem 0 0 0;
+    }
+}
+
+.notFound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    min-height: 70vh;
+}
+
+.notFoundCode {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(6rem, 22vw, 14rem);
+    line-height: 1;
+    color: vars.$accentColor;
+    user-select: none;
+}
+
+.notFoundTitle {
+    margin: 1rem 0 .5rem 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 2rem;
+
+    @include vars.up(md) {
+        font-size: 3.125rem;
+    }
+}
+
+.notFoundText {
+    margin: 0 0 2.5rem 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+
+    @include vars.up(md) {
+        font-size: 1.5rem;
+    }
+}
+
+.notFoundButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.25rem;
+    width: 14rem;
+    border-radius: 10px;
+    background: vars.$accentColor;
+    color: black;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}

@@ -38,19 +38,19 @@ main {
     width: 78%;
 }
 
-@media (min-width: 768px) {
+@include vars.up(md) {
     main {
         width: 55%;
     }
 }
 
-@media (min-width: vars.$macbook-air-13) and (max-width: vars.$macbook-air-15) {
+@include vars.between(lg, 1440px) {
     main {
         width: 75%;
     }
 }
 
-@media (min-width: 1300px) and (max-width: 1440px) {
+@include vars.between(xl, 1440px) {
     main {
         width: 65%;
     }

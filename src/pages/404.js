@@ -1,50 +1,25 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import sadFace from "../images/sadFace.svg"
-
-const pageStyles = {
-  color: "#232129",
-  padding: "96px",
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
-
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
+import { SEO } from "../components/seo"
+import "../styles/index.scss"
+import "../styles/NotFound.scss"
 
 const NotFoundPage = () => {
   return (
-    <main style={pageStyles}>
-      <h1 style={headingStyles}>Page not found</h1>
-      <p style={paragraphStyles}>
-        Sorry <img src={sadFace} alt="" width="20" height="20" style={{ verticalAlign: "middle" }} />, we couldn’t find what you were looking for.
-        <br />
-        {process.env.NODE_ENV === "development" ? (
-          <>
-            <br />
-            Try creating a page in <code style={codeStyles}>src/pages/</code>.
-            <br />
-          </>
-        ) : null}
-        <br />
-        <Link to="/">Go home</Link>.
-      </p>
+    <main>
+      <header className="notFoundHeader">
+        <h1 className="nameText">Hunter Africk</h1>
+      </header>
+      <section className="notFound">
+        <h2 className="notFoundCode">404</h2>
+        <h3 className="notFoundTitle">Page not found</h3>
+        <p className="notFoundText">Sorry, we couldn’t find what you were looking for.</p>
+        <Link to="/" className="notFoundButton">Go home</Link>
+      </section>
     </main>
   )
 }
 
 export default NotFoundPage
 
-export const Head = () => <title>Not found</title>
+export const Head = () => <SEO title="Not found" />
