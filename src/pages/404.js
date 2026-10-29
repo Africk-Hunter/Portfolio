@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Link } from "gatsby"
+import sadFace from "../images/sadFace.svg"
 
 const pageStyles = {
   color: "#232129",
@@ -28,7 +29,7 @@ const NotFoundPage = () => {
     <main style={pageStyles}>
       <h1 style={headingStyles}>Page not found</h1>
       <p style={paragraphStyles}>
-        Sorry 😔, we couldn’t find what you were looking for.
+        Sorry <img src={sadFace} alt="" width="20" height="20" style={{ verticalAlign: "middle" }} />, we couldn’t find what you were looking for.
         <br />
         {process.env.NODE_ENV === "development" ? (
           <>

@@ -1,0 +1,463 @@
+@use './variables' as vars;
+
+$sw-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+$sw-dur-micro: 140ms;
+$sw-dur-enter: 320ms;
+$sw-dur-fade: 250ms;
+
+// The section breaks out of `main` to this width and stays centered on the page.
+$sw-width: min(1180px, 92vw);
+// Rows sit side by side from this width up and stack below it.
+$sw-wide: vars.$macbook-air-13;
+
+// Inner radius of a 10px-radius box with a 3px border.
+$sw-inner-radius: 7px;
+
+.swShowcase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: $sw-width;
+    // Keeps the preview layers (iframe, overlay, hints) from escaping and painting over the sticky navbar.
+    isolation: isolate;
+    // Negative side margins center the wider section regardless of how `main` aligns it.
+    margin: 1rem calc((100% - #{$sw-width}) / 2) 3rem;
+
+    @media (min-width: 768px) {
+        gap: 3rem;
+        margin-top: 8rem;
+        margin-bottom: 4rem;
+    }
+}
+
+.swLabel {
+    margin: 0;
+    font-size: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+
+    @media (min-width: 768px) {
+        font-size: 2.5rem;
+    }
+}
+
+.swList {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+    width: 100%;
+
+    @media (min-width: $sw-wide) {
+        gap: 6rem;
+    }
+}
+
+// Rows keep frame-then-info DOM order; grid areas handle the visual flip on wide screens.
+.swRow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        'frame'
+        'info';
+    gap: 1.25rem;
+
+    @media (min-width: 768px) {
+        gap: 1.75rem;
+    }
+
+    @media (min-width: $sw-wide) {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+        grid-template-areas: 'frame info';
+        gap: 3.5rem;
+        align-items: center;
+
+        &:nth-child(even) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+            grid-template-areas: 'info frame';
+        }
+    }
+}
+
+// Hidden starting state only once JS is running, so no-JS visitors always see content.
+.swShowcase.js-ready .swRow:not(.is-visible) {
+    opacity: 0;
+}
+
+// ---- Browser frame ----
+
+.swFrame {
+    grid-area: frame;
+    position: relative;
+    border: 3px solid vars.$mainColor;
+    border-radius: 10px;
+    background: vars.$mainColor;
+
+    // Hover shadow lives on a pseudo-element so only its opacity animates.
+    &::after {
+        content: '';
+        position: absolute;
+        inset: -3px;
+        border-radius: 10px;
+        box-shadow: 0 18px 36px rgba(17, 17, 17, 0.1);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    &:hover::after {
+        opacity: 1;
+    }
+}
+
+.swFrameBar {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr) 3.25rem;
+    align-items: center;
+    gap: .5rem;
+    height: 2.25rem;
+    padding: 0 .6rem;
+}
+
+.swDots {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+
+    i {
+        display: block;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #b3b3b3;
+    }
+}
+
+.swUrl {
+    justify-self: center;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    max-width: 100%;
+    min-width: 0;
+    padding: .2rem .85rem;
+    border-radius: 15px;
+    background: #fff;
+    color: #555;
+    text-decoration: none;
+}
+
+.swUrlIcon {
+    flex: none;
+    width: .65rem;
+    height: .65rem;
+    color: #8a8a8a;
+}
+
+.swUrlText {
+    overflow: hidden;
+    font-size: .78rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.swFrameStatus {
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    font-size: .68rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #4a4a4a;
+
+    &:not(:empty)::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: vars.$accentColor;
+    }
+}
+
+// 16:9 to match the iframe's virtual desktop size exactly, so the render fills it with no gaps.
+.swViewport {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 0 0 $sw-inner-radius $sw-inner-radius;
+    background: #f3f2ec;
+    --sw-scale: 0.5;
+}
+
+.swViewport--static {
+    background: vars.$backgroundColor;
+}
+
+.swIframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    border: 0;
+    background: #fff;
+    transform-origin: 0 0;
+    transform: scale(var(--sw-scale));
+    pointer-events: none;
+    opacity: 0;
+}
+
+.swIframe.is-loaded {
+    opacity: 1;
+}
+
+.swLoading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .8rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    color: #8a8a8a;
+}
+
+// Site screenshot: show the top of the page, like a browser would.
+.swFallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.swFallback--logo {
+    margin: auto;
+    width: 40%;
+    height: 50%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.swOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+
+    &:focus-visible {
+        outline: 3px solid vars.$accentColor;
+        outline-offset: -3px;
+    }
+}
+
+// Sits above the overlay link but lets clicks fall through to it.
+.swStaticHint {
+    position: absolute;
+    right: .85rem;
+    bottom: .85rem;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .45rem .8rem;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.92);
+    font-size: .75rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #1c1c1c;
+    pointer-events: none;
+}
+
+// ---- Info column ----
+
+.swInfo {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 40rem;
+}
+
+.swTitle {
+    margin: 0;
+    font-size: 1.35rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -.01em;
+
+    @media (min-width: 768px) {
+        font-size: 1.75rem;
+    }
+
+    a,
+    span {
+        color: #121212;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 4px;
+    }
+
+    a:focus-visible {
+        outline: 3px solid vars.$accentColor;
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+}
+
+.swDescription {
+    margin: 0;
+    font-size: .95rem;
+    line-height: 1.55;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    color: #1b1b1b;
+
+    @media (min-width: 768px) {
+        font-size: 1.05rem;
+    }
+}
+
+.swChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.swChip {
+    display: inline-flex;
+    align-items: center;
+    padding: .2rem .75rem;
+    border-radius: 15px;
+    background: lightgray;
+    font-size: .75rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.swLinkButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: .25rem;
+}
+
+.swAction {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    min-height: 40px;
+    padding: .55rem 1.1rem;
+    border-radius: 10px;
+    font-size: .9rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:focus-visible {
+        outline: 3px solid vars.$accentColor;
+        outline-offset: 2px;
+    }
+}
+
+.swAction--primary {
+    border: 2px solid vars.$accentColor;
+    background: vars.$accentColor;
+    color: #0d1a12;
+}
+
+.swAction--secondary {
+    border: 2px solid vars.$mainColor;
+    background: transparent;
+    color: #101010;
+}
+
+.swActionIcon {
+    width: 1rem;
+    height: 1rem;
+    object-fit: contain;
+}
+
+// ---- Motion ----
+
+.swIframe,
+.swFallback {
+    transition: opacity $sw-dur-fade $sw-ease-out;
+}
+
+.swFrame::after {
+    transition: opacity $sw-dur-micro $sw-ease-out;
+}
+
+.swRow {
+    transition: opacity $sw-dur-enter $sw-ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .swShowcase.js-ready .swRow:not(.is-visible) {
+        transform: translateY(24px);
+    }
+
+    .swRow {
+        transition: opacity $sw-dur-enter $sw-ease-out, transform $sw-dur-enter $sw-ease-out;
+    }
+
+    .swFrame {
+        transition: transform $sw-dur-micro $sw-ease-out;
+
+        &:hover {
+            transform: translateY(-4px);
+        }
+    }
+
+    .swAction {
+        transition: transform $sw-dur-micro $sw-ease-out;
+
+        &:hover {
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: scale(0.97);
+        }
+    }
+
+    .swLoading {
+        animation: swPulse 1.6s ease-in-out infinite;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .swRow,
+    .swIframe,
+    .swFallback {
+        transition-duration: 100ms;
+    }
+}
+
+@keyframes swPulse {
+    0%,
+    100% {
+        opacity: .45;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}

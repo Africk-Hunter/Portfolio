@@ -232,3 +232,75 @@
     height: 100%;
     width: auto;
 }
+// Large variant (used on /swd): bigger previews, more breathing room. Desktop only.
+@media (min-width: 768px) {
+    .projectsLarge {
+        gap: 3rem;
+
+        .projectCardHolder {
+            gap: 3rem;
+        }
+
+        .projectCard {
+            padding: 1.5rem;
+            gap: 2.5rem;
+            align-items: stretch;
+        }
+
+        .projectImageHolder {
+            height: 18rem;
+            min-width: 18rem;
+            max-width: 18rem;
+        }
+
+        .projectDescriptionWrapper {
+            height: auto;
+            min-height: 18rem;
+            gap: 1.5rem;
+        }
+
+        .projectName {
+            font-size: 1.75rem;
+        }
+
+        .projectDesc {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .technologyName {
+            font-size: .9rem;
+        }
+
+        .technology {
+            padding: .15rem .8rem;
+        }
+
+        .cardLinkButton {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+    }
+}
+
+@media (min-width: 1921px) {
+    .projectsLarge {
+        .projectImageHolder {
+            height: 24rem;
+            min-width: 24rem;
+            max-width: 24rem;
+        }
+
+        .projectDescriptionWrapper {
+            min-height: 24rem;
+        }
+
+        .projectName {
+            font-size: 2.25rem;
+        }
+
+        .projectDesc {
+            font-size: 1.4rem;
+        }
+    }
+}

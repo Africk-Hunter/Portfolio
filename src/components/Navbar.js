@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const Navbar = () => {
+const Navbar = ({ links = ['Home', 'Music', 'Websites', 'Contact'] }) => {
   const [navbarHeight, setNavbarHeight] = useState(0);
 
   useEffect(() => {
@@ -14,10 +14,9 @@ const Navbar = () => {
     <nav id="navbar" className="navbar">
       <h1 className="nameText">Hunter Africk</h1>
       <section className="navButtonsWrapper">
-        <NavBarItems linkName="Home" offset={navbarHeight} />
-        <NavBarItems linkName="Music" offset={navbarHeight} />
-        <NavBarItems linkName="Websites" offset={navbarHeight} />
-        <NavBarItems linkName="Contact" offset={navbarHeight} />
+        {links.map((linkName) => (
+          <NavBarItems key={linkName} linkName={linkName} offset={navbarHeight} />
+        ))}
       </section>
     </nav>
   );
