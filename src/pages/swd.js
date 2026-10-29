@@ -10,7 +10,7 @@ import '../styles/index.scss';
 const navLinks = ['Home', 'Websites', 'Contact'];
 
 // Edit this list (and its order) to tailor the page for a specific audience.
-const projectIds = ['intraconnected', 'whoseDebut', 'biggestLittleMedia', 'llabc', 'stockZ'];
+const projectIds = ['intraconnected', 'biggestLittleMedia', 'whoseDebut', 'llabc', 'stockZ'];
 
 const bio = (
   <>
