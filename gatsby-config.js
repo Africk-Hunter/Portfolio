@@ -3,8 +3,8 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `Hunter Africk Portfolio`,
-    description: 'My portfolio featuring web development projects, showcasing personal work and skills in coding and design.',
+    title: `Hunter Africk`,
+    description: 'Hunter Africk is a web developer and designer. Browse his projects, music and contact info.',
     siteUrl: `https://www.hunterafrick.com`
   },
   plugins: [
@@ -12,7 +12,13 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        icon: 'src/images/icon.png', 
+        name: 'Hunter Africk',
+        short_name: 'Hunter Africk',
+        start_url: '/',
+        background_color: '#F2EFDF',
+        theme_color: '#F2EFDF',
+        display: 'minimal-ui',
+        icon: 'src/images/icon.png',
       },
     },
   ],
