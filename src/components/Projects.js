@@ -4,9 +4,9 @@ import githubIcon from '../images/githubIconBlack.svg';
 import { projects, defaultProjectIds } from '../data/projects';
 
 
-const Projects = ({ ids = defaultProjectIds, variant = 'default' }) => {
+const Projects = ({ ids = defaultProjectIds }) => {
   return (
-    <section id="Websites" className={variant === 'large' ? 'projects projectsLarge' : 'projects'}>
+    <section id="Websites" className='projects'>
       <h1 className='projectsLabel'>Websites</h1>
       <section className='projectCardHolder'>
         {ids.map((id) => (

@@ -1,0 +1,261 @@
+// Slow Horizon. Everything prefixed b-. Sky is the primary material.
+$ink: #2B2338;
+$quiet: #6B5F7E;
+$paper: #FFF6EA;
+$apricot: #FFB77A;
+$sun: #FF6F59;
+$sun-deep: #B2392B;
+$lilac: #B9A6E8;
+$sea: #7FD8C0;
+$flare: #FFE27A;
+$night: #1B1530;
+$moon: #F6EBDD;
+$ease: cubic-bezier(.3, .1, .2, 1);
+$serif: 'Fraunces', Georgia, serif;
+$sans: 'Hanken Grotesk', system-ui, sans-serif;
+$mono: 'DM Mono', ui-monospace, monospace;
+
+.b-root {
+  position: fixed;
+  inset: 0;
+  overflow: auto;
+  background: $paper;
+  color: $ink;
+  font-family: $sans;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  z-index: 10;
+  -webkit-font-smoothing: antialiased;
+
+  :where(h1, h2, h3, p, ul, ol, dl, dd, pre, figure, button) { margin: 0; padding: 0; }
+  :where(ul, ol) { list-style: none; }
+  :where(button) { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; }
+  :where(*, *::before, *::after) { box-sizing: border-box; }
+  :where(code) { font-family: $mono; font-size: .8em; }
+}
+
+.b-label {
+  font-family: $mono;
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+/* ---------- hero sky ---------- */
+.b-hero {
+  --b-fg: #{$paper};
+  --b-low: #{$ink};
+  --b-sx: 20%;
+  --b-sy: 62%;
+  --b-orb: #{$flare};
+  --b-halo: rgba(255, 183, 122, .6);
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  color: var(--b-fg);
+  padding: clamp(24px, 5vw, 64px) clamp(16px, 5vw, 72px) 0;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &[data-time='noon'] { --b-sx: 76%; --b-sy: 30%; --b-orb: #FFFFFF; --b-halo: rgba(255, 255, 255, .6); }
+  &[data-time='dusk'] { --b-sx: 70%; --b-sy: 66%; --b-orb: #{$sun}; --b-halo: rgba(255, 111, 89, .55); }
+  &[data-time='night'] { --b-sx: 78%; --b-sy: 24%; --b-orb: #{$moon}; --b-halo: rgba(185, 166, 232, .45); --b-low: #{$moon}; }
+  &[data-time='eclipse'] { --b-sx: 50%; --b-sy: 40%; --b-orb: #{$night}; --b-halo: rgba(255, 226, 122, .7); --b-low: #{$moon}; }
+}
+
+.b-sky {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  opacity: 0;
+  transition: opacity 1.4s $ease;
+  &.is-on { opacity: 1; }
+  &--dawn { background: radial-gradient(120% 60% at 20% 100%, rgba(255, 226, 122, .7), transparent 60%), linear-gradient(180deg, #4F4799 0%, #A07AB5 36%, #F2A9A0 62%, #FFC98F 84%, #FFE9CF 100%); }
+  &--noon { background: radial-gradient(90% 50% at 76% 20%, rgba(255, 255, 255, .6), transparent 70%), linear-gradient(180deg, #1F6E68 0%, #4FB59F 38%, #A9E6D3 66%, #E8F6EC 90%, #FFE9CF 100%); }
+  &--dusk { background: linear-gradient(180deg, #2A1F55 0%, #7B3F86 34%, #D9566F 58%, #FF8F5C 80%, #FFC27A 94%, #FFE9CF 100%); }
+  &--night { background: radial-gradient(70% 50% at 78% 24%, rgba(185, 166, 232, .3), transparent 70%), linear-gradient(180deg, #120D26 0%, #1B1530 50%, #3A2E66 85%, #5B4A8A 100%); }
+  &--eclipse { background: radial-gradient(40% 40% at 50% 40%, rgba(255, 226, 122, .55), transparent 70%), linear-gradient(180deg, #0B0818 0%, #1B1530 70%, #2B2338 100%); }
+}
+
+.b-stars {
+  position: absolute; inset: 0; z-index: -2; opacity: 0; transition: opacity 1.4s $ease;
+  background-image: radial-gradient(1.5px 1.5px at 12% 18%, #fff, transparent), radial-gradient(1px 1px at 30% 32%, #fff, transparent), radial-gradient(1.5px 1.5px at 52% 12%, #FFE27A, transparent), radial-gradient(1px 1px at 66% 40%, #fff, transparent), radial-gradient(1.5px 1.5px at 90% 14%, #fff, transparent), radial-gradient(1px 1px at 8% 50%, #fff, transparent);
+}
+.b-hero[data-time='night'] .b-stars, .b-hero[data-time='eclipse'] .b-stars { opacity: .9; }
+
+.b-cloud {
+  position: absolute; z-index: -1; height: 90px; width: 320px; border-radius: 999px;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, .65), rgba(255, 255, 255, 0));
+  filter: blur(6px);
+  opacity: .6;
+  animation: b-drift 60s linear infinite;
+  &--1 { top: 42%; left: -20%; }
+  &--2 { top: 58%; left: -40%; width: 480px; height: 120px; opacity: .4; animation-duration: 90s; animation-delay: -30s; }
+}
+.b-hero[data-time='night'] .b-cloud, .b-hero[data-time='eclipse'] .b-cloud { opacity: .12; }
+
+.b-orb {
+  position: absolute;
+  left: var(--b-sx); top: var(--b-sy);
+  width: clamp(72px, 14vw, 140px); aspect-ratio: 1;
+  margin: calc(clamp(72px, 14vw, 140px) / -2) 0 0 calc(clamp(72px, 14vw, 140px) / -2);
+  border-radius: 50%;
+  z-index: 0;
+  transition: left 1.4s $ease, top 1.4s $ease;
+  &:focus-visible { outline: 2px dashed $flare; outline-offset: 10px; }
+}
+.b-orb-core {
+  display: block; width: 100%; height: 100%; border-radius: 50%;
+  background: var(--b-orb);
+  box-shadow: 0 0 60px 24px var(--b-halo), 0 0 220px 80px var(--b-halo);
+  transition: background 1.4s $ease, box-shadow 1.4s $ease;
+  animation: b-breath 5s ease-in-out infinite;
+}
+
+.b-hero-top { position: relative; z-index: 1; max-width: 900px; pointer-events: none; text-shadow: 0 2px 40px rgba(27, 21, 48, .35); }
+.b-sky-word {
+  font-family: $serif; font-weight: 300; font-size: clamp(4rem, 17vw, 11rem);
+  line-height: .86; letter-spacing: -.03em; margin: 1.5rem 0 1.5rem;
+  font-variation-settings: 'SOFT' 100, 'opsz' 144;
+  em { font-weight: 300; font-style: italic; margin-left: .35em; }
+}
+.b-hero-lede { max-width: 30em; font-size: 1.2rem; }
+
+.b-hero-low { position: relative; z-index: 1; padding-bottom: 36px; color: var(--b-low); transition: color 1.4s $ease; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.b-hint { opacity: .75; }
+.b-horizon {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 110px; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent, #FFE9CF);
+}
+
+/* ---------- sections: one continuous day ---------- */
+.b-sec {
+  position: relative;
+  padding: clamp(56px, 9vw, 120px) clamp(16px, 5vw, 72px);
+  display: grid;
+  gap: 24px 48px;
+  grid-template-columns: minmax(0, 1fr);
+  @media (min-width: 900px) { grid-template-columns: 220px minmax(0, 1fr); }
+
+  &--a { background: linear-gradient(180deg, #FFE9CF, $paper); }
+  &--b { background: linear-gradient(180deg, $paper, #F3F7F0); }
+  &--c { background: linear-gradient(180deg, #F3F7F0, #EFE9FA); }
+  &--d { background: linear-gradient(180deg, #EFE9FA, #FFD9B8); }
+  &--e { background: #FFD9B8; }
+  &--n { background: $night; color: $moon; }
+  &--n .b-quiet, &--n .b-label { color: $moon; }
+}
+.b-sec-head { @media (min-width: 900px) { position: sticky; top: 32px; align-self: start; } }
+.b-time { display: block; color: $quiet; }
+.b-sec--n .b-time { color: $sea; }
+.b-sec h2 {
+  font-family: $serif; font-weight: 300; font-size: clamp(2.25rem, 8vw, 4rem); line-height: 1;
+  letter-spacing: -.02em; font-variation-settings: 'SOFT' 100, 'opsz' 144; font-style: italic;
+}
+.b-sec-body { display: grid; gap: 28px; min-width: 0; align-content: start; }
+.b-lede { max-width: 38em; font-size: 1.125rem; }
+.b-h2 { font-family: $serif; font-style: italic; font-weight: 400; font-size: 2rem; line-height: 1.1; margin-top: 16px; font-variation-settings: 'SOFT' 100; }
+
+/* principles */
+.b-principles { display: grid; gap: 36px; max-width: 40em; }
+.b-principles li { display: grid; gap: 4px; }
+.b-principles .b-label { color: $sun-deep; }
+.b-principles h3 { font-family: $serif; font-weight: 400; font-size: clamp(1.75rem, 5vw, 2.5rem); line-height: 1.05; font-variation-settings: 'SOFT' 100; }
+
+/* colour: bands of sky, no boxes */
+.b-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 0; border-radius: 50% 50% 0 0 / 40px 40px 0 0; overflow: hidden; }
+.b-swatches li { padding: 28px 20px 24px; display: grid; gap: 2px; align-content: end; min-height: 150px; }
+.b-swatches b { font-family: $serif; font-weight: 500; font-size: 1.25rem; font-variation-settings: 'SOFT' 100; }
+.b-swatches span { font-size: .875rem; line-height: 1.4; }
+.b-contrast { display: grid; gap: 0; max-width: 560px; }
+.b-contrast li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-size: .875rem; flex-wrap: wrap; }
+
+/* type */
+.b-type { display: grid; gap: 28px; }
+.b-type-row { display: grid; gap: 4px; min-width: 0; }
+.b-type-row .b-label { color: $quiet; }
+.b-sample { line-height: 1.05; overflow-wrap: anywhere; &--display { font-family: $serif; font-variation-settings: 'SOFT' 100, 'opsz' 144; letter-spacing: -.02em; } &--text { font-family: $sans; line-height: 1.65; max-width: 34em; } &--label { font-family: $mono; letter-spacing: .12em; } }
+
+/* shape + light */
+.b-shapes { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 28px; }
+.b-shapes .b-label { color: $ink; }
+.b-arch { width: 180px; height: 220px; border-radius: 50% 50% 0 0 / 22% 22% 0 0; background: linear-gradient(180deg, $lilac, $apricot); display: flex; align-items: flex-end; padding: 16px; }
+.b-pill { border-radius: 999px; padding: 10px 28px; background: $sea; }
+.b-disc { width: 110px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #fff, $flare 45%, $sun 90%); display: grid; place-items: center; box-shadow: 0 0 60px 20px rgba(255, 183, 122, .55); }
+.b-levels { display: grid; gap: 0; max-width: 40em; }
+.b-levels li { display: grid; gap: 2px; padding: 16px 0 16px calc(var(--b-i) * 14px); border-top: 1px solid rgba(43, 35, 56, .18); }
+.b-levels b { font-family: $serif; font-weight: 500; font-size: 1.25rem; }
+
+/* motion */
+.b-motion { display: grid; gap: 22px; max-width: 40em; }
+.b-motion li { display: grid; grid-template-columns: 88px 1fr; gap: 20px; align-items: center; }
+.b-motion b { font-family: $serif; font-size: 1.25rem; font-weight: 500; }
+.b-m { position: relative; display: block; width: 88px; height: 40px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, .45);
+  &::after { content: ''; position: absolute; top: 8px; left: 8px; width: 24px; height: 24px; border-radius: 50%; background: $flare; box-shadow: 0 0 18px 4px rgba(255, 111, 89, .5); }
+  &--drift::after { animation: b-slide 8s linear infinite; }
+  &--breath::after { animation: b-breath 5s ease-in-out infinite; left: 32px; }
+  &--dawn::after { animation: b-fade 6s $ease infinite alternate; left: 32px; }
+}
+
+.b-sunset { height: clamp(220px, 40vw, 380px); background: linear-gradient(180deg, #FFD9B8 0%, #FF9A6A 25%, #D9566F 50%, #6B3C8C 75%, $night 100%); }
+
+/* parts */
+.b-parts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 36px 28px; }
+.b-parts li { display: grid; gap: 4px; align-content: start; }
+.b-parts b { font-family: $serif; font-weight: 500; font-size: 1.25rem; }
+.b-parts p { font-size: .875rem; line-height: 1.45; opacity: .85; }
+.b-stage {
+  display: grid; place-items: center; height: 180px; margin-bottom: 8px;
+  border-radius: 50% 50% 0 0 / 22% 22% 0 0;
+  background: linear-gradient(180deg, #7B6BB8, #F2A9A0 70%, #FFD9B8);
+  svg { max-width: 80%; height: auto; max-height: 130px; }
+}
+.b-link { justify-self: start; font-family: $mono; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: $flare; padding: 8px 0; min-height: 44px; border-bottom: 1px dashed currentColor; &:hover, &:focus-visible { color: #fff; outline: 0; } }
+
+.b-recipes { display: grid; gap: 22px; max-width: 42em; }
+.b-recipes dt { font-family: $serif; font-style: italic; font-size: 1.375rem; color: $flare; }
+.b-recipes dd { color: $moon; }
+
+/* voice */
+.b-voice { display: grid; gap: 28px; max-width: 44em; }
+.b-voice li { display: grid; gap: 6px; }
+.b-voice p { font-family: $serif; font-size: 1.5rem; line-height: 1.25; font-variation-settings: 'SOFT' 100; display: grid; gap: 2px; }
+.b-do .b-label { color: $sea; }
+.b-dont { opacity: .6; text-decoration: line-through; text-decoration-color: rgba(246, 235, 221, .5); .b-label { color: $apricot; text-decoration: none; } }
+
+/* export */
+.b-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+.b-btn {
+  font-family: $serif; font-style: italic; font-size: 1.25rem; padding: 12px 28px; min-height: 48px; border-radius: 999px;
+  color: $night; background: radial-gradient(120% 220% at 50% 120%, $apricot, $flare);
+  box-shadow: 0 0 36px rgba(255, 226, 122, .4);
+  transition: box-shadow 1.4s $ease, transform 1.4s $ease;
+  &:hover, &:focus-visible { box-shadow: 0 0 64px 8px rgba(255, 226, 122, .6); transform: translateY(-2px); outline: 0; }
+}
+.b-pre { font-family: $mono; font-size: .8rem; color: $sea; overflow-x: auto; max-width: 100%; }
+
+.b-end { height: 120px; background: $night; }
+
+.b-toast {
+  position: fixed; left: 50%; bottom: 100px; z-index: 800; transform: translate(-50%, 12px);
+  max-width: calc(100vw - 32px); padding: 10px 22px; border-radius: 999px; text-align: center;
+  background: $paper; color: $ink; font-family: $serif; font-style: italic;
+  box-shadow: 0 0 40px rgba(255, 183, 122, .7);
+  opacity: 0; pointer-events: none; transition: opacity 1.4s $ease, transform 1.4s $ease;
+  &.is-on { opacity: 1; transform: translate(-50%, 0); transition-duration: .6s; }
+}
+
+@keyframes b-drift { to { transform: translateX(160vw); } }
+@keyframes b-breath { 50% { transform: scale(1.04); } }
+@keyframes b-slide { from { transform: translateX(0); } to { transform: translateX(56px); } }
+@keyframes b-fade { from { opacity: .2; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .b-cloud, .b-orb-core, .b-m::after { animation: none; }
+  .b-orb, .b-sky, .b-stars, .b-btn, .b-toast, .b-hero-low, .b-orb-core { transition: none; }
+}

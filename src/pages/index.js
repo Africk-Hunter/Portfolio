@@ -1,31 +1,22 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import About from '../components/About';
-import Music from '../components/music';
-import Projects from '../components/Projects';
-import Contact from '../components/Contact';
-import Footer from '../components/Footer';
-import { SEO } from "../components/seo"
-import '../styles/index.scss';
+import Zine from '../components/portfolio/Zine';
+import { candid } from '../components/portfolio/data';
+import { SEO } from '../components/seo';
 
-
-const IndexPage = () => {
-  return (
-    <>
-      <main id="main">
-        <Navbar />
-        <About />
-        <Music />
-        <Projects />
-        <Contact />
-      </main>
-      <Footer />
-    </>
-  );
-};
+// Prerendered at build time: the HTML ships the zine's cover with the intro state already applied (see loadIn.js),
+// then React hydrates and the masthead slams in.
+const IndexPage = () => <Zine />;
 
 export default IndexPage;
 
 export const Head = () => (
-  <SEO />
-)
+  <SEO>
+    {/* The two faces the first screen needs, fetched in parallel with the CSS instead of after it. */}
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/Fraunces-var.woff2" crossOrigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/BricolageGrotesque-var.woff2" crossOrigin="anonymous" />
+    <link rel="preload" as="image" href={candid} type="image/webp" fetchPriority="high" />
+    <meta name="theme-color" content="#F2EFDF" />
+    {/* Without JS the intro never runs, so show the page. */}
+    <noscript><style>{`.tz.tz-intro{overflow:auto!important}.tz.tz-intro .tz-nav,.tz.tz-intro .tz-page,.tz.tz-intro .tz-foot,.tz.tz-intro .tz-ic-bg,.tz.tz-intro .tz-cover>:not(.tz-mast){visibility:visible!important}.tz.tz-intro .tz-mast>span{opacity:1!important}`}</style></noscript>
+  </SEO>
+);

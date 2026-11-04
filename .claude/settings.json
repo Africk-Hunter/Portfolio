@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./src/pages/lang_old.js)",
+      "Read(./src/components/lang_old/**)",
+      "Read(./src/styles/lang_old/**)",
+      "Read(./src/pages/mockup.js)",
+      "Read(./src/components/mockup/**)",
+      "Read(./src/styles/mockup/**)",
+      "Read(./programmer_docs/showroom-redesign-handoff.md)",
+      "Read(./background/**)",
+      "Edit(./src/pages/lang_old.js)",
+      "Edit(./src/components/lang_old/**)",
+      "Edit(./src/styles/lang_old/**)",
+      "Edit(./src/pages/mockup.js)",
+      "Edit(./src/components/mockup/**)",
+      "Edit(./src/styles/mockup/**)",
+      "Bash(*lang_old*)",
+      "Bash(*mockup*)",
+      "Bash(*showroom-redesign-handoff*)"
+    ]
+  }
+}

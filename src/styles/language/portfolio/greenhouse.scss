@@ -1,0 +1,155 @@
+// Overgrowth portfolio: a greenhouse from a nicer future. Deep green glass, wide letters, fruit-light, one long gallery.
+.gh {
+  --floor: #1A3526; --deep: #10241A; --canopy: #24432F; --cream: #F2ECD2; --sand: #DCD3A6; --lime: #9BCB5E;
+  --ember: #D9744A; --amber: #E8A93A; --butter: #F5DE82; --bark: #8A5A34; --orchid: #8B78C4; --night: #16301F;
+  --wide: 'Microgramma D Extended', 'Michroma', 'Eurostile', sans-serif; --mono: 'Azeret Mono', ui-monospace, monospace;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --cut: 28px;
+  --lamp: 0 0 14px 2px rgba(232, 169, 58, .7), 0 0 40px 6px rgba(217, 116, 74, .35);
+
+  position: fixed; inset: 0; z-index: 10; overflow: hidden; isolation: isolate;
+  color: var(--cream); font: 400 17px/1.6 'Barlow', system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+  background: radial-gradient(80% 70% at 70% 20%, #1F3F2D, transparent 70%), linear-gradient(180deg, var(--floor), var(--deep));
+
+  :where(*, *::before, *::after) { box-sizing: border-box; }
+  :where(h1, h2, p, ol, ul, dl, dd, figure) { margin: 0; padding: 0; }
+  :where(ol, ul) { list-style: none; }
+  :where(button) { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; text-align: left; }
+  :where(a) { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid var(--butter); outline-offset: 3px; }
+  img { display: block; }
+  .pf-glyph { width: 1.15em; height: 1.15em; flex: none; }
+}
+.gh-label { font: 500 11px/1.4 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--lime); }
+
+// light and leaves
+.gh-sky { position: absolute; inset: 0; z-index: -2; pointer-events: none; }
+// soft radial gradients instead of blurred, blended layers: same glow, but cheap to repaint while scrolling
+.gh-bloom { position: absolute; border-radius: 50%; will-change: transform; animation: gh-drift 28s ease-in-out infinite alternate; }
+.gh-bloom-a { width: 64vw; height: 64vw; right: -18vw; top: -26vw; background: radial-gradient(closest-side, rgba(232, 169, 58, .22), transparent); }
+.gh-bloom-b { width: 58vw; height: 58vw; left: 14vw; bottom: -32vw; background: radial-gradient(closest-side, rgba(155, 203, 94, .24), transparent); animation-duration: 34s; animation-direction: alternate-reverse; }
+.gh-bloom-c { width: 38vw; height: 38vw; left: 42vw; top: 16vh; background: radial-gradient(closest-side, rgba(139, 120, 196, .16), transparent); animation-duration: 40s; }
+.gh-frond { position: absolute; z-index: -1; width: min(980px, 90vw); height: auto; pointer-events: none; fill: #1E3B2B; stroke: #2A4D37; stroke-width: 1.5; will-change: transform; transition: transform .5s linear;
+  .gh-stem { fill: none; stroke: #2A4D37; stroke-width: 5; stroke-linecap: round; } }
+.gh-frond-a { left: 160px; top: -120px; transform: rotate(16deg) translateX(calc(var(--prog) * -140px)); opacity: .9; }
+.gh-frond-b { right: -280px; bottom: -150px; transform: rotate(196deg) scaleY(-1) translateX(calc(var(--prog) * 160px)); opacity: .7; }
+
+// cut-corner glass, edge in lime
+.gh-panel, .gh-frame { clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut)); }
+
+// side panel
+.gh-panel {
+  --cut: 22px;
+  position: absolute; left: 20px; top: 20px; bottom: 20px; z-index: 5; width: 320px; display: flex; flex-direction: column; gap: 26px; padding: 28px 24px 22px; overflow: hidden; isolation: isolate;
+  // the element itself is the edge; ::before is the glass fill, cut 1px smaller so the edge shows on every side
+  background: linear-gradient(160deg, rgba(155, 203, 94, .65), rgba(155, 203, 94, .14) 50%, rgba(232, 169, 58, .45));
+  backdrop-filter: blur(20px) saturate(1.2); -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  &::before { content: ''; position: absolute; z-index: -1; inset: 1px; pointer-events: none;
+    background: linear-gradient(160deg, rgba(48, 82, 60, .82), rgba(27, 52, 38, .84) 40%, rgba(16, 36, 26, .9));
+    clip-path: polygon(calc(var(--cut) - .41px) 0, 100% 0, 100% calc(100% - var(--cut) + .41px), calc(100% - var(--cut) + .41px) 100%, 0 100%, 0 calc(var(--cut) - .41px)); }
+}
+.gh-name { font: 700 25px/1.1 var(--wide); letter-spacing: .06em; text-transform: uppercase; }
+.gh-tag { margin-top: 10px; font-size: 15px; color: var(--sand); }
+.gh-block .gh-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.gh-clear { font: 500 10px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--butter); &:hover { text-decoration: underline; } }
+
+.gh-disc { display: grid; gap: 4px;
+  button { display: grid; grid-template-columns: 18px 1fr auto; align-items: center; gap: 4px 12px; width: 100%; padding: 8px 6px; border-radius: 8px; transition: background .3s;
+    &:hover { background: rgba(155, 203, 94, .08); }
+    span { font: 700 11px var(--wide); letter-spacing: .14em; text-transform: uppercase; }
+    em { font: 400 12px var(--mono); font-style: normal; color: var(--sand); } }
+}
+.gh-fruit { width: 14px; height: 14px; border-radius: 50%; background: var(--deep); border: 1.5px solid rgba(155, 203, 94, .5); transition: all .6s var(--ease);
+  .is-on & { width: 16px; height: 16px; background: radial-gradient(circle at 36% 30%, var(--butter), var(--amber) 55%, var(--ember)); border-color: var(--amber); box-shadow: var(--lamp); animation: gh-pulse 3.2s ease-in-out infinite; } }
+.gh-bar { grid-column: 1 / -1; height: 2px; border-radius: 2px; background: rgba(155, 203, 94, .14); position: relative;
+  &::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--w) * 100%); border-radius: inherit; background: var(--lime); box-shadow: 0 0 8px rgba(155, 203, 94, .7); transition: background .4s; }
+  .is-on &::after { background: var(--amber); box-shadow: 0 0 10px rgba(232, 169, 58, .8); } }
+
+.gh-block-index { flex: 1; min-height: 0; display: flex; flex-direction: column; .gh-index { overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(155, 203, 94, .3) transparent; } }
+.gh-index { display: grid; gap: 1px;
+  button { position: relative; display: flex; gap: 12px; align-items: baseline; width: 100%; padding: 5px 0 5px 0; font-size: 15px; color: rgba(242, 236, 210, .72); transition: color .3s, padding .5s var(--ease);
+    span { font: 400 11px var(--mono); color: rgba(220, 211, 166, .55); }
+    &:hover { color: var(--cream); }
+    &.is-on { padding-left: 18px; color: var(--lime); span { color: var(--lime); }
+      &::before { content: ''; position: absolute; left: 0; top: 50%; width: 10px; height: 1.5px; background: var(--lime); box-shadow: 0 0 8px var(--lime); } } }
+}
+.gh-now { margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 10px 16px 10px 12px; border-radius: 999px; background: rgba(16, 36, 26, .6); border: 1px solid rgba(155, 203, 94, .3); font-size: 14px; transition: border-color .3s;
+  small { display: block; font: 500 9.5px var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--lime); }
+  &:hover { border-color: var(--amber); } }
+.gh-eq { display: flex; align-items: flex-end; gap: 2px; height: 18px; i { width: 3px; background: var(--amber); border-radius: 2px; animation: gh-eq 1s ease-in-out infinite alternate; }
+  i:nth-child(1) { height: 40%; } i:nth-child(2) { height: 90%; animation-delay: -.3s; } i:nth-child(3) { height: 60%; animation-delay: -.6s; } i:nth-child(4) { height: 80%; animation-delay: -.8s; } }
+
+// the gallery
+.gh-track {
+  position: absolute; left: 360px; right: 0; top: 0; bottom: 0; display: flex; flex-direction: row; align-items: stretch; gap: clamp(40px, 5vw, 80px); padding: 40px 0 76px 40px;
+  overflow-x: auto; overflow-y: hidden; scrollbar-width: none; outline: 0;
+  &::-webkit-scrollbar { display: none; }
+}
+.gh-plate { position: relative; flex: none; display: grid; align-items: center; animation: gh-in .9s var(--ease) both; }
+.gh-tail { flex: none; width: 24px; } // flex padding-right is dropped at the end of a scroller, so a spacer keeps the last plate reachable
+
+.gh-frame { position: relative; padding: 1.5px; background: linear-gradient(160deg, var(--lime), rgba(155, 203, 94, .15) 45%, rgba(232, 169, 58, .6));
+  img { width: 100%; height: 100%; object-fit: cover; object-position: top; clip-path: polygon(calc(var(--cut) - 1px) 0, 100% 0, 100% calc(100% - var(--cut) + 1px), calc(100% - var(--cut) + 1px) 100%, 0 100%, 0 calc(var(--cut) - 1px)); background: var(--deep); }
+  figcaption { position: absolute; left: 1.5px; bottom: 1.5px; display: flex; gap: 12px; padding: 10px 18px 10px 16px; font: 500 11px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--lime);
+    background: rgba(16, 36, 26, .78); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); span { color: var(--amber); } }
+}
+// light pooling behind each piece
+.gh-plate::before { content: ''; position: absolute; z-index: -1; left: 6%; top: 12%; width: 55%; height: 70%; border-radius: 50%; background: radial-gradient(closest-side, rgba(155, 203, 94, .2), transparent); pointer-events: none; }
+
+.gh-intro { width: min(1180px, calc(100vw - 440px)); grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: clamp(30px, 4vw, 60px);
+  h1 { margin-top: 18px; font: 700 clamp(46px, 7.2vw, 132px)/.95 var(--wide); letter-spacing: .02em; text-transform: uppercase;
+    background: linear-gradient(180deg, var(--cream) 40%, #CFE3A6); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 30px rgba(155, 203, 94, .25)); } }
+.gh-intro-photo { height: min(76vh, 720px); --cut: 40px; }
+.gh-lede { max-width: 34ch; margin-top: 26px; font-size: clamp(19px, 1.7vw, 24px); font-weight: 300; line-height: 1.45; color: var(--sand); }
+.gh-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px;
+  span { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase;
+    background: rgba(242, 236, 210, .06); border: 1px solid rgba(155, 203, 94, .3); backdrop-filter: blur(8px); .pf-glyph { color: var(--lime); } } }
+.gh-hint { display: flex; align-items: center; gap: 14px; margin-top: 44px; font: 500 11px var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--sand);
+  i { position: relative; width: 60px; height: 1.5px; background: rgba(155, 203, 94, .3); overflow: hidden; &::after { content: ''; position: absolute; inset: 0; width: 40%; background: var(--lime); animation: gh-hint 2s var(--ease) infinite; } } }
+
+.gh-work, .gh-outro { width: min(1060px, calc(100vw - 460px)); grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(28px, 3.5vw, 56px); }
+.gh-art { height: min(74vh, 680px); }
+.gh-work.is-square .gh-art img { object-fit: contain; padding: 9%; background: radial-gradient(60% 60% at 50% 40%, #24432F, var(--deep)); }
+.gh-seed { display: grid; place-items: center; align-content: center; gap: 14px; width: 100%; height: 100%; color: var(--lime); background: radial-gradient(50% 50% at 50% 45%, rgba(155, 203, 94, .2), var(--deep) 70%);
+  clip-path: polygon(calc(var(--cut) - 1px) 0, 100% 0, 100% calc(100% - var(--cut) + 1px), calc(100% - var(--cut) + 1px) 100%, 0 100%, 0 calc(var(--cut) - 1px));
+  .pf-glyph { width: 30%; height: 30%; filter: drop-shadow(0 0 16px rgba(155, 203, 94, .8)); animation: gh-pulse 3.2s ease-in-out infinite; }
+  small { font: 500 11px var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--sand); } }
+.gh-copy { display: grid; justify-items: start; align-content: center; gap: 14px;
+  h2 { font: 700 clamp(26px, 3.2vw, 50px)/1.05 var(--wide); letter-spacing: .03em; text-transform: uppercase; } }
+.gh-blurb { max-width: 40ch; font-size: clamp(17px, 1.4vw, 20px); font-weight: 300; line-height: 1.5; color: rgba(242, 236, 210, .9); }
+.gh-meta { width: 100%; max-width: 420px; margin-top: 6px;
+  div { display: grid; grid-template-columns: 100px 1fr; gap: 12px; padding: 9px 0; border-top: 1px solid rgba(155, 203, 94, .2); }
+  dt { font: 500 10px/2 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--sand); } dd { font-size: 15px; } }
+.gh-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; }
+.gh-btn {
+  display: inline-flex; align-items: center; padding: 14px 30px 14px 24px; font: 700 11px/1 var(--wide); letter-spacing: .16em; text-transform: uppercase; color: var(--night);
+  background: linear-gradient(180deg, var(--butter), #EDB649 22%, var(--amber)); clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  transition: transform .4s var(--ease), filter .3s; &:hover { transform: translateY(-2px); filter: brightness(1.08) drop-shadow(0 0 12px rgba(232, 169, 58, .6)); }
+}
+.gh-btn-ghost { background: rgba(155, 203, 94, .14); color: var(--lime); &:hover { background: rgba(155, 203, 94, .24); } }
+.gh-outro-photo { height: min(64vh, 560px); img { object-position: 52% 30%; } }
+
+// growth line under the gallery
+.gh-vine { position: absolute; left: 400px; right: 60px; bottom: 34px; z-index: 4; height: 1.5px; background: rgba(155, 203, 94, .16); pointer-events: none;
+  i { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--prog) * 100%); background: linear-gradient(90deg, rgba(155, 203, 94, .3), var(--lime)); box-shadow: 0 0 10px rgba(155, 203, 94, .7); transition: width .2s linear;
+    &::after { content: ''; position: absolute; right: -6px; top: -5px; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 36% 30%, var(--butter), var(--amber) 55%, var(--ember)); box-shadow: var(--lamp); } } }
+
+@keyframes gh-drift { from { transform: translate(0, 0) scale(1); } to { transform: translate(-6vw, 5vh) scale(1.12); } }
+@keyframes gh-pulse { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.28) saturate(1.1); } }
+@keyframes gh-eq { from { transform: scaleY(.35); } to { transform: scaleY(1); } }
+@keyframes gh-hint { from { transform: translateX(-100%); } to { transform: translateX(260%); } }
+@keyframes gh-in { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
+
+// narrow screens: the panel sits on top and the gallery runs downward
+@media (max-width: 900px) {
+  .gh { overflow-y: auto; }
+  .gh-panel { position: relative; left: auto; top: auto; bottom: auto; width: auto; margin: 12px; overflow: visible; }
+  .gh-block-index, .gh-now { display: none; }
+  .gh-track { position: static; flex-direction: column; gap: 70px; padding: 30px 16px 120px; overflow: visible; }
+  .gh-plate { width: auto !important; grid-template-columns: minmax(0, 1fr) !important; }
+  .gh-intro-photo, .gh-art, .gh-outro-photo { height: auto; aspect-ratio: 4 / 3; }
+  .gh-intro-photo { aspect-ratio: 1; max-width: 420px; }
+  .gh-vine { display: none; }
+  .gh-frond-a { left: -200px; }
+}
+@media (prefers-reduced-motion: reduce) { .gh *, .gh *::before, .gh *::after { animation: none !important; transition-duration: .01ms !important; } }

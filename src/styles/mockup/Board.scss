@@ -1,0 +1,601 @@
+@use './Concepts' as cx;
+
+// Round 5: one scrolling paper board. Every section is open on the page; the
+// tabs and stickers can be dragged, but nothing needs interaction to read.
+
+.bd {
+    --paper: #cfe4ff;
+    --deep: #93b4ec;
+
+    position: relative;
+    min-height: 100%;
+    overflow-x: hidden;
+    background:
+        radial-gradient(rgba(19, 36, 94, 0.08) 1.6px, transparent 1.8px) 0 0 / 22px 22px,
+        linear-gradient(180deg, #eef6ff 0%, var(--paper) 38%, var(--deep) 100%);
+
+    &--butter {
+        --paper: #ffe9a3;
+        --deep: #f2c36b;
+    }
+
+    &--lilac {
+        --paper: #dcd6ff;
+        --deep: #a9a0e6;
+    }
+}
+
+/* ---------- nav ---------- */
+
+.bd__nav {
+    position: sticky;
+    z-index: 50;
+    top: 14px;
+    width: fit-content;
+    margin: 0 auto;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 999px;
+    background: #fff;
+    border: 3px solid var(--navy);
+
+    button {
+        padding: 6px 18px;
+        border-radius: 999px;
+        font-family: 'Saira', sans-serif;
+        font-style: italic;
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--navy);
+
+        &:hover {
+            background: var(--butter);
+        }
+    }
+}
+
+/* ---------- hero ---------- */
+
+.bd__hero {
+    position: relative;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 56px 40px 36px;
+
+    h1 {
+        position: relative;
+        z-index: 2;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+
+        span {
+            padding: 2px 16px;
+            background: var(--navy);
+            color: var(--butter);
+            font-size: clamp(40px, 6vw, 84px);
+            line-height: 1.1;
+            @include cx.wordmark;
+
+            &:last-child {
+                margin-left: 34px;
+                background: #fff;
+                color: var(--navy);
+            }
+        }
+    }
+
+    p {
+        position: relative;
+        z-index: 2;
+        margin: 16px 0 0 4px;
+        font-weight: 600;
+        color: var(--indigo);
+    }
+}
+
+.bd__sun {
+    position: absolute;
+    top: 30px;
+    right: 14%;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    border: 4px solid var(--navy);
+    background:
+        radial-gradient(rgba(19, 36, 94, 0.22) 1.6px, transparent 1.8px) 0 0 / 9px 9px,
+        radial-gradient(circle at 35% 30%, #fff3b5, var(--butter) 60%, var(--amber));
+}
+
+.bd__cloud {
+    position: absolute;
+    height: 46px;
+    border-radius: 999px;
+    background: #fff;
+    border: 4px solid var(--navy);
+    animation: bdDrift 40s ease-in-out infinite alternate;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 22%;
+        top: -26px;
+        width: 44%;
+        height: 44px;
+        border-radius: 50% 50% 0 0;
+        background: #fff;
+        border: 4px solid var(--navy);
+        border-bottom: 0;
+        box-sizing: border-box;
+    }
+
+    &--a {
+        top: 120px;
+        right: 34%;
+        width: 170px;
+    }
+
+    &--b {
+        top: 60px;
+        right: 4%;
+        width: 120px;
+        animation-duration: 55s;
+        animation-direction: alternate-reverse;
+    }
+}
+
+@keyframes bdDrift {
+    to {
+        transform: translateX(-70px);
+    }
+}
+
+.bd__tag {
+    position: absolute;
+    top: 8px;
+    right: 40px;
+    z-index: 3;
+    padding: 6px 16px;
+    border-radius: 10px;
+    background: #fff;
+    border: 3px solid var(--navy);
+    font-size: 14px;
+    font-weight: 600;
+
+    b {
+        margin-left: 6px;
+        color: var(--blue);
+        @include cx.wordmark;
+        font-stretch: 100%;
+    }
+}
+
+/* ---------- the pieces ---------- */
+
+.bd__main {
+    position: relative;
+    z-index: 2;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 28px 40px 0;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 64px 32px;
+    align-items: start;
+}
+
+.bd__piece {
+    position: relative;
+    padding: 32px 28px 28px;
+    transform: translate(var(--dx), var(--dy)) rotate(var(--r));
+    scroll-margin-top: 80px;
+    transition: filter 0.15s;
+    @include cx.chunky(8px);
+
+    &.isLifted {
+        filter: drop-shadow(0 16px 16px rgba(19, 36, 94, 0.28));
+    }
+
+    &--about {
+        grid-column: 1 / -1;
+        background: var(--mist);
+    }
+
+    &--websites {
+        grid-column: 1 / -1;
+        background: #fff;
+    }
+
+    &--music {
+        grid-column: span 5;
+        background: #fff;
+    }
+
+    &--contact {
+        grid-column: span 7;
+        background: var(--butter);
+    }
+}
+
+// the tab you grab a piece by
+.bd__tab {
+    position: absolute;
+    top: -34px;
+    left: 26px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 18px 4px 12px;
+    border: 4px solid var(--navy);
+    border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    background: var(--navy);
+    color: var(--butter);
+    font-size: 16px;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    @include cx.wordmark;
+    font-stretch: 100%;
+
+    &::before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        background: radial-gradient(var(--butter) 1.6px, transparent 1.9px) 0 0 / 7px 7px;
+    }
+
+    &:active {
+        cursor: grabbing;
+    }
+}
+
+.bd__piece h2 {
+    margin: 0 0 12px;
+    font-size: 30px;
+    @include cx.wordmark;
+}
+
+.bd__piece p {
+    margin: 0 0 14px;
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.bd__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    a {
+        padding: 5px 14px;
+        border-radius: 999px;
+        border: 3px solid var(--navy);
+        background: #fff;
+        font-weight: 600;
+        font-size: 14px;
+
+        &:hover {
+            background: var(--butter);
+        }
+    }
+}
+
+.bd__tech {
+    font-size: 13px !important;
+    color: var(--blue);
+}
+
+.bd__btn {
+    justify-self: start;
+    padding: 10px 26px;
+    border-radius: 999px;
+    border: 3px solid var(--navy);
+    background: #fff;
+    box-shadow: 4px 4px 0 var(--navy);
+    font-weight: 700;
+
+    &:hover {
+        background: var(--butter);
+    }
+
+    &:active {
+        transform: translate(3px, 3px);
+        box-shadow: 1px 1px 0 var(--navy);
+    }
+}
+
+/* about */
+
+.bd__aboutGrid {
+    display: grid;
+    grid-template-columns: 250px 1fr 250px;
+    gap: 32px;
+    align-items: start;
+}
+
+.bd__polaroid {
+    margin: 0;
+    padding: 12px 12px 10px;
+    background: #fff;
+    border: 3px solid var(--navy);
+    transform: rotate(-2.5deg);
+    box-shadow: 5px 5px 0 var(--butter);
+
+    img {
+        display: block;
+        width: 100%;
+    }
+
+    figcaption {
+        margin-top: 8px;
+        text-align: center;
+        @include cx.wordmark;
+        font-stretch: 100%;
+        font-size: 15px;
+        text-transform: none;
+    }
+}
+
+.bd__facts {
+    margin: 0;
+    padding: 18px 20px;
+    background: #fff;
+    border: 3px solid var(--navy);
+    transform: rotate(1.5deg);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px 14px;
+    font-size: 15px;
+
+    dt {
+        color: var(--blue);
+        @include cx.wordmark;
+        font-stretch: 100%;
+        font-size: 12px;
+        align-self: center;
+    }
+
+    dd {
+        margin: 0;
+        font-weight: 600;
+    }
+}
+
+/* websites */
+
+.bd__projects {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 22px;
+}
+
+.bd__card {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background: var(--mist);
+    border: 3px solid var(--navy);
+    border-radius: 6px;
+    transform: rotate(var(--r));
+    box-shadow: 5px 5px 0 var(--sky);
+
+    img {
+        height: 46px;
+        width: 100%;
+        object-fit: contain;
+        object-position: left;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        margin: 0 0 6px;
+        font-size: 19px;
+        @include cx.wordmark;
+        font-stretch: 100%;
+    }
+
+    p {
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        margin-bottom: 8px !important;
+    }
+
+    .bd__links {
+        margin-top: auto;
+    }
+}
+
+/* music */
+
+.bd__record {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.bd__sleeve {
+    position: relative;
+    width: 230px;
+    height: 230px;
+    margin-bottom: 4px;
+}
+
+.bd__cover {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 4px solid var(--navy);
+    box-shadow: 6px 6px 0 var(--butter);
+}
+
+// the record peeks out from behind the sleeve and turns
+.bd__vinyl {
+    position: absolute;
+    z-index: 1;
+    top: 14px;
+    left: 110px;
+    width: 210px;
+    height: 210px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: repeating-radial-gradient(circle, var(--indigo) 0 2px, #2b3fa0 2px 4px);
+    border: 4px solid var(--navy);
+    animation: bdSpin 6s linear infinite;
+
+    img {
+        width: 36%;
+        height: 36%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid var(--butter);
+    }
+}
+
+@keyframes bdSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* contact */
+
+.bd__form {
+    display: grid;
+    gap: 12px;
+    max-width: 560px;
+
+    input,
+    textarea {
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 3px solid var(--navy);
+        background: #fff;
+        font: inherit;
+        color: var(--navy);
+
+        &:focus {
+            outline: 3px solid var(--navy);
+            outline-offset: 2px;
+        }
+    }
+}
+
+/* ---------- stickers ---------- */
+
+.bd__sticker {
+    position: absolute;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    min-width: 64px;
+    transform: translate(var(--dx), var(--dy)) rotate(var(--r));
+    font-size: 70px;
+    line-height: 1;
+    color: var(--butter);
+    -webkit-text-stroke: 4px var(--navy);
+    paint-order: stroke fill;
+    filter: drop-shadow(4px 4px 0 var(--navy));
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    @include cx.wordmark;
+    text-transform: none;
+
+    &.isLifted {
+        cursor: grabbing;
+        filter: drop-shadow(8px 10px 0 rgba(19, 36, 94, 0.55));
+    }
+
+    &--burst {
+        width: 120px;
+        height: 120px;
+        font-size: 28px;
+        background: var(--butter);
+        color: var(--navy);
+        -webkit-text-stroke: 0;
+        clip-path: polygon(50% 0, 61% 20%, 82% 10%, 78% 34%, 100% 40%, 82% 56%, 96% 78%, 72% 76%, 66% 100%, 50% 84%, 34% 100%, 28% 76%, 4% 78%, 18% 56%, 0 40%, 22% 34%, 18% 10%, 39% 20%);
+        filter: none;
+    }
+}
+
+/* ---------- ground, tools, buddy ---------- */
+
+.bd__ground {
+    position: relative;
+    z-index: 1;
+    height: 320px;
+    margin-top: 56px;
+
+    svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    p {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 20px;
+        margin: 0;
+        text-align: center;
+        font-size: 15px;
+        color: #fff;
+        @include cx.wordmark;
+        font-stretch: 100%;
+        text-transform: none;
+    }
+}
+
+.bd__tools {
+    position: fixed;
+    z-index: 50;
+    right: 24px;
+    bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bd .pr__buddy {
+    position: fixed;
+    z-index: 50;
+    left: 28px;
+    bottom: 22px;
+}
+
+/* ---------- narrower screens ---------- */
+
+@media (max-width: 1000px) {
+    .bd__main {
+        padding-inline: 20px;
+    }
+
+    .bd__piece--music,
+    .bd__piece--contact {
+        grid-column: 1 / -1;
+    }
+
+    .bd__aboutGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .bd__projects {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .bd__sun {
+        width: 120px;
+        height: 120px;
+    }
+}

@@ -4,6 +4,8 @@ import githubIcon from '../images/githubIconBlack.svg';
 import intraconnectedPlaceholder from '../images/placeholders/intraconnected.app_(Desktop).png';
 import lunaPlaceholder from '../images/placeholders/lunalashandbeautyco.com_(Desktop).png';
 import stockZPlaceholder from '../images/placeholders/stock-z.com_main(Desktop).png';
+import whoseDebutPlaceholder from '../images/placeholders/whosedebut.com_(Nest Hub Max).png';
+import biggestLittleMediaPlaceholder from '../images/placeholders/biggestlittlemedia.com_(Desktop).png';
 import { projects, defaultProjectIds } from '../data/projects';
 
 // Screenshots shown when a site can't be previewed live. Projects without one fall back to their logo.
@@ -11,6 +13,8 @@ const PLACEHOLDER_IMAGES = {
   intraconnected: intraconnectedPlaceholder,
   llabc: lunaPlaceholder,
   stockZ: stockZPlaceholder,
+  whoseDebut: whoseDebutPlaceholder,
+  biggestLittleMedia: biggestLittleMediaPlaceholder,
 };
 
 // Origins each site allows to embed it, taken from its X-Frame-Options / CSP frame-ancestors
@@ -20,7 +24,7 @@ const PLACEHOLDER_IMAGES = {
 const FRAME_ANCESTORS = {
   intraconnected: ['https://hunterafrick.com'], // frame-ancestors 'self' https://hunterafrick.com
   llabc: [], // X-Frame-Options: DENY
-  stockZ: [], // frame-ancestors 'none'
+  stockZ: ['https://hunterafrick.com', 'https://www.hunterafrick.com'], // frame-ancestors 'self' https://hunterafrick.com https://www.hunterafrick.com
 };
 
 // The iframe renders the site at this desktop size, then scales down to the frame's width.
@@ -31,7 +35,10 @@ const VIRTUAL_HEIGHT = 810;
 // No load event within this window counts as a failed preview.
 const LOAD_TIMEOUT_MS = 15000;
 
-const canFrameFrom = (projectId, origin) => {
+// Single-column layout, where rows stack and would otherwise fade in one by one while scrolling.
+const MOBILE_QUERY = '(max-width: 767px)';
+
+const canFrameFrom =(projectId, origin) => {
   const allowed = FRAME_ANCESTORS[projectId];
   return !allowed || allowed.includes(origin);
 };
@@ -47,24 +54,38 @@ const getInitialStatus = (projectId, projectLink) => {
 
 const SiteShowcase = ({ ids = defaultProjectIds }) => {
   const [jsReady, setJsReady] = useState(false);
+  const [revealAll, setRevealAll] = useState(false);
 
   useEffect(() => {
     setJsReady(true);
   }, []);
+
+  // On mobile, the first row to appear reveals every row so nobody has to scroll to fade them in.
+  const handleRowSeen = () => {
+    if (window.matchMedia(MOBILE_QUERY).matches) {
+      setRevealAll(true);
+    }
+  };
 
   return (
     <section id="Websites" className={`swShowcase${jsReady ? ' js-ready' : ''}`}>
       <h1 className="swLabel">Websites</h1>
       <div className="swList">
         {ids.map((id) => (
-          <ShowcaseRow key={id} projectId={id} project={projects[id]} />
+          <ShowcaseRow
+            key={id}
+            projectId={id}
+            project={projects[id]}
+            revealed={revealAll}
+            onSeen={handleRowSeen}
+          />
         ))}
       </div>
     </section>
   );
 };
 
-const ShowcaseRow = ({ projectId, project }) => {
+const ShowcaseRow = ({ projectId, project, revealed, onSeen }) => {
   const rowRef = useRef(null);
   const [inView, setInView] = useState(false);
   const projectLink = project.projectLink || '';
@@ -80,6 +101,7 @@ const ShowcaseRow = ({ projectId, project }) => {
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
           setInView(true);
+          onSeen();
           observer.disconnect();
         }
       },
@@ -88,10 +110,11 @@ const ShowcaseRow = ({ projectId, project }) => {
 
     observer.observe(rowRef.current);
     return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <article ref={rowRef} className={`swRow${inView ? ' is-visible' : ''}`}>
+    <article ref={rowRef} className={`swRow${inView || revealed ? ' is-visible' : ''}`}>
       <BrowserFrame projectId={projectId} project={project} projectLink={projectLink} inView={inView} />
       <div className="swInfo">
         <h2 className="swTitle">
