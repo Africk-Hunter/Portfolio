@@ -49,7 +49,7 @@ export const work = [
   {
     id: 'whosedebut', title: 'WHOSE DEBUT?', kind: 'Music platform', kinds: ['build', 'sound'],
     image: debutTile, tile: debutTile, square: true,
-    blurb: 'A weekly spotlight on album releases from local Reno, NV artists, off the crowded streaming shelves.',
+    blurb: 'A weekly spotlight on album releases from local Reno, NV artists, away from the crowded streaming shelves.',
     long: 'Each week one local release gets the front page. Built for the scene I make music in, so artists can grow an audience beyond the algorithm.',
     role: 'Concept, design, full stack', stack: ['React', 'TypeScript', 'Firebase', 'Cloudinary'],
     links: [['Visit', 'https://whosedebut.com'], ['GitHub', 'https://github.com/Africk-Hunter/WHOSE-DEBUT-']],
@@ -65,15 +65,15 @@ export const work = [
   {
     id: 'archivist', title: 'Archivist', kind: 'Web app', kinds: ['build', 'write'],
     image: archTile, tile: archTile, square: true,
-    blurb: 'Serves up random words and their definitions, scraped and stored for anyone who collects language.',
-    long: 'A Vue and Flask app backed by a Python scraper and a SQL database. A small machine for falling in love with words.',
+    blurb: 'Serves up random words and their definitions, scraped from Mariam Webster and powered by Python and SQL.',
+    long: 'A Vue and Flask-based web app that dynamically displays random words and their definitions, powered by a Python web scraper and an SQL database.',
     role: 'Full stack', stack: ['Vue', 'Python', 'Flask', 'SQL', 'AWS'],
     links: [['GitHub', 'https://github.com/Africk-Hunter/Archivist']],
   },
   {
     id: 'luna', title: 'Luna Lash & Beauty Co', kind: 'Website', kinds: ['build'],
     image: lunaShot, tile: lunaTile,
-    blurb: 'A soft, elegant site for a lash and beauty studio, built to show off services and get clients booked.',
+    blurb: 'A soft, elegant site for a lash and beauty studio, designed to highlight services and connect with clients effortlessly.',
     long: 'Designed around the studio’s own photography, with booking one tap away on every page.',
     role: 'Design, build', stack: ['Gatsby', 'Sass', 'TypeScript'],
     links: [['Visit', 'https://lunalashandbeautyco.com/'], ['GitHub', 'https://github.com/Africk-Hunter/luna-lash-beauty-site']],
@@ -81,7 +81,7 @@ export const work = [
   {
     id: 'blm', title: 'Biggest Little Media', kind: 'Website', kinds: ['build'],
     image: blmTile, tile: blmTile, square: true,
-    blurb: 'Home for a social media and brand studio helping Reno small businesses grow online.',
+    blurb: 'Website for Biggest Little Media, a social media strategy and brand consulting studio helping Reno, NV small businesses grow their online presence.',
     long: 'A brand-forward site for a local studio, written and built to sell the craft without the jargon.',
     role: 'Design, build', stack: ['React', 'TypeScript', 'SCSS'],
     links: [['Visit', 'https://biggestlittlemedia.com'], ['GitHub', 'https://github.com/Africk-Hunter/Biggest-Little-Media']],
@@ -89,18 +89,10 @@ export const work = [
   {
     id: 'stockz', title: 'Stock Z', kind: 'Web app', kinds: ['build'],
     image: stockShot, tile: stockTile,
-    blurb: 'Finds good buying ranges for a stock from its history, so decisions come from data, not nerves.',
+    blurb: 'A web app that helps users identify optimal stock purchasing price ranges using historical data to provide insights for informed decision-making.',
     long: 'Pulls historical prices and turns them into plain ranges you can act on.',
     role: 'Full stack', stack: ['JavaScript', 'Tailwind', 'Firebase'],
     links: [['Visit', 'https://www.Stock-Z.com'], ['GitHub', 'https://github.com/Africk-Hunter/StockZ']],
-  },
-  {
-    id: 'sketchbook', title: 'Sketchbook', kind: 'Drawings', kinds: ['draw'], sample: true,
-    image: null, tile: null,
-    blurb: 'Studies, doodles and character sheets. Placeholder: swap in scans of favourite pages.',
-    long: 'Placeholder. A handful of scanned pages would live here.',
-    role: 'Illustration', stack: ['Pencil', 'Ink'],
-    links: [],
   },
 ];
 
