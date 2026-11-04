@@ -415,7 +415,7 @@ export default function Zine() {
             <dt>What are your qualifications?</dt>
             <dd>I have my Bachelors in Computer Science &amp; Engineering from UNR. Though I think the passion speaks for itself. I could do it with or without the degree.</dd>
             <dt>And when you&rsquo;re not creating?</dt>
-            <dd>I'm listening to music, playing Wii, chilling at Rancho San Rafael [the park], or hanging out with my girlfriend. Mostly gathering things to make next.</dd>
+            <dd>I'm listening to music, playing Wii, chilling at Rancho San Rafael [the park], or hanging out with my girlfriend.</dd>
           </dl>
         </article>
       </section>
