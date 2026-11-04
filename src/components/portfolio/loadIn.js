@@ -10,6 +10,9 @@ const FALL_MS = 85;         // how long one letter takes to fall (fast, accelera
 const GAP_MS = 15;          // pause between a landing and the next drop
 const LAST_PAUSE_MS = 280;  // beat after the final letter before the page builds
 const SHAKE_MS = 300;
+const PHOTO_FALL_MS = 150;  // the photo is heavier than a letter: longer, harder fall
+const WAVE_SPEED = 0.4;     // ms of delay per px of distance from the photo's impact (the shockwave's pace)
+const WAVE_MAX_MS = 750;
 const REVEAL_THRESHOLD = 0.4;           // scrolling: fraction of an element that must be in view...
 const REVEAL_MARGIN = '0px 0px -7% 0px'; // ...inside the viewport minus this much at the bottom
 const TYPE_MS_PER_CHAR = 20; // nav labels: typing speed
@@ -125,6 +128,7 @@ export function useSlamIntro(rootRef, { mast, shake, reveals, typed }) {
 
     const letters = Array.from(root.querySelectorAll(`${mast} > span`));
     const jolt = root.querySelector(shake);
+    const photo = root.querySelector('.tz-cover-photo');
     let skipped = false;
     let disposed = false;
     let io = null;
@@ -162,7 +166,7 @@ export function useSlamIntro(rootRef, { mast, shake, reveals, typed }) {
       if (variant === 'bar' && typed) typeIn(el, delay + v.dur);
     }
 
-    function finish() {
+    function finish(impact) {
       if (disposed) return;
       window.removeEventListener('pointerdown', skip);
       window.removeEventListener('keydown', onKey);
@@ -172,6 +176,7 @@ export function useSlamIntro(rootRef, { mast, shake, reveals, typed }) {
       reveals.forEach(([selector, variant]) => {
         root.querySelectorAll(selector).forEach((el) => {
           if (claimed.has(el)) return;
+          if (impact && el === photo) return; // already slammed in by hand
           claimed.add(el);
           variantOf.set(el, variant);
           el.classList.add('tz-pre');
@@ -194,8 +199,10 @@ export function useSlamIntro(rootRef, { mast, shake, reveals, typed }) {
         if (r.top < rootRect.bottom && r.bottom > rootRect.top) onScreen.push({ el, top: r.top, left: r.left });
         else pending.add(el);
       });
-      onScreen.sort(byPosition).forEach(({ el }, i) => {
-        play(el, variantOf.get(el), Math.min(i, 10) * 70);
+      // After the photo lands, what is on screen arrives as a wave spreading out from the impact.
+      const waveDelay = (x, y) => 40 + Math.min(Math.hypot(x - impact.x, y - impact.y) * WAVE_SPEED, WAVE_MAX_MS);
+      onScreen.sort(byPosition).forEach(({ el, top, left }, i) => {
+        play(el, variantOf.get(el), impact ? waveDelay(left, top) : Math.min(i, 10) * 70);
         const row = el.parentElement;
         if (row && row.scrollWidth > row.clientWidth + 1) {
           Array.from(row.children).forEach((sib) => {
@@ -233,6 +240,24 @@ export function useSlamIntro(rootRef, { mast, shake, reveals, typed }) {
       }, { root, threshold: REVEAL_THRESHOLD, rootMargin: REVEAL_MARGIN });
       pending.forEach((el) => io.observe(el));
 
+      if (impact) {
+        // the masthead letters, already in place, get kicked up as the wave passes under them
+        letters.forEach((el) => {
+          const r = el.getBoundingClientRect();
+          const x = r.left + r.width / 2;
+          const y = r.top + r.height / 2;
+          const k = Math.max(0.25, 1 - Math.hypot(x - impact.x, y - impact.y) / 1400);
+          el.animate([
+            { translate: '0 0' },
+            { translate: `0 ${-26 * k}px`, offset: 0.25 },
+            { translate: `0 ${7 * k}px`, offset: 0.55 },
+            { translate: `0 ${-3 * k}px`, offset: 0.78 },
+            { translate: '0 0' },
+          ], { duration: 650, delay: waveDelay(x, y), easing: 'ease-out' });
+        });
+      }
+      if (photo) { photo.style.visibility = ''; photo.style.transformOrigin = ''; }
+
       // At the very bottom the last elements can never clear the margin: bring in whatever is left.
       flushAtEnd = () => {
         if (root.scrollTop + root.clientHeight < root.scrollHeight - 4) return;
@@ -245,16 +270,70 @@ export function useSlamIntro(rootRef, { mast, shake, reveals, typed }) {
       root.addEventListener('scroll', flushAtEnd, { passive: true });
     }
 
-    function jolting(k) {
-      if (!jolt) return;
-      anims.push(jolt.animate([
+    function jolting(k, target = jolt, ms = SHAKE_MS) {
+      if (!target) return;
+      anims.push(target.animate([
         { translate: '0 0' },
         { translate: `${-2 * k}px ${9 * k}px`, offset: 0.15 },
         { translate: `${3 * k}px ${-5 * k}px`, offset: 0.4 },
         { translate: `${-2 * k}px ${3 * k}px`, offset: 0.65 },
         { translate: `${k}px ${-k}px`, offset: 0.85 },
         { translate: '0 0' },
-      ], { duration: SHAKE_MS, easing: 'ease-out' }));
+      ], { duration: ms, easing: 'ease-out' }));
+    }
+
+    function ring(cx, cy, reach, { delay = 0, border = 5, color = 'rgba(255,255,255,.85)', ms = 950 } = {}) {
+      const el = document.createElement('div');
+      const d = reach * 2;
+      Object.assign(el.style, {
+        position: 'absolute', left: `${cx - d / 2}px`, top: `${cy - d / 2}px`, width: `${d}px`, height: `${d}px`,
+        borderRadius: '50%', border: `${border}px solid ${color}`, boxShadow: `0 0 36px ${color}, inset 0 0 36px ${color}`,
+        pointerEvents: 'none', zIndex: 50, opacity: 0, boxSizing: 'border-box',
+      });
+      root.appendChild(el);
+      const a = el.animate([
+        { transform: 'scale(0.03)', opacity: 0.95 },
+        { transform: 'scale(1)', opacity: 0 },
+      ], { duration: ms, delay, easing: 'cubic-bezier(0.1, 0.6, 0.3, 1)', fill: 'both' });
+      a.finished.then(() => el.remove(), () => el.remove());
+    }
+
+    // The portrait lands like the letters did, only heavier, and the impact travels outward through the page.
+    async function slamPhoto() {
+      const rootRect = root.getBoundingClientRect();
+      const r = photo.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const dist = r.bottom - rootRect.top + 90;
+
+      photo.style.visibility = 'visible';
+      photo.style.transformOrigin = '50% 100%';
+      const fall = photo.animate([
+        { transform: `translateY(${-dist}px) rotate(-5deg) scale(1.25, 1.4)`, opacity: 1 },
+        { transform: 'translateY(0) rotate(0deg) scale(1.04, 1.1)', opacity: 1 },
+      ], { duration: PHOTO_FALL_MS, easing: 'cubic-bezier(0.85, 0, 1, 0.55)', fill: 'forwards' });
+      anims.push(fall);
+      await Promise.race([fall.finished.catch(() => {}), wait(PHOTO_FALL_MS + 80)]);
+      if (skipped || disposed) return null;
+
+      // IMPACT: a deeper squash than any letter, a violent jolt of the cover and a lighter one of the whole screen.
+      anims.push(photo.animate([
+        { transform: 'scale(1.2, 0.72)' },
+        { transform: 'scale(0.96, 1.07)', offset: 0.35 },
+        { transform: 'scale(1.02, 0.98)', offset: 0.65 },
+        { transform: 'scale(1, 1)' },
+      ], { duration: 520, easing: 'ease-out', fill: 'forwards' }));
+      jolting(3.6);
+      jolting(1.5, root, 420);
+
+      const reach = Math.hypot(Math.max(cx - rootRect.left, rootRect.right - cx), Math.max(cy - rootRect.top, rootRect.bottom - cy)) + 40;
+      const x = cx - rootRect.left;
+      const y = cy - rootRect.top + root.scrollTop;
+      ring(x, y, reach);
+      ring(x, y, reach, { delay: 110, border: 12, color: 'rgba(120, 190, 150, .6)', ms: 1150 });
+
+      await wait(110);
+      return { x: cx, y: cy };
     }
 
     async function run() {
@@ -294,7 +373,8 @@ export function useSlamIntro(rootRef, { mast, shake, reveals, typed }) {
         await wait(isLast ? LAST_PAUSE_MS : GAP_MS);
       }
 
-      finish();
+      const impact = photo && !skipped && !disposed ? await slamPhoto() : null;
+      finish(impact);
     }
 
     run();
