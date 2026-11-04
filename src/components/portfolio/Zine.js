@@ -4,6 +4,7 @@ import { usePage, Glyph } from './kit';
 import { useSlamIntro, ZINE_REVEALS } from './loadIn';
 import ZineFooter from './ZineFooter';
 import ContactBlock from './ContactBlock';
+import { steps, StepIcon, StepModal } from './IntraSteps';
 import '../../styles/portfolio/zine.scss';
 import blmShot from '../../images/opt/blm.webp';
 import debutShot from '../../images/opt/whosedebut.webp';
@@ -46,12 +47,6 @@ const icIcons = {
   Visit: <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>,
   GitHub: <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a10.9 10.9 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" /></svg>,
 };
-const branches = [
-  ['Start rough', 'Begin with a rough thought, nothing more.'],
-  ['Break it down', 'Split it into parts that branch off.'],
-  ['Add the detail', 'To-dos and links, right on the node.'],
-  ['Lock it away', 'Keep whatever is private out of sight.'],
-];
 
 // Simple streaming-service marks, drawn in currentColor so they take the button's ink.
 const svc = {
@@ -172,10 +167,10 @@ const DebutTitle = () => (
 );
 
 const contents = [
-  ['field', '12', 'Websites', `${sites.length} specimens, and the gardener who grew them.`, ['Build']],
-  ['cover', '06', 'The debut', 'Inside Collection of Sounds, made start to finish at home.', ['Sound', 'Draw']],
+  ['field', '12', 'Websites', `My web development portfolio.`, ['Build']],
+  ['cover', '06', 'The debut', 'Inside my debut album, Collection of Sounds. Made from start to finish at home.', ['Sound', 'Draw']],
   ['intra', '16', 'Intraconnected', 'An idea tracker that grows your thoughts into a tree.', ['Build', 'Draw']],
-  ['qa', '24', 'One lane was never enough', 'A short conversation about doing four things.', ['All']],
+  ['qa', '24', 'One lane was never enough', 'Music, websites, stories and drawings, and why I don’t pick just one.', ['All']],
 ];
 
 // Phone header's contents menu: [section, page, title]. 'top' is the cover.
@@ -203,11 +198,58 @@ export const SitePackets = ({ items }) => (
         <p className="tz-seed-latin">{descriptors[s.id]}</p>
         <p>{s.blurb}</p>
         <p className="tz-seed-meta">Built with {s.stack.join(', ')}</p>
-        <div className="tz-row">{s.links.map(([l, h], j) => <a key={l} className={`tz-jelly tz-jelly-s${j ? ' tz-jelly-pale' : ''}`} href={h} target="_blank" rel="noopener noreferrer">{l}</a>)}</div>
+        <div className="tz-row">{s.links.map(([l, h]) => <a key={l} className={`tz-jelly tz-jelly-s${l === 'Visit' ? '' : ' tz-jelly-pale'}`} href={h} target="_blank" rel="noopener noreferrer">{l}</a>)}</div>
       </li>
     ))}
   </ul>
 );
+
+// Overlay scrollbar: the native one is hidden, this thumb floats over the page and takes no layout space.
+function OverlayScrollbar({ rootRef }) {
+  const thumb = useRef(null);
+  useEffect(() => {
+    const root = rootRef.current; const t = thumb.current;
+    if (!root || !t) return undefined;
+    let hide; let drag = null;
+    const place = () => {
+      const { scrollTop, scrollHeight, clientHeight } = root;
+      const room = scrollHeight - clientHeight;
+      if (room <= 1) { t.style.display = 'none'; return; }
+      const h = Math.max(56, (clientHeight / scrollHeight) * clientHeight);
+      t.style.display = 'block'; t.style.height = `${h}px`;
+      t.style.transform = `translateY(${(scrollTop / room) * (clientHeight - h - 8) + 4}px)`;
+    };
+    const wake = () => { place(); t.classList.add('is-on'); clearTimeout(hide); hide = setTimeout(() => { if (!drag) t.classList.remove('is-on'); }, 1100); };
+    const down = (e) => { e.preventDefault(); t.setPointerCapture(e.pointerId); drag = { y: e.clientY, top: root.scrollTop }; t.classList.add('is-drag'); root.style.scrollBehavior = 'auto'; };
+    const move = (e) => {
+      if (!drag) return;
+      const h = t.offsetHeight; const room = root.scrollHeight - root.clientHeight;
+      root.scrollTop = drag.top + ((e.clientY - drag.y) / (root.clientHeight - h - 8)) * room;
+    };
+    const up = () => { drag = null; t.classList.remove('is-drag'); root.style.scrollBehavior = ''; wake(); };
+    const ro = new ResizeObserver(wake);
+    ro.observe(root); if (root.firstElementChild) ro.observe(root.firstElementChild);
+    root.addEventListener('scroll', wake, { passive: true });
+    root.addEventListener('pointermove', wake, { passive: true });
+    t.addEventListener('pointerdown', down); t.addEventListener('pointermove', move); t.addEventListener('pointerup', up); t.addEventListener('pointercancel', up);
+    place();
+    // Once the load-in animation ends (tz-intro dropped) the thumb fades in with the rest, then idles away.
+    const mo = new MutationObserver(() => {
+      if (root.classList.contains('tz-intro')) return;
+      mo.disconnect(); // only the first reveal
+      t.classList.add('is-reveal'); // wipes in from top to bottom
+      t.addEventListener('animationend', () => t.classList.remove('is-reveal'), { once: true });
+      wake();
+    });
+    mo.observe(root, { attributes: true, attributeFilter: ['class'] });
+    return () => {
+      clearTimeout(hide); ro.disconnect(); mo.disconnect();
+      root.removeEventListener('scroll', wake); root.removeEventListener('pointermove', wake);
+      t.removeEventListener('pointerdown', down); t.removeEventListener('pointermove', move); t.removeEventListener('pointerup', up); t.removeEventListener('pointercancel', up);
+    };
+  }, [rootRef]);
+  return <div className="tz-sb" ref={thumb} aria-hidden="true" />;
+}
 
 export default function Zine() {
   usePage(null, '#F2EFDF');
@@ -226,6 +268,7 @@ export default function Zine() {
   const [menu, setMenu] = useState(false);
   const [atSites, setAtSites] = useState(false);
   const [active, setActive] = useState(null);
+  const [step, setStep] = useState(null); // which Intraconnected step's modal is open
   // Tracks the section in view.
   useEffect(() => {
     const root = rootEl.current;
@@ -263,6 +306,8 @@ export default function Zine() {
 
   return (
     <div className="tz tz-intro" ref={rootEl}>
+      <OverlayScrollbar rootRef={rootEl} />
+      <StepModal index={step}onClose={() => setStep(null)} onGo={setStep} />
       <nav className="tz-nav" aria-label="Contents" ref={navEl}>
         {phone ? (
           <>
@@ -321,7 +366,7 @@ export default function Zine() {
 
       {/* FEATURE: FIELD GUIDE */}
       <section className="tz-page tz-field" ref={reg('field')}>
-        {/* A browser window with a seedling growing out of it: a website, collected as a specimen. */}
+        {/* A browser window with a seedling growing out of it: a website, collected. */}
         <svg className="tz-sprout" viewBox="0 0 220 260" aria-hidden="true">
           <rect className="tz-sprout-win" x="16" y="104" width="188" height="134" rx="12" />
           <path className="tz-sprout-rule" d="M16 130H204" />
@@ -341,7 +386,7 @@ export default function Zine() {
         <header className="tz-field-head">
           <p className="tz-kicker">p.12 &middot; Build</p>
           <h2>Websites</h2>
-          <p className="tz-stand">{sites.length} specimens, collected over a few seasons. Each one was designed and built by hand, and a few of them grew into other habitats along the way.</p>
+          <p className="tz-stand">{sites.length} websites, from small one-page sites to full builds.</p>
           <p className="tz-swipe" aria-hidden="true">Swipe through all {sites.length} &rarr;</p>
         </header>
         <SitePackets items={sites} />
@@ -363,7 +408,7 @@ export default function Zine() {
             <p>It is a conscious, alternative hip hop record, released in October {album.year}, and it doubles as a résumé: songwriting, production, engineering and illustration on a single sleeve.</p>
           </div>
           <blockquote className="tz-pull">&ldquo;Produced, written, recorded, mixed, and mastered by me. The album art is also by me.&rdquo;</blockquote>
-          <div className="tz-row">{album.links.map(([l, h], i) => <a key={l} className={`tz-jelly tz-jelly-ico${i ? ' tz-jelly-pale' : ''}`} href={h} target="_blank" rel="noopener noreferrer">{svc[l]}{l}</a>)}</div>
+          <div className="tz-row">{album.links.map(([l, h]) => <a key={l} className="tz-jelly tz-jelly-ico tz-jelly-pale" href={h} target="_blank" rel="noopener noreferrer">{svc[l]}{l}</a>)}</div>
         </article>
       </section>
 
@@ -382,19 +427,23 @@ export default function Zine() {
             <Live w={intra} H={720} interactive />
           </figure>
         <aside className="tz-intra-side">
-          <div>
-            <p className="tz-drop tz-ic-box">{intra.long}</p>
-            <div className="tz-row tz-ic-row">{intra.links.map(([l, h], i) => <a key={l} className={`tz-nb ${i ? 'tz-nb-link' : 'tz-nb-confirm'}`} href={h} target="_blank" rel="noopener noreferrer">{icIcons[l]}{l}</a>)}</div>
-          </div>
           <dl className="tz-packet">
             <dt>The specs</dt>
             <div><dd>Role</dd><dd>Full Stack, Product Design, UI/UX</dd></div>
             <div><dd>Made with</dd><dd>{intra.stack.join(', ')}</dd></div>
           </dl>
+          <div>
+            <div className="tz-row tz-ic-row">{intra.links.map(([l, h], i) => <a key={l} className={`tz-nb ${i ? 'tz-nb-link' : 'tz-nb-confirm'}`} href={h} target="_blank" rel="noopener noreferrer">{icIcons[l]}{l}</a>)}</div>
+          </div>
         </aside>
           <ol className="tz-intra-nodes">
-            {branches.map(([t, d], i) => (
-              <li key={t}><span className="tz-intra-n">{i + 1}</span><b>{t}</b><small>{d}</small></li>
+            {steps.map((s, i) => (
+              <li key={s.title}>
+                <button type="button" className="tz-intra-card" aria-haspopup="dialog" onClick={() => setStep(i)}>
+                  <span className="tz-intra-n">{i + 1}</span><b>{s.title}</b><small>{s.short}</small>
+                  <StepIcon n={i} className="tz-intra-ico" />
+                </button>
+              </li>
             ))}
           </ol>
         </div>

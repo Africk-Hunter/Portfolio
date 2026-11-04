@@ -29,7 +29,7 @@ export const work = [
   {
     id: 'cos', title: 'Collection of Sounds', kind: 'Debut album', year: '2025', kinds: ['sound', 'draw', 'write'],
     image: cos, tile: cos, square: true,
-    blurb: 'A conscious, alternative hip hop album. Produced, written, recorded, mixed and mastered by me. The cover art too.',
+    blurb: 'My first full-length release: a conscious, alternative hip hop album.',
     long: 'Collection of Sounds explores the sounds, aesthetics and moods that speak to me. It was shaped by the people I keep coming back to: Andre 3000, Tyler, The Creator, Tame Impala, Common, Q-Tip and Erykah Badu.',
     role: 'Writer, producer, engineer, cover artist', stack: ['Production', 'Mixing', 'Mastering', 'Cover art'],
     credits: [['Written', 'Hunter Africk'], ['Produced', 'Hunter Africk'], ['Recorded', 'Hunter Africk'], ['Mixed', 'Hunter Africk'], ['Mastered', 'Hunter Africk'], ['Cover art', 'Hunter Africk']],
@@ -43,7 +43,6 @@ export const work = [
     id: 'intraconnected', title: 'Intraconnected', kind: 'Web app', kinds: ['build', 'draw'],
     image: intraShot, tile: intraTile,
     blurb: 'An idea tracker that grows your thoughts into a tree of nodes you can explore, rearrange and lock.',
-    long: 'Start with a rough thought, break it into parts, add the to-dos and the links, and lock away what is private. Designed, illustrated and built end to end.',
     role: 'Product design, frontend, brand', stack: ['React', 'TypeScript', 'SCSS'],
     links: [['Visit', 'https://intraconnected.app'], ['GitHub', 'https://github.com/Africk-Hunter/Intraconnected-Releases']],
   },

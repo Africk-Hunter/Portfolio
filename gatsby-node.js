@@ -6,6 +6,15 @@ const path = require('path');
 // from the same source). That drops the other pages' CSS, and the Google Fonts @import their old styles pull in,
 // from the first paint. Add a page to ZINE_ONLY only if it imports nothing but the zine's styles.
 const ZINE_ONLY = ['index.html'];
+
+// Workshop pages that only exist for local design work. Dropping them from production builds keeps their
+// components and styles out of the webpack bundles; `gatsby develop` still serves them.
+const DEV_ONLY_PAGES = ['/mockup/', '/lang_old/', '/language/', '/languages/'];
+exports.onCreatePage = ({ page, actions }) => {
+  if (process.env.NODE_ENV === 'production' && DEV_ONLY_PAGES.includes(page.path)) {
+    actions.deletePage(page);
+  }
+};
 exports.onPostBuild = () => {
   const sass = require('sass');
   const css = sass.compile(path.join(__dirname, 'src', 'styles', 'portfolio', 'zine.scss'), { style: 'compressed' }).css.replace(/^﻿/, '');

@@ -29,7 +29,19 @@
   h2 { font: 700 clamp(40px, 6vw, 84px)/.95 var(--serif); font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1; letter-spacing: -.03em; color: var(--kelp); }
 }
 // load-in (see loadIn.js): masthead letters are slammed in one by one, then the rest is revealed
-.tz { scrollbar-gutter: stable; }
+.tz { scrollbar-width: none; &::-webkit-scrollbar { display: none; } } // native bar hidden: no gutter, nothing squeezed
+// floating overlay thumb (OverlayScrollbar in Zine.js): moulded kelp pebble that warms to tangerine
+.tz.tz-intro .tz-sb { visibility: hidden; transition: none; } // stays out until the load-in animation is done
+@keyframes tz-sb-in { from { opacity: 0; clip-path: inset(0 -8px 100% -8px); } to { opacity: .9; clip-path: inset(0 -8px -8px -8px); } } // wipes in top to bottom
+.tz-sb.is-reveal { animation: tz-sb-in .8s cubic-bezier(.22, .8, .3, 1) backwards; }
+.tz-sb {
+  position: fixed; top: 0; right: 4px; z-index: 60; width: 10px; display: none; border-radius: 999px; cursor: grab; touch-action: none;
+  border: 2px solid rgba(242, 239, 223, .85); background: linear-gradient(90deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0) 60%), #34502B;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .45), inset 0 -2px 3px rgba(18, 37, 29, .35), 0 2px 6px rgba(18, 37, 29, .3);
+  opacity: 0; transition: opacity .3s, width .15s, background-color .15s; will-change: transform;
+  &.is-on { opacity: .9; } &:hover, &.is-drag { opacity: 1; width: 14px; background-color: #FF6B2C; }
+  &.is-drag { cursor: grabbing; }
+}
 .tz-mast > span { display: inline-block; transform-origin: 50% 100%; will-change: transform; }
 .tz-pre { opacity: 0 !important; }
 .tz.tz-intro {
@@ -46,9 +58,9 @@
 .tz-jelly {
   position: relative; display: inline-flex; align-items: center; padding: 11px 22px; border-radius: var(--bud); border: 2px solid rgba(38, 30, 22, .55); font-weight: 700;
   background: linear-gradient(180deg, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 50%), var(--tangerine); color: var(--peat); box-shadow: var(--moulded);
-  transition: transform .14s var(--boing), box-shadow .14s var(--boing);
+  transition: transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .35s cubic-bezier(.22, 1, .36, 1), filter .35s ease;
   &::before { content: ''; position: absolute; left: 12px; right: 12px; top: 3px; height: 38%; border-radius: 999px; background: linear-gradient(180deg, rgba(255, 255, 255, .8), rgba(255, 255, 255, 0)); pointer-events: none; }
-  &:hover { transform: translateY(-2px) rotate(-1.2deg); } &:active { transform: translateY(3px); box-shadow: var(--pressed); }
+  &:hover { transform: translateY(-2px); filter: brightness(1.05); } &:active { transform: translateY(2px); box-shadow: var(--pressed); transition-duration: .1s; }
 }
 .tz-jelly-pale { background: linear-gradient(180deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, 0) 50%), var(--lichen); }
 .tz-jelly-ico { gap: 9px; svg { position: relative; flex: none; width: 20px; height: 20px; --tz-ico-cut: var(--tangerine); } &.tz-jelly-pale svg { --tz-ico-cut: var(--lichen); } }
@@ -59,7 +71,7 @@
   position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px clamp(16px, 3vw, 36px);
   background: rgba(242, 239, 223, .9); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1.5px solid var(--seam);
   > div { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
-  button { padding: 6px 12px; border-radius: var(--bud); font-size: 15px; font-weight: 600; white-space: nowrap; transition: background .2s, transform .14s var(--boing); &:hover { background: rgba(197, 215, 126, .55); transform: rotate(-1deg); } }
+  button { padding: 6px 12px; border-radius: var(--bud); font-size: 15px; font-weight: 600; white-space: nowrap; transition: background .3s ease; &:hover { background: rgba(197, 215, 126, .55); } }
 }
 .tz-nav .tz-nav-home {
   background: var(--tangerine); border: 2px solid rgba(38, 30, 22, .55); overflow: hidden;
@@ -148,7 +160,6 @@
   padding: 14px 14px 22px; border-radius: var(--casing); border: 1.5px solid var(--seam); transform: rotate(var(--tilt));
   background: linear-gradient(170deg, rgba(255, 255, 255, .9), transparent 40%), var(--shell); box-shadow: var(--moulded); transition: transform .5s var(--boing);
   &:nth-child(3n+2) { border-radius: var(--bud); } &:nth-child(3n) { border-radius: 70px 30px 90px 40px / 40px 70px 30px 80px; }
-  &:hover { transform: rotate(0) translateY(-6px); }
   > p:not([class]) { margin-top: 8px; font-size: 16px; }
   h3 { margin-top: 4px; font: 700 30px/1.05 var(--serif); font-variation-settings: 'SOFT' 100, 'WONK' 1; color: var(--kelp); }
 }
@@ -245,6 +256,22 @@
   &:nth-child(3n+2)::before { background: repeating-linear-gradient(135deg, rgba(255, 255, 255, .35) 0 6px, transparent 6px 12px), rgba(121, 212, 192, .85); transform: rotate(3deg); }
   &:nth-child(3n)::before { background: repeating-linear-gradient(135deg, rgba(255, 255, 255, .35) 0 6px, transparent 6px 12px), rgba(255, 107, 44, .75); transform: rotate(-2deg); } }
 
+// hover: the packet is pinned up by its tape. It swings from the tape to hang straight, the tape peels at one edge,
+// and a glass sheen sweeps across the site preview.
+.tz-field .tz-seed { transform-origin: 50% 0; transition: transform .7s var(--boing), box-shadow .5s ease;
+  &::before { transform-origin: 0 50%; transition: transform .5s var(--boing); }
+  .tz-seed-win { position: relative; }
+  .tz-seed-win::after { content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none; transform: translateX(-130%);
+    background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .5) 48%, rgba(255, 255, 255, .15) 54%, transparent 62%); }
+}
+@media (hover: hover) {
+  .tz-field .tz-seed:hover { transform: rotate(0) translateY(0) scale(1.025); box-shadow: var(--moulded), 0 26px 30px -18px rgba(18, 37, 29, .55);
+    &::before { transform: rotate(-14deg) translateY(-2px); }
+    &:nth-child(3n+2)::before { transform: rotate(11deg) translateY(-2px); }
+    &:nth-child(3n)::before { transform: rotate(-9deg) translateY(-2px); }
+    .tz-seed-win::after { transform: translateX(130%); transition: transform .9s ease .15s; } }
+}
+
 // spotlight: Intraconnected, restyled as the app itself (neo-brutal: flat fills, #111 borders, hard shadows, DM Sans, green grid page)
 .tz-ic-bg { margin-top: clamp(56px, 9vh, 96px); padding-bottom: clamp(36px, 6vh, 64px); background-color: #E9F9E5; background-size: 40px 40px;
   background-image: linear-gradient(rgba(65, 188, 40, .2) 1px, transparent 1px), linear-gradient(to right, rgba(65, 188, 40, .2) 1px, transparent 1px);
@@ -264,11 +291,14 @@
   i { width: 9px; height: 9px; border-radius: 50%; border: 2px solid #111; background: #C84600; &:nth-child(2) { background: #E8E879; } &:nth-child(3) { background: #41BC28; } }
   span { margin-left: 10px; padding: 2px 16px; border-radius: 8px; background: #fff; border: 2px solid #111; font: 500 11px 'DM Sans', sans-serif; color: #111; } }
 .tz-intra-nodes { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 28px;
-  li { position: relative; display: grid; gap: 4px; padding: 12px 12px 14px; border-radius: 8px; border: 3px solid #111; background: #fff; box-shadow: 4px 4px 0 1px #111;
+  li { position: relative; display: flex; }
+  .tz-intra-card { position: relative; display: grid; align-content: start; gap: 4px; width: 100%; padding: 12px 12px 14px; border-radius: 8px; border: 3px solid #111; background: #fff; box-shadow: 4px 4px 0 1px #111; color: #111;
     transition: box-shadow .3s ease, translate .3s ease;
     &:hover { box-shadow: 0 0 0 1px #111; translate: 4px 4px; }
+    &:focus-visible { outline: 4px solid #EC8A13; outline-offset: 2px; }
     b { font: 700 17px/1.1 'DM Sans', sans-serif; color: #111; }
     small { font: 400 13px/1.4 'DM Sans', sans-serif; color: #111; } }
+  .tz-intra-ico { position: absolute; top: 12px; right: 12px; display: grid; width: 30px; height: 30px; color: #111; svg { width: 100%; height: 100%; display: block; } }
   // number chips: small-chip style (2px border, 3px shadow, 3px press)
   .tz-intra-n { display: grid; place-items: center; width: 26px; height: 26px; margin-bottom: 4px; box-sizing: border-box;
     font: 700 14px 'DM Sans', sans-serif; color: #111; background: #41BC28; border: 2px solid #111; border-radius: 8px; box-shadow: 3px 3px 0 1px #111;
@@ -293,7 +323,7 @@
 .tz-nb-link { background: #E8E879; }
 .tz-nb svg { flex: none; width: 1.4em; height: 1.4em; }
 .tz-ic-row { gap: 18px; padding-bottom: 6px; }
-@media (prefers-reduced-motion: reduce) { .tz-nb, .tz-intra-nodes .tz-intra-n, .tz-intra-nodes li { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .tz-nb, .tz-intra-nodes .tz-intra-n, .tz-intra-nodes .tz-intra-card, .tz-intra-ico { transition: none; } }
 
 // flair: the novel (fireflies and bubbles drifting in the tank)
 .tz-tank > .tz-fly { z-index: 0; }
@@ -431,8 +461,9 @@
   }
   .tz-intra-stage > .tz-intra-nodes { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 4px; }
   .tz-intra-nodes {
-    li { display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
-    li b { font-size: 15px; }
+    .tz-intra-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
+    .tz-intra-card b { font-size: 15px; }
+    .tz-intra-ico { position: static; flex: none; margin-left: auto; width: 24px; height: 24px; }
     small { display: none; }
     .tz-intra-n { flex: none; margin: 0; }
   }
@@ -588,10 +619,11 @@
   // the four steps: titles only (the green box already says them in full), two by two
   .tz-intra-stage > .tz-intra-nodes { gap: 10px; margin-top: 0; }
   .tz-intra-nodes {
-    li { display: flex; align-items: center; gap: 8px; padding: 8px 10px; box-shadow: 3px 3px 0 1px #111; }
-    li:hover { box-shadow: 3px 3px 0 1px #111; translate: none; }
+    .tz-intra-card { display: flex; align-items: center; gap: 8px; padding: 8px 10px; box-shadow: 3px 3px 0 1px #111; }
+    .tz-intra-card:hover { box-shadow: 3px 3px 0 1px #111; translate: none; }
     li:hover .tz-intra-n { box-shadow: 2px 2px 0 1px #111; translate: none; }
-    li b { font-size: 14px; }
+    .tz-intra-card b { font-size: 14px; }
+    .tz-intra-ico { position: static; flex: none; margin-left: auto; width: 20px; height: 20px; }
     small { display: none; }
     .tz-intra-n { flex: none; width: 24px; height: 24px; margin: 0; font-size: 13px; box-shadow: 2px 2px 0 1px #111; }
   }
@@ -661,3 +693,69 @@
   .tz-404 .tz-404-num { -webkit-text-stroke-width: 2px; text-shadow: 4px 5px 0 var(--peat); }
 }
 @media (prefers-reduced-motion: reduce) { .tz-foot a, .tz-foot button { transition: none; } }
+
+// Intraconnected step modal (IntraSteps.js). Rendered in a portal on <body>, so nothing here relies on .tz.
+.icm { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 16px; overflow: auto; background: rgba(17, 17, 17, .55); animation: icm-fade .2s ease both;
+  *, *::before, *::after { box-sizing: border-box; }
+  h3, p, ul { margin: 0; padding: 0; }
+  ul { list-style: none; }
+  button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+  button:focus-visible { outline: 4px solid #EC8A13; outline-offset: 2px; } }
+.icm-win { width: min(560px, 100%); overflow: hidden; border: 3px solid #111; border-radius: 8px; background: #fff; box-shadow: 6px 6px 0 1px #111; color: #111; font-family: 'DM Sans', sans-serif; animation: icm-in .45s cubic-bezier(.34, 1.56, .64, 1) both; }
+.icm-bar-top { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: #D3DED1; border-bottom: 3px solid #111;
+  i { width: 9px; height: 9px; border-radius: 50%; border: 2px solid #111; background: #C84600; &:nth-of-type(2) { background: #E8E879; } &:nth-of-type(3) { background: #41BC28; } }
+  span { margin-left: 10px; padding: 2px 16px; border-radius: 8px; background: #fff; border: 2px solid #111; font: 500 11px 'DM Sans', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; } }
+.icm-x { margin-left: auto; display: grid; place-items: center; flex: none; width: 26px; height: 26px; padding: 0; border: 2px solid #111 !important; border-radius: 8px; background: #fff !important; box-shadow: 2px 2px 0 1px #111; color: #111; transition: box-shadow .2s ease, translate .2s ease;
+  svg { width: 14px; height: 14px; } &:hover { box-shadow: 0 0 0 1px #111; translate: 2px 2px; background: #E8E879 !important; } }
+.icm-stage { aspect-ratio: 320 / 180; border-bottom: 3px solid #111; background-color: #E9F9E5; background-size: 24px 24px; background-position: -1px -1px;
+  background-image: linear-gradient(rgba(65, 188, 40, .2) 1px, transparent 1px), linear-gradient(to right, rgba(65, 188, 40, .2) 1px, transparent 1px);
+  svg { display: block; width: 100%; height: 100%; } }
+.icm-body { display: grid; gap: 10px; padding: 16px 20px 6px;
+  p { font-size: 15px; line-height: 1.55; } .icm-short { font-weight: 700; } }
+.icm-head { display: flex; align-items: center; gap: 10px; h3 { font: 700 24px/1.1 'DM Sans', sans-serif; } }
+.icm-n { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border: 2px solid #111; border-radius: 8px; box-shadow: 3px 3px 0 1px #111; font: 700 15px 'DM Sans', sans-serif; }
+.icm-ico { display: grid; width: 28px; height: 28px; margin-left: auto; svg { width: 100%; height: 100%; } }
+.icm-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px 18px; }
+.icm-btn { display: inline-flex; align-items: center; justify-content: center; height: 44px; padding: 0 18px; border: 3px solid #111 !important; border-radius: 8px; background: #E8E879 !important; box-shadow: 3px 3px 0 1px #111; font: 500 16px 'DM Sans', sans-serif; transition: box-shadow .3s ease, translate .3s ease;
+  &:hover, &:active { box-shadow: 0 0 0 1px #111; translate: 3px 3px; } }
+.icm-btn-go { background: #41BC28 !important; }
+.icm-dots { display: flex; gap: 8px; i { width: 12px; height: 12px; border: 2px solid #111; border-radius: 50%; background: #fff; transition: background .2s; &.on { background: #111; } } }
+@keyframes icm-fade { from { opacity: 0; } }
+@keyframes icm-in { from { opacity: 0; transform: translateY(18px) scale(.92); } }
+
+// scene animations: every element loops on the same 5s clock; stagger is baked into the keyframes (icm-pop-N, icm-draw-N)
+.icm-pop, .icm-wipe, .icm-bar, .icm-shackle { transform-box: fill-box; transform-origin: center; }
+.icm-pop, .icm-draw, .icm-wipe, .icm-bar, .icm-shackle { animation-duration: 5s; animation-iteration-count: infinite; animation-timing-function: linear; }
+.icm-draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.icm-wipe { transform: scaleX(0); transform-origin: 100% 50% !important; }
+.icm-w0 { animation-name: icm-w0; animation-timing-function: steps(11, end); }
+.icm-w1 { animation-name: icm-w1; animation-timing-function: steps(15, end); }
+.icm-w2 { animation-name: icm-w2; animation-timing-function: steps(14, end); }
+.icm-bar { transform-origin: 0 50% !important; animation-name: icm-bar; }
+.icm-shackle { animation-name: icm-shackle; }
+$icm-start: (0: 4, 1: 14, 2: 24, 3: 36, 4: 48);
+@each $i, $s in $icm-start {
+  .icm-d#{$i} { animation-name: icm-pop-#{$i}; }
+  .icm-draw.icm-d#{$i} { animation-name: icm-draw-#{$i}; }
+  @keyframes icm-pop-#{$i} {
+    0%, #{$s * 1%} { transform: scale(.3); opacity: 0; }
+    #{($s + 7) * 1%} { transform: scale(1.1); opacity: 1; }
+    #{($s + 11) * 1%}, 90% { transform: scale(1); opacity: 1; }
+    96%, 100% { transform: scale(.9); opacity: 0; }
+  }
+  @keyframes icm-draw-#{$i} {
+    0%, #{$s * 1%} { stroke-dashoffset: 1; opacity: 0; }
+    #{($s + 1) * 1%} { stroke-dashoffset: 1; opacity: 1; } #{($s + 12) * 1%}, 90% { stroke-dashoffset: 0; opacity: 1; }
+    96%, 100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+}
+@keyframes icm-w0 { 0%, 14% { transform: scaleX(1); } 30%, 100% { transform: scaleX(0); } }
+@keyframes icm-w1 { 0%, 30% { transform: scaleX(1); } 48%, 100% { transform: scaleX(0); } }
+@keyframes icm-w2 { 0%, 48% { transform: scaleX(1); } 66%, 100% { transform: scaleX(0); } }
+@keyframes icm-bar { 0%, 26% { transform: scaleX(0); opacity: 1; } 40%, 90% { transform: scaleX(1); opacity: 1; } 96%, 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes icm-shackle { 0%, 54% { transform: translateY(-6px); } 60%, 100% { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .icm, .icm-win { animation: none; }
+  .icm-pop, .icm-draw, .icm-wipe, .icm-bar, .icm-shackle { animation: none; }
+  .icm-btn, .icm-x { transition: none; }
+}
