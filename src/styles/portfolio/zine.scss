@@ -195,7 +195,7 @@
 // interview
 .tz-qa { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
 .tz-qa-photo { position: sticky; top: 80px;
-  img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 52% 30%; border-radius: var(--casing); transform: rotate(2deg); box-shadow: 0 0 0 3px var(--peat), 0 0 0 9px var(--shell), 0 0 0 10.5px var(--seam), 0 26px 40px -18px rgba(18, 37, 29, .6); }
+  img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: var(--qa-pos, 60%) 30%; border-radius: var(--casing); transform: rotate(2deg); box-shadow: 0 0 0 3px var(--peat), 0 0 0 9px var(--shell), 0 0 0 10.5px var(--seam), 0 26px 40px -18px rgba(18, 37, 29, .6); }
   figcaption { margin-top: 22px; font: 400 13px var(--lcd); color: var(--ink2); } }
 .tz-dialogue { margin-top: 18px;
   dt { margin-top: 30px; font: italic 600 clamp(21px, 2.2vw, 27px)/1.25 var(--serif); font-variation-settings: 'SOFT' 100, 'WONK' 1; color: var(--kelp);
