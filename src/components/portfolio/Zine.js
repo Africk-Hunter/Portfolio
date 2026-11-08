@@ -168,22 +168,13 @@ const DebutTitle = () => (
 
 const contents = [
   ['field', '12', 'Websites', `My web development portfolio.`, ['Build']],
-  ['cover', '06', 'The debut', 'Inside my debut album, Collection of Sounds. Made from start to finish at home.', ['Sound', 'Draw']],
+  ['cover', '06', 'The debut', 'Inside Collection of Sounds, my debut album.', ['Sound', 'Draw']],
   ['intra', '16', 'Intraconnected', 'An idea tracker that grows your thoughts into a tree.', ['Build', 'Draw']],
-  ['qa', '24', 'One lane was never enough', 'Music, websites, stories and drawings, and why I don’t pick just one.', ['All']],
+  ['qa', '24', 'One lane was never enough', 'Music, websites, stories, and drawings. And why I don’t pick just one.', ['All']],
 ];
 
 // Phone header's contents menu: [section, page, title]. 'top' is the cover.
 const toc = [['top', 'p.01', 'Cover'], ['field', 'p.12', 'Websites'], ['cover', 'p.06', 'The debut'], ['intra', 'p.16', 'Intraconnected'], ['qa', 'p.24', 'Interview'], ['letters', 'p.28', 'Get in touch']];
-
-export const descriptors = {
-  intraconnected: 'Ideas, arranged as a tree',
-  whosedebut: 'Local records, one a week',
-  archivist: 'A machine for collecting words',
-  luna: 'Lashes, booked in a tap',
-  blm: 'Brand work for small shops',
-  stockz: 'Buying ranges from history',
-};
 
 // The rack of seed packets, one card per site.
 export const SitePackets = ({ items }) => (
@@ -193,9 +184,9 @@ export const SitePackets = ({ items }) => (
         <div className={`tz-seed-win${s.square && !liveUrl(s) ? ' is-square' : ''}`}>{(liveUrl(s) || (s.links[0] || [])[1])
           ? <a className="tz-seed-link" href={liveUrl(s) || s.links[0][1]} target="_blank" rel="noopener noreferrer" aria-label={`Open ${s.title}`}><Live w={s} /></a>
           : <Live w={s} />}</div>
-        <p className="tz-seed-no">No. {String(i + 1).padStart(2, '0')}{s.kinds.length > 1 && <span> &middot; also {s.kinds.filter((k) => k !== 'build').join(', ')}</span>}</p>
+        <p className="tz-seed-no">No. {String(i + 1).padStart(2, '0')}</p>
         <h3>{s.title}</h3>
-        <p className="tz-seed-latin">{descriptors[s.id]}</p>
+        <p className="tz-seed-latin" aria-hidden="true">&nbsp;</p>
         <p>{s.blurb}</p>
         <p className="tz-seed-meta">Built with {s.stack.join(', ')}</p>
         <div className="tz-row">{s.links.map(([l, h]) => <a key={l} className={`tz-jelly tz-jelly-s${l === 'Visit' ? '' : ' tz-jelly-pale'}`} href={h} target="_blank" rel="noopener noreferrer">{l}</a>)}</div>
@@ -386,7 +377,7 @@ export default function Zine() {
         <header className="tz-field-head">
           <p className="tz-kicker">p.12 &middot; Build</p>
           <h2>Websites</h2>
-          <p className="tz-stand">{sites.length} websites, from small one-page sites to full builds.</p>
+          <p className="tz-stand">My showcase websites. All designed and developed my me :)</p>
           <p className="tz-swipe" aria-hidden="true">Swipe through all {sites.length} &rarr;</p>
         </header>
         <SitePackets items={sites} />
@@ -459,10 +450,10 @@ export default function Zine() {
           <p className="tz-kicker">p.24 &middot; The interview</p>
           <h2>One lane was <em>never</em> enough</h2>
           <dl className="tz-dialogue">
-            <dt>You make music, websites, stories and drawings. Which one are you?</dt>
-            <dd>I&rsquo;m just Hunter. That comes through in whatever I work on. I follow my creativity and don&rsquo;t worry about putting a label on myself. I think that dipping my toes into one medium allows me to create unique ideas in another.</dd>
+            <dt>You make music, websites, stories, and drawings. Which one are you?</dt>
+            <dd>I&rsquo;m just me. Corny, I know. But also true. I follow my creativity and don&rsquo;t worry about putting a label on myself. I think that dipping my toes into one medium allows me to create unique ideas in another.</dd>
             <dt>What are your qualifications?</dt>
-            <dd>I have my Bachelors in Computer Science &amp; Engineering from UNR. Though I think the passion speaks for itself. I could do it with or without the degree.</dd>
+            <dd>I have my Bachelors in Computer Science &amp; Engineering from UNR. Also a whole lot of passion :)</dd>
             <dt>And when you&rsquo;re not creating?</dt>
             <dd>I'm listening to music, playing Wii, chilling at Rancho San Rafael [the park], or hanging out with my girlfriend.</dd>
           </dl>

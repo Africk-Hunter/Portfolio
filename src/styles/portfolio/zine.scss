@@ -157,6 +157,7 @@
 .tz-field-head { max-width: 780px; margin-bottom: 44px; }
 .tz-packets { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 40px 30px; }
 .tz-seed {
+  display: flex; flex-direction: column;
   padding: 14px 14px 22px; border-radius: var(--casing); border: 1.5px solid var(--seam); transform: rotate(var(--tilt));
   background: linear-gradient(170deg, rgba(255, 255, 255, .9), transparent 40%), var(--shell); box-shadow: var(--moulded); transition: transform .5s var(--boing);
   &:nth-child(3n+2) { border-radius: var(--bud); } &:nth-child(3n) { border-radius: 70px 30px 90px 40px / 40px 70px 30px 80px; }
@@ -174,7 +175,9 @@
   iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; pointer-events: none; background: #fff; } }
 .tz-seed-no { margin-top: 14px; font: 400 13px var(--lcd); color: var(--ink2); span { color: var(--tangerine); } }
 .tz-seed-latin { font: italic 300 18px var(--serif); font-variation-settings: 'SOFT' 100; color: var(--ink2); }
-.tz-seed-meta { margin-top: 10px; font: 400 13px var(--lcd); color: var(--ink2); }
+.tz-seed-meta { margin-top: auto; padding-top: 10px; font: 400 13px var(--lcd); color: var(--ink2); }
+// the cards in a row share a height; the stack line and buttons sit pinned to the bottom of every card
+.tz-seed .tz-row { flex-wrap: nowrap; }
 
 // the novel, in the tank
 .tz-tank {
@@ -425,7 +428,7 @@
   .tz-seed-win { aspect-ratio: 16 / 9; }
   .tz-seed-no { margin-top: 12px; font-size: 12px; }
   .tz-seed-latin { font-size: 16px; }
-  .tz-seed-meta { margin-top: 8px; font-size: 12px; }
+  .tz-seed-meta { padding-top: 8px; font-size: 12px; }
   .tz-seed .tz-row { margin-top: 14px; gap: 8px; }
 
   // the debut: lettering above the sleeve in the left column, the story beside them; pull quote dropped (it repeats the stand)
@@ -578,7 +581,7 @@
   .tz-seed-win { aspect-ratio: 16 / 9; }
   .tz-seed-no { margin-top: 10px; font-size: 11px; }
   .tz-seed-latin { font-size: 15px; }
-  .tz-seed-meta { margin-top: 8px; font-size: 11px; }
+  .tz-seed-meta { padding-top: 8px; font-size: 11px; }
   .tz-seed .tz-row { margin-top: 12px; gap: 8px; }
 
   // the debut: smaller lettering and sleeve, one column of text, the pull quote dropped (it repeats the stand)

@@ -7,7 +7,7 @@ import { createPortal } from 'react-dom';
 export const steps = [
   {
     title: 'Start rough',
-    short: 'Begin with a rough thought, nothing more.',
+    short: 'Begin with a rough thought.',
     long: 'Every map begins as a single node. Type whatever is in your head, half-formed is fine. There is no structure to set up and nothing to name properly yet; you can sharpen it later.',
     color: '#2B701D',
     light: true,
@@ -20,7 +20,7 @@ export const steps = [
   },
   {
     title: 'Add the detail',
-    short: 'To-dos and links, right on the node.',
+    short: 'Integrate To-dos and links into the tree.',
     long: 'Give any node a checklist or a link. The detail lives with the idea instead of in some other app, so the plan and the work stay in the same place.',
     color: '#2049C5',
     light: true,

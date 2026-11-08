@@ -42,16 +42,16 @@ export const work = [
   {
     id: 'intraconnected', title: 'Intraconnected', kind: 'Web app', kinds: ['build', 'draw'],
     image: intraShot, tile: intraTile,
-    blurb: 'An idea tracker that grows your thoughts into a tree of nodes you can explore, rearrange and lock.',
-    role: 'Product design, frontend, brand', stack: ['React', 'TypeScript', 'SCSS'],
+    blurb: 'An idea tracker that grows your thoughts into a tree of nodes you can explore, rearrange, and lock.',
+    role: 'Product design, frontend, brand', stack: ['React', 'TypeScript', 'SCSS', 'Claude'],
     links: [['Visit', 'https://intraconnected.app'], ['GitHub', 'https://github.com/Africk-Hunter/Intraconnected-Releases']],
   },
   {
     id: 'whosedebut', title: 'WHOSE DEBUT?', kind: 'Music platform', kinds: ['build', 'sound'],
     image: debutTile, tile: debutTile, square: true,
-    blurb: 'A weekly spotlight on album releases from local Reno, NV artists, away from the crowded streaming shelves.',
+    blurb: 'A weekly spotlight on music releases from local Reno, NV artists.',
     long: 'Each week one local release gets the front page. Built for the scene I make music in, so artists can grow an audience beyond the algorithm.',
-    role: 'Concept, design, full stack', stack: ['React', 'TypeScript', 'Firebase', 'Cloudinary'],
+    role: 'Concept, design, full stack', stack: ['React', 'TypeScript', 'Cloudinary', 'Claude'],
     links: [['Visit', 'https://whosedebut.com'], ['GitHub', 'https://github.com/Africk-Hunter/WHOSE-DEBUT-']],
   },
   {
@@ -83,7 +83,7 @@ export const work = [
     image: blmTile, tile: blmTile, square: true,
     blurb: 'Website for Biggest Little Media, a social media strategy and brand consulting studio helping Reno, NV small businesses grow their online presence.',
     long: 'A brand-forward site for a local studio, written and built to sell the craft without the jargon.',
-    role: 'Design, build', stack: ['React', 'TypeScript', 'SCSS'],
+    role: 'Design, build', stack: ['React', 'TypeScript', 'SCSS', 'Claude'],
     links: [['Visit', 'https://biggestlittlemedia.com'], ['GitHub', 'https://github.com/Africk-Hunter/Biggest-Little-Media']],
   },
   {
