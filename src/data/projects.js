@@ -1,4 +1,4 @@
-import stockZImage from '../images/stockZ.png';
+import stockZImage from '../images/StockZ-4x3.png';
 import ghostwryteImage from '../images/ghostwryte.png';
 import portfolioImage from '../images/portfolio.png';
 import twentyOnImage from '../images/20on20off.png';
