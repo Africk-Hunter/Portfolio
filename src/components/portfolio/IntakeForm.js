@@ -25,6 +25,7 @@ export default function IntakeForm() {
   const [email, setEmail] = useState('');
   const [answers, setAnswers] = useState({});
   const [client, setClient] = useState('');
+  const [known, setKnown] = useState(false); // name and email came with the link
   const [website, setWebsite] = useState(''); // honeypot
   const [note, setNote] = useState('');        // inline message (validation, empty warning, send error)
   const [warned, setWarned] = useState({});
@@ -42,10 +43,17 @@ export default function IntakeForm() {
       const t = await fetchTemplate(params.get('t') || 'default');
       if (!live) return;
       const s = load(t.id);
-      if (s.name) setName(s.name);
-      if (s.email) setEmail(s.email);
+      // A link made in /admin can carry the client's name and email (?name=&email=), so they don't have to type them.
+      const pn = (params.get('name') || '').trim().slice(0, INTAKE_LIMITS.name);
+      const pe = (params.get('email') || '').trim().slice(0, INTAKE_LIMITS.email);
+      if (pn && EMAIL_OK.test(pe)) { setKnown(true); setName(pn); setEmail(pe); } else {
+        if (s.name) setName(s.name);
+        if (s.email) setEmail(s.email);
+      }
       if (s.answers) setAnswers(s.answers);
-      if (Number.isInteger(s.step) && s.step >= 0 && s.step <= t.questions.length) setStep(s.step);
+      // With name and email already known there is nothing to ask on the welcome screen, so open on the first question.
+      const saved = Number.isInteger(s.step) && s.step >= 0 && s.step <= t.questions.length ? s.step : 0;
+      setStep(pn && EMAIL_OK.test(pe) ? Math.max(1, saved) : saved);
       const q = params.get('client');
       setClient(q ? q.slice(0, INTAKE_LIMITS.client) : (s.client || ''));
       setTpl(t);
@@ -120,12 +128,16 @@ export default function IntakeForm() {
             <p className="tz-kicker">Before we begin</p>
             <h1 ref={head} tabIndex={-1}>{tpl.intro?.heading || 'Intake form'}</h1>
             {tpl.intro?.blurb && <p className="tz-novel-dek">{tpl.intro.blurb}</p>}
-            <div className="in-who">
-              <div><label className="in-label" htmlFor="in-name">Your name</label>
-                <input id="in-name" className="in-input" autoComplete="name" required maxLength={INTAKE_LIMITS.name} value={name} onChange={(e) => setName(e.target.value)} /></div>
-              <div><label className="in-label" htmlFor="in-email">Your email</label>
-                <input id="in-email" className="in-input" type="email" autoComplete="email" required maxLength={INTAKE_LIMITS.email} value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-            </div>
+            {known ? (
+              <p className="tz-novel-dek">Hi {name}. Press Begin whenever you&rsquo;re ready.</p>
+            ) : (
+              <div className="in-who">
+                <div><label className="in-label" htmlFor="in-name">Your name</label>
+                  <input id="in-name" className="in-input" autoComplete="name" required maxLength={INTAKE_LIMITS.name} value={name} onChange={(e) => setName(e.target.value)} /></div>
+                <div><label className="in-label" htmlFor="in-email">Your email</label>
+                  <input id="in-email" className="in-input" type="email" autoComplete="email" required maxLength={INTAKE_LIMITS.email} value={email} onChange={(e) => setEmail(e.target.value)} /></div>
+              </div>
+            )}
             <p className="in-fine">Your answers are used only to shape your website.</p>
           </>
         ) : (
@@ -144,7 +156,7 @@ export default function IntakeForm() {
 
         <p className={`in-note${note ? ' is-on' : ''}`} role="status" aria-live="polite">{note}</p>
         <div className="tz-row in-nav">
-          {step > 0 && <button type="button" className="tz-jelly tz-jelly-pale" onClick={() => go(step - 1)} disabled={sending}>Back</button>}
+          {step > (known ? 1 : 0) && <button type="button" className="tz-jelly tz-jelly-pale" onClick={() => go(step - 1)} disabled={sending}>Back</button>}
           <button type="submit" className="tz-jelly" disabled={sending}>{intro ? 'Begin' : step === total ? (sending ? 'Sending…' : 'Send') : 'Next'}</button>
         </div>
       </form>

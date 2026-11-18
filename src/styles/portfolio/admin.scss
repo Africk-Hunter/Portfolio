@@ -1,7 +1,7 @@
 // /admin: template list on the left, the editor sheet on the right. Builds on the .in-* pieces from intake.scss.
-.ad-wrap { max-width: 1100px; }
+.in-wrap.ad-wrap { max-width: 1240px; }
 .ad-out { font: 400 14px var(--lcd); text-transform: uppercase; letter-spacing: .04em; text-decoration: underline wavy var(--tangerine) 1.5px; text-underline-offset: 4px; }
-.ad-grid { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); align-items: start; }
+.ad-grid { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); align-items: start; }
 
 .ad-list { position: sticky; top: 72px;
   ul { display: grid; gap: 10px; margin: 12px 0 16px; }
@@ -24,3 +24,12 @@
 
 @media (max-width: 800px) { .ad-grid { grid-template-columns: minmax(0, 1fr); } .ad-list { position: static; } }
 @media (prefers-reduced-motion: reduce) { .ad-list li button { transition: none; } }
+
+// the editor uses the extra width: basics, welcome and thank-you on the left, the questions on the right
+.ad-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 clamp(24px, 3vw, 48px); }
+.ad-h-first { margin-top: 20px; }
+@media (min-width: 1000px) {
+  .ad-cols { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
+  .ad-h-first { margin-top: 0; padding-top: 0; border-top: 0; }
+  .ad-qs textarea { min-height: 84px; }
+}

@@ -32,6 +32,8 @@ export default function AdminPanel() {
   const [note, setNote] = useState('');
   const [busy, setBusy] = useState(false);
   const [clientSlug, setClientSlug] = useState('');
+  const [toName, setToName] = useState('');
+  const [toEmail, setToEmail] = useState('');
   const [copied, setCopied] = useState(false);
 
   const signIn = useCallback(async (password) => {
@@ -61,6 +63,15 @@ export default function AdminPanel() {
     set({ questions: [...draft.questions, { id: `q${n}`, prompt: '' }] });
   };
 
+  // Starts a new, unsaved template from the one being edited. The link name gets a free "-copy" suffix.
+  const duplicate = () => {
+    const taken = new Set(templates.map((t) => t.id));
+    let id = slug(`${draft.id}-copy`, T.id); let n = 2;
+    while (taken.has(id)) id = slug(`${draft.id}-copy-${n++}`, T.id);
+    setDraft({ ...draft, isNew: true, id, name: `Copy of ${draft.name}`.slice(0, T.name), builtin: undefined, updatedAt: undefined });
+    setNote('Copied. Rename it and press Save to keep it.'); setCopied(false);
+  };
+
   const saveDraft = async () => {
     setBusy(true); setNote('');
     try {
@@ -81,7 +92,16 @@ export default function AdminPanel() {
     } catch (e) { setNote(e.message); } finally { setBusy(false); }
   };
 
-  const link = draft && draft.id ? `${window.location.origin}/intake${draft.id === 'default' ? '' : `?t=${draft.id}`}${clientSlug ? `${draft.id === 'default' ? '?' : '&'}client=${clientSlug}` : ''}` : '';
+  // Name and email only go into the link when both are filled in (the form then skips asking for them).
+  const link = (() => {
+    if (!draft || !draft.id) return '';
+    const p = new URLSearchParams();
+    if (draft.id !== 'default') p.set('t', draft.id);
+    if (clientSlug) p.set('client', clientSlug);
+    if (toName.trim() && toEmail.trim()) { p.set('name', toName.trim()); p.set('email', toEmail.trim()); }
+    const qs = p.toString();
+    return `${window.location.origin}/intake${qs ? `?${qs}` : ''}`;
+  })();
   const copy = async () => {
     try { await navigator.clipboard.writeText(link); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch { setNote('Couldn’t copy. Select the link and copy it.'); }
   };
@@ -123,6 +143,7 @@ export default function AdminPanel() {
         {draft ? (
           <section className="in-sheet ad-editor" aria-label="Edit template">
             <p className="in-tape"><span>{draft.isNew ? 'New' : 'Editing'}</span></p>
+            <div className="ad-cols"><div className="ad-col">
             <label className="in-label" htmlFor="ad-name">Template name</label>
             <input id="ad-name" className="in-input" maxLength={T.name} value={draft.name} onChange={(e) => set({ name: e.target.value, ...(draft.isNew ? { id: slug(e.target.value, T.id) } : {}) })} />
             <label className="in-label" htmlFor="ad-id">Link name</label>
@@ -135,7 +156,15 @@ export default function AdminPanel() {
             <label className="in-label" htmlFor="ad-ib">Intro text (optional)</label>
             <textarea id="ad-ib" className="in-input" rows={3} maxLength={T.blurb} value={draft.intro.blurb} onChange={(e) => set({ intro: { ...draft.intro, blurb: e.target.value } })} />
 
-            <h2 className="ad-h">Questions</h2>
+            <h2 className="ad-h">Thank-you screen</h2>
+            <label className="in-label" htmlFor="ad-th">Heading</label>
+            <input id="ad-th" className="in-input" maxLength={T.heading} value={draft.thanks.heading} onChange={(e) => set({ thanks: { ...draft.thanks, heading: e.target.value } })} />
+            <label className="in-label" htmlFor="ad-tb">Text (use {'{email}'} for their address)</label>
+            <textarea id="ad-tb" className="in-input" rows={3} maxLength={T.blurb} value={draft.thanks.blurb} onChange={(e) => set({ thanks: { ...draft.thanks, blurb: e.target.value } })} />
+            </div>
+
+            <div className="ad-col">
+            <h2 className="ad-h ad-h-first">Questions</h2>
             <ol className="ad-qs">
               {draft.questions.map((q, i) => (
                 <li key={q.id}>
@@ -150,23 +179,26 @@ export default function AdminPanel() {
               ))}
             </ol>
             <button type="button" className="tz-jelly tz-jelly-pale tz-jelly-s" onClick={addQ} disabled={draft.questions.length >= T.questions}>+ Add question</button>
-
-            <h2 className="ad-h">Thank-you screen</h2>
-            <label className="in-label" htmlFor="ad-th">Heading</label>
-            <input id="ad-th" className="in-input" maxLength={T.heading} value={draft.thanks.heading} onChange={(e) => set({ thanks: { ...draft.thanks, heading: e.target.value } })} />
-            <label className="in-label" htmlFor="ad-tb">Text (use {'{email}'} for their address)</label>
-            <textarea id="ad-tb" className="in-input" rows={3} maxLength={T.blurb} value={draft.thanks.blurb} onChange={(e) => set({ thanks: { ...draft.thanks, blurb: e.target.value } })} />
+            </div></div>
 
             <p className={`in-note${note ? ' is-on' : ''}`} role="status" aria-live="polite">{note}</p>
             <div className="tz-row in-nav">
               <button type="button" className="tz-jelly" onClick={saveDraft} disabled={busy}>{busy ? 'Saving…' : 'Save template'}</button>
+              {!draft.isNew && <button type="button" className="tz-jelly tz-jelly-pale" onClick={duplicate} disabled={busy}>Duplicate</button>}
               {!draft.isNew && <button type="button" className="tz-jelly tz-jelly-pale" onClick={remove} disabled={busy}>{draft.id === 'default' ? 'Reset to built-in' : 'Delete'}</button>}
             </div>
 
             {!draft.isNew && (
               <div className="ad-share">
                 <h2 className="ad-h">Send it</h2>
-                <label className="in-label" htmlFor="ad-client">Who is it for? (optional tag, shows up in the email)</label>
+                <div className="in-who">
+                  <div><label className="in-label" htmlFor="ad-toname">Their name (optional)</label>
+                    <input id="ad-toname" className="in-input" autoComplete="off" maxLength={200} value={toName} onChange={(e) => setToName(e.target.value)} /></div>
+                  <div><label className="in-label" htmlFor="ad-toemail">Their email (optional)</label>
+                    <input id="ad-toemail" className="in-input" type="email" autoComplete="off" maxLength={254} value={toEmail} onChange={(e) => setToEmail(e.target.value)} /></div>
+                </div>
+                <p className="in-fine">Fill in both and they won&rsquo;t be asked for them.</p>
+                <label className="in-label" htmlFor="ad-client">Tag (optional, shows up in the email)</label>
                 <input id="ad-client" className="in-input" maxLength={80} placeholder="e.g. dr-smith" value={clientSlug} onChange={(e) => setClientSlug(slug(e.target.value, 80))} />
                 <label className="in-label" htmlFor="ad-link">Link</label>
                 <input id="ad-link" className="in-input" readOnly value={link} onFocus={(e) => e.target.select()} />
