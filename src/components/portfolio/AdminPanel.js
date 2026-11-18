@@ -37,6 +37,7 @@ export default function AdminPanel() {
   const [toEmail, setToEmail] = useState('');
   const [copied, setCopied] = useState(false);
   const [made, setMade] = useState({ key: '', code: '' }); // the short code last made, and the fields it was made for
+  const [origId, setOrigId] = useState('');  // the link name the open template was saved under, to spot a rename
   const [tab, setTab] = useState('q');   // q = questions, s = screens, send
   const [snap, setSnap] = useState('');   // the draft as last saved, to tell when there are unsaved changes
 
@@ -53,7 +54,7 @@ export default function AdminPanel() {
   useEffect(() => { const p = getPw(); if (p) signIn(p); }, [signIn]);
 
   const signOut = () => { setPw(''); setPass(''); setEntered(''); setTemplates(null); setDraft(null); };
-  const open = (d, fresh) => { setDraft(d); setSnap(fresh ? '' : core(d)); };
+  const open = (d, fresh) => { setDraft(d); setSnap(fresh ? '' : core(d)); setOrigId(fresh ? '' : d.id); };
   const edit = (t) => { open(toDraft(t)); setTab('q'); setNote(''); setCopied(false); };
   const dirty = !!draft && core(draft) !== snap;
   const set = (patch) => { setNote(''); setDraft((d) => ({ ...d, ...patch })); };
@@ -84,11 +85,21 @@ export default function AdminPanel() {
   };
 
   const saveDraft = async () => {
+    const renaming = !draft.isNew && draft.id !== origId;
+    if (renaming) {
+      if (templates.some((t) => t.id === draft.id)) { setNote('That link name is already used by another template.'); return; }
+      if (!window.confirm(`Rename the link from “${origId}” to “${draft.id}”?\n\nLinks you already sent with the old name will show the default questions instead.`)) return;
+    }
     setBusy(true); setNote('');
     try {
       const { template } = await api(pw, 'PUT', '', { template: draft });
-      setTemplates((list) => (list.some((t) => t.id === template.id) ? list.map((t) => (t.id === template.id ? template : t)) : [...list, template]));
-      open(toDraft(template)); setNote('Saved.');
+      // A rename is a save under the new name plus removing the old one.
+      if (renaming) await api(pw, 'DELETE', `?id=${encodeURIComponent(origId)}`);
+      setTemplates((list) => {
+        const rest = renaming ? list.filter((t) => t.id !== origId) : list;
+        return rest.some((t) => t.id === template.id) ? rest.map((t) => (t.id === template.id ? template : t)) : [...rest, template];
+      });
+      open(toDraft(template)); setNote(renaming ? 'Renamed and saved.' : 'Saved.');
     } catch (e) { setNote(e.message); } finally { setBusy(false); }
   };
 
@@ -173,8 +184,8 @@ export default function AdminPanel() {
               <div className="ad-linkname">
                 <label htmlFor="ad-id">Link name</label>
                 <span aria-hidden="true">/intake?t=</span>
-                <input id="ad-id" maxLength={T.id} value={draft.id} readOnly={!draft.isNew} size={Math.max(8, draft.id.length + 1)} onChange={(e) => set({ id: slug(e.target.value, T.id) })} />
-                {draft.isNew && <small>Can’t be changed after saving.</small>}
+                <input id="ad-id" maxLength={T.id} value={draft.id} readOnly={!draft.isNew && draft.id === 'default'} size={Math.max(8, draft.id.length + 1)} onChange={(e) => set({ id: slug(e.target.value, T.id) })} />
+                {!draft.isNew && draft.id !== 'default' && <small>Changing this breaks links you already sent.</small>}
               </div>
             </header>
 
