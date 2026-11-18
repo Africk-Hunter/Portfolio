@@ -6,6 +6,7 @@ import { useSlamIntro, ZINE_REVEALS } from './loadIn';
 import '../../styles/portfolio/zine.scss';
 
 const PAPER = '#F2EFDF';
+const EMAIL = 'HunterAfrick@gmail.com';
 
 // The zine's paper, running header and footer around any other page (/404, /web-design, /music).
 // `sections` is [id, label] pairs for the in-page tabs; each section element carries a matching id.
@@ -30,8 +31,19 @@ function Sheet({ sections, contactId, intro, children }) {
   const [active, setActive] = useState(null);
 
   const go = (id) => {
-    const el = rootEl.current && rootEl.current.querySelector(`#${id}`);
-    if (el) el.scrollIntoView({ behavior: smooth(), block: 'start' });
+    // a page with no #contact block of its own (/intake) points Contact at the footer, which has the email
+    const root = rootEl.current;
+    const el = root && (root.querySelector(`#${id}`) || (id === contactId ? root.querySelector('.tz-foot') : null));
+    if (!el) return;
+    // Short pages already show the contact cards/footer, or sit at the end of their scroll, so scrolling would look like
+    // a dead button. In that case Contact does the useful thing and opens an email to me.
+    if (id === contactId) {
+      const atEnd = root.scrollTop + root.clientHeight >= root.scrollHeight - 4;
+      const r = el.getBoundingClientRect();
+      const inView = r.top >= 0 && r.top < root.clientHeight * 0.6;
+      if (atEnd || inView) { window.location.href = `mailto:${EMAIL}`; return; }
+    }
+    el.scrollIntoView({ behavior: smooth(), block: 'start' });
   };
   const toTop = () => rootEl.current && rootEl.current.scrollTo({ top: 0, behavior: smooth() });
   const navigate = useNavigate();

@@ -16,6 +16,10 @@ const routes = [
   { path: '/', ...page(() => import('./pages/index')) },
   { path: '/web-design', ...page(() => import('./pages/web-design')) },
   { path: '/music', ...page(() => import('./pages/music')) },
+  // Private client link: noindex, not in the sitemap.
+  { path: '/intake', ...page(() => import('./pages/intake')) },
+  // Private template editor (password-gated by its function); noindex, not in the sitemap.
+  { path: '/admin', ...page(() => import('./pages/admin')) },
   // Prerendered to /404.html (see vite.config.js); the "*" route covers unknown URLs once the app is running.
   { path: '/404', ...page(() => import('./pages/404')) },
   { path: '*', ...page(() => import('./pages/404')) },

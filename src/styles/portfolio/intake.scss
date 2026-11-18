@@ -1,0 +1,52 @@
+// /intake: one question at a time, as zine pages. The welcome and thank-you screens are the dark tank (fireflies, bubbles);
+// each question is a moulded sheet with a strip of tape for its number. Loaded only by that page.
+.tz-page.tz-intake { padding-top: clamp(56px, 7vh, 72px); padding-bottom: 40px; }
+@media (max-width: 700px) { .tz-page.tz-intake { padding-top: 84px; } } // same as the other sub-pages
+.in-wrap { max-width: 800px; margin: 0 auto; .tz-strip { margin-bottom: clamp(18px, 3vh, 28px); } }
+.in-card { position: relative; animation: in-rise .4s cubic-bezier(.22, 1, .36, 1) backwards;
+  h1 { margin-top: 10px; font: 900 clamp(32px, 5vw, 60px)/1 var(--serif); font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1; letter-spacing: -.035em; color: var(--kelp); text-wrap: balance; &:focus { outline: none; } }
+  h1.in-q { margin: 0 0 8px; font-size: clamp(26px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -.025em; } }
+
+// welcome + thank-you: the tank
+.in-tank { padding: clamp(28px, 5vw, 56px);
+  &::after { content: none; } // no lighter strip across the foot of the card: it cut through the text
+
+  h1 { color: var(--fly); text-shadow: 0 0 34px rgba(212, 242, 60, .4); }
+  .tz-novel-dek { max-width: 40ch; margin-top: 14px; }
+  .in-label { color: var(--seaglass); }
+  .in-fine { color: rgba(242, 239, 223, .8); }
+  .in-note.is-on { background: var(--shell); } }
+.in-done { min-height: 280px; }
+.in-who { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 18px; margin-top: 18px; }
+
+// a question: a moulded sheet, taped on
+.in-sheet { padding: clamp(40px, 5vw, 52px) clamp(20px, 4vw, 44px) clamp(24px, 4vw, 36px); border-radius: var(--bud); border: 2px solid var(--peat); box-shadow: var(--moulded);
+  background: linear-gradient(170deg, rgba(255, 255, 255, .6), transparent 40%), #FBF9EC; }
+.in-tape { position: absolute; left: clamp(18px, 4vw, 40px); top: -16px; margin: 0; transform: rotate(-2deg); color: var(--peat);
+  span { display: block; padding: 6px 22px; font: 400 clamp(15px, 1.7vw, 18px) var(--lcd); letter-spacing: .06em; text-transform: uppercase;
+    background: repeating-linear-gradient(135deg, rgba(255, 255, 255, .32) 0 8px, transparent 8px 16px), var(--tangerine); box-shadow: 0 2px 0 rgba(38, 30, 22, .25), 0 10px 14px -8px rgba(18, 37, 29, .45);
+    clip-path: polygon(0 12%, 3% 0, 5% 14%, 8% 0, 100% 0, 98% 50%, 100% 100%, 8% 100%, 5% 86%, 3% 100%, 0 88%, 2% 50%); } }
+
+// progress: one pebble per question
+.in-dots { display: flex; gap: 8px; margin: 6px 0 22px; padding: 0;
+  li { width: 16px; height: 16px; border-radius: var(--pebble); border: 2px solid var(--peat); background: rgba(255, 255, 255, .6); box-shadow: var(--pressed); transition: background-color .3s, transform .4s var(--boing); }
+  .is-done { background: var(--lichen); box-shadow: var(--moulded); }
+  .is-now { background: var(--tangerine); box-shadow: var(--moulded), var(--glow); transform: scale(1.3); } }
+
+.in-label { display: block; margin: 20px 0 6px; font: 400 14px/1.4 var(--lcd); letter-spacing: .04em; text-transform: uppercase; color: var(--ink2); }
+.in-input { width: 100%; padding: 12px 16px; border-radius: var(--bud); border: 2px solid var(--peat); background: rgba(255, 255, 255, .75); color: var(--peat); box-shadow: var(--pressed); resize: vertical;
+  font: 400 18px/1.5 'Bricolage Grotesque', system-ui, sans-serif; transition: background-color .2s;
+  &:focus { background: #fff; } &:focus-visible { outline: 3px solid var(--seaglass); outline-offset: 2px; } }
+.in-big { min-height: 180px; }
+.in-fine { margin-top: 20px; font-size: 15px; color: var(--ink2); }
+
+// messages (empty warning, validation, send error): a little slip that pops in
+.in-note { margin: 16px 0 0; font-weight: 700; color: var(--peat);
+  &.is-on { display: inline-block; padding: 8px 16px; border-radius: 6px 20px 6px 20px; border: 2px solid var(--peat); background: var(--blossom); box-shadow: var(--moulded); animation: in-pop .45s var(--boing) backwards; } }
+.in-nav { margin-top: 18px; .tz-jelly { padding: 12px 28px; font-size: 18px; } .tz-jelly:disabled { opacity: .6; cursor: default; transform: none; filter: none; } }
+.in-hp { left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+@keyframes in-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes in-pop { from { opacity: 0; transform: scale(.9) rotate(-2deg); } to { opacity: 1; transform: none; } }
+@media (max-width: 640px) { .in-who { grid-template-columns: minmax(0, 1fr); } .in-nav .tz-jelly { flex: 1; justify-content: center; } .in-dots li { width: 14px; height: 14px; } }
+@media (prefers-reduced-motion: reduce) { .in-card, .in-note.is-on { animation: none; } .in-dots li, .in-input { transition: none; } }

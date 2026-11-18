@@ -1,0 +1,26 @@
+// /admin: template list on the left, the editor sheet on the right. Builds on the .in-* pieces from intake.scss.
+.ad-wrap { max-width: 1100px; }
+.ad-out { font: 400 14px var(--lcd); text-transform: uppercase; letter-spacing: .04em; text-decoration: underline wavy var(--tangerine) 1.5px; text-underline-offset: 4px; }
+.ad-grid { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); align-items: start; }
+
+.ad-list { position: sticky; top: 72px;
+  ul { display: grid; gap: 10px; margin: 12px 0 16px; }
+  li button { display: block; width: 100%; padding: 12px 16px; border-radius: var(--bud); border: 2px solid var(--peat); box-shadow: var(--moulded); background: linear-gradient(180deg, rgba(255, 255, 255, .55), transparent 55%), var(--lichen);
+    transition: transform .3s var(--boing); &:hover { transform: translateY(-2px); } }
+  li button.is-on { background: linear-gradient(180deg, rgba(255, 255, 255, .55), transparent 55%), var(--tangerine); }
+  li b { display: block; font-weight: 700; } li span { font: 400 13px var(--lcd); text-transform: uppercase; letter-spacing: .04em; color: var(--ink2); }
+  li .is-on span { color: var(--peat); } }
+
+.ad-editor { .in-nav { margin-top: 16px; } }
+.ad-empty { min-height: 160px; display: grid; align-content: center; }
+.ad-h { margin: 34px 0 0; padding-top: 14px; border-top: 2px dashed var(--seam); font: 900 26px/1.1 var(--serif); font-variation-settings: 'SOFT' 100, 'WONK' 1; letter-spacing: -.02em; color: var(--kelp); }
+.ad-qs { display: grid; gap: 4px; margin: 0 0 14px; padding: 0;
+  li { position: relative; padding-right: 56px; }
+  textarea { resize: vertical; } }
+.ad-qbtns { position: absolute; right: 0; top: 40px; display: grid; gap: 6px;
+  button { width: 44px; height: 36px; display: grid; place-items: center; border-radius: 50%/60%; border: 2px solid var(--peat); background: var(--shell); box-shadow: var(--moulded); font-weight: 700; font-size: 18px; text-align: center;
+    &:hover:not(:disabled) { background: var(--lichen); } &:disabled { opacity: .35; cursor: default; } } }
+.ad-share { margin-top: 10px; }
+
+@media (max-width: 800px) { .ad-grid { grid-template-columns: minmax(0, 1fr); } .ad-list { position: static; } }
+@media (prefers-reduced-motion: reduce) { .ad-list li button { transition: none; } }
