@@ -113,18 +113,19 @@ const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)'
  * @param opts.shake    selector of the element to jolt on impact
  * @param opts.reveals  [selector, variant] rows
  */
-export function useSlamIntro(rootRef, { mast, shake, reveals, typed }) {
+export function useSlamIntro(rootRef, { mast, shake, reveals, typed, off = false }) {
   // The prerendered HTML already carries .tz-intro (everything but the masthead hidden, see the stylesheet), so
   // there is no flash of content before hydration. Reduced-motion visitors skip the intro, so drop it for them.
   useLayoutEffect(() => {
     const root = rootRef.current;
+    if (off) return undefined; // prerendered pages show their content straight away
     if (root) root.classList[reducedMotion() ? 'remove' : 'add']('tz-intro');
     return () => { if (root) root.classList.remove('tz-intro'); };
-  }, [rootRef]);
+  }, [rootRef, off]);
 
   useEffect(() => {
     const root = rootRef.current;
-    if (!root || reducedMotion()) return undefined;
+    if (!root || off || reducedMotion()) return undefined;
 
     const letters = Array.from(root.querySelectorAll(`${mast} > span`));
     const jolt = root.querySelector(shake);
@@ -389,5 +390,5 @@ export function useSlamIntro(rootRef, { mast, shake, reveals, typed }) {
       window.removeEventListener('keydown', onKey);
       root.classList.remove('tz-intro');
     };
-  }, [rootRef, mast, shake, reveals]);
+  }, [rootRef, mast, shake, reveals, off]);
 }

@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { links } from './data';
+import { PAGES } from './pages';
 
 const EMAIL = 'HunterAfrick@gmail.com';
 
@@ -11,7 +13,9 @@ export default function ZineFooter({ nav = [], onTop }) {
       <div className="tz-foot-in">
         <div className="tz-foot-brand">
           <p className="tz-foot-name">Hunter Africk</p>
-          <p className="tz-foot-line">Developer &middot; Musician &middot; Writer &middot; Illustrator</p>
+          <ul className="tz-foot-tags" aria-label="Roles">
+            {['Developer', 'Musician', 'Writer', 'Illustrator'].map((t) => <li key={t}>{t}</li>)}
+          </ul>
           <p className="tz-foot-line">Reno, NV</p>
         </div>
 
@@ -25,6 +29,13 @@ export default function ZineFooter({ nav = [], onTop }) {
             </ul>
           </nav>
         )}
+
+        <nav className="tz-foot-col" aria-label="Pages">
+          <h2 className="tz-foot-h">Pages</h2>
+          <ul>
+            {PAGES.map(([to, label]) => <li key={to}><Link to={to}>{label}</Link></li>)}
+          </ul>
+        </nav>
 
         <div className="tz-foot-col">
           <h2 className="tz-foot-h">Elsewhere</h2>
@@ -42,7 +53,7 @@ export default function ZineFooter({ nav = [], onTop }) {
       </div>
 
       <div className="tz-foot-base">
-        <p>&copy; {year} Hunter Africk. All rights reserved.</p>
+        <p>&copy; {year} Hunter Africk &middot; From the Void LLC. All rights reserved.</p>
         {onTop && <button type="button" className="tz-foot-top" onClick={onTop}>Back to the cover <span aria-hidden="true">&uarr;</span></button>}
       </div>
     </footer>

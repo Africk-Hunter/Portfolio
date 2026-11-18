@@ -32,7 +32,7 @@ const phoneShots = { blm: blmShot, whosedebut: debutShot };
 
 // Terrarium portfolio: a printed zine, Issue 04. Cover, contents, feature spreads, an interview and a back cover.
 // Editorial framing does the multidisciplinary work: every medium gets its own feature, and they cross-reference.
-// Fonts are self-hosted: the @font-face rules and preloads are injected in gatsby-ssr.js, so nothing comes from Google.
+// Fonts are self-hosted: the @font-face rules are in styles/portfolio/_fonts.scss and the preloads in pages/index.js, so nothing comes from Google.
 // Microgramma D Extended Bold (the Websites heading) is commercial, so it is not bundled: it is used only if installed
 // on the visitor's system, and Michroma stands in otherwise. (If you ever self-host it, add url() sources back here:
 // listing files that do not exist costs a failed request per format.)
@@ -336,7 +336,7 @@ export default function Zine() {
       {/* COVER */}
       <header className="tz-cover">
         <p className="tz-strip"><span>Developer &middot; Musician &middot; Writer &middot; Illustrator</span><span>{bio.where}</span><span>Open to commissions</span></p>
-        <h1 className="tz-mast" aria-label="Hunter">{[...'HUNTER'].map((c, i) => <span key={i} aria-hidden="true">{c}</span>)}</h1>
+        <h1 className="tz-mast" aria-label="Hunter Africk, Reno web developer and designer">{[...'HUNTER'].map((c, i) => <span key={i} aria-hidden="true">{c}</span>)}</h1>
         <figure className="tz-cover-photo">
           <img src={candid} alt="Hunter, looking up at the camera, holding a glowing green alien balloon" fetchPriority="high" decoding="async" />
           {[1, 2, 3, 4, 5].map((n) => <i key={n} className={`tz-fly tz-fly-${n}`} aria-hidden="true" />)}

@@ -29,11 +29,11 @@ export const usePage = (fonts, bg) => {
 
 export const pad = (n) => String(n).padStart(2, '0');
 
-// Pages built on ZineShell (/404) render client-side only, so reading matchMedia up front is safe.
+// Starts false (the desktop layout) so the prerendered HTML and the first client render match; the effect corrects it.
 export const PHONE = '(max-width: 700px)';
 export const TABLET = '(min-width: 701px) and (max-width: 1024px), (min-width: 701px) and (max-width: 1200px) and (orientation: portrait)';
 export const useMedia = (q) => {
-  const [m, setM] = React.useState(() => typeof window !== 'undefined' && window.matchMedia(q).matches);
+  const [m, setM] = React.useState(false);
   useEffect(() => {
     const mq = window.matchMedia(q);
     const on = () => setM(mq.matches);

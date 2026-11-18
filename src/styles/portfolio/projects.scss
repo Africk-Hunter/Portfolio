@@ -1,0 +1,136 @@
+// Project cards on /web-design: each one is set in its own site's look (taken from the resume cards, which took
+// them from each live site's stylesheet). Only this page loads these fonts.
+@font-face{font-family:'Bebas Neue';font-weight:400;font-display:swap;src:url(/fonts/BebasNeue-400.woff2) format('woff2')}
+@font-face{font-family:'Great Vibes';font-weight:400;font-display:swap;src:url(/fonts/GreatVibes-400.woff2) format('woff2')}
+@font-face{font-family:'Do Hyeon';font-weight:400;font-display:swap;src:url(/fonts/DoHyeon-400.woff2) format('woff2')}
+@font-face{font-family:'Cormorant';font-weight:500 700;font-display:swap;src:url(/fonts/Cormorant-var.woff2) format('woff2')}
+@font-face{font-family:'Montserrat';font-weight:400 600;font-display:swap;src:url(/fonts/Montserrat-var.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:400;font-display:swap;src:url(/fonts/Barlow-400.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:600;font-display:swap;src:url(/fonts/Barlow-600.woff2) format('woff2')}
+
+.pj-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px 30px; align-items: stretch; }
+// Every card is pinned up with washi tape, tilted a little; on hover it swings straight and the tape peels (as on the main page).
+.pj-pin { position: relative; display: flex; min-width: 0; transform: rotate(var(--tilt, 0deg)); transform-origin: 50% 0; transition: transform .7s var(--boing), filter .5s ease;
+  &.is-wide { grid-column: 1 / -1; --tilt: -.4deg; } &.pj-pin-0 { --tilt: -.7deg; } &.pj-pin-1 { --tilt: .6deg; } &.pj-pin-2 { --tilt: -.3deg; }
+  > .pj { flex: 1; }
+  &::before { content: ''; position: absolute; z-index: 5; top: -13px; left: 50%; width: 96px; height: 26px; margin-left: -48px; transform: rotate(-4deg); transform-origin: 0 50%; pointer-events: none; transition: transform .5s var(--boing);
+    background: repeating-linear-gradient(135deg, rgba(255, 255, 255, .35) 0 6px, transparent 6px 12px), rgba(244, 182, 207, .85); box-shadow: 0 1px 2px rgba(38, 30, 22, .25);
+    clip-path: polygon(0 8%, 4% 0, 8% 10%, 12% 0, 100% 0, 96% 50%, 100% 100%, 12% 100%, 8% 90%, 4% 100%, 0 92%, 3% 50%); }
+  &.pj-pin-1::before { background-color: rgba(121, 212, 192, .88); transform: rotate(3deg); }
+  &.pj-pin-2::before { background-color: rgba(212, 242, 60, .8); transform: rotate(-2deg); }
+  &.is-wide::before { left: 12%; background-color: rgba(255, 107, 44, .78); }
+  filter: drop-shadow(0 14px 14px rgba(18, 37, 29, .22)); }
+@media (hover: hover) { .pj-pin:hover { transform: rotate(0) scale(1.015); &::before { transform: rotate(-14deg) translateY(-2px); } } }
+.tz-sub .pj { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 22px 26px 24px; overflow: hidden; min-width: 0;
+  > * { position: relative; z-index: 1; }
+  h3 { margin: 8px 0 10px; font-weight: 400; }
+  p { margin: 0; }
+  .pj-tag { margin: 0; }
+  .pj-meta { margin-top: 10px; font-size: 14px; opacity: .78; }
+  .pj-go { margin-top: auto; padding-top: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+  a { text-decoration: none; }
+  .pj-btn { display: inline-block; }
+  .pj-alt { font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
+  .pj-arr { display: inline-block; transition: transform .2s ease; } }
+
+// Intraconnected: green grid canvas, heavy ink borders, hard offset shadows, tilted label blocks
+.tz-sub .pj-intra { --ink: #111; display: grid; grid-template-columns: 1.12fr 1fr; gap: 32px; align-items: center; padding: 28px 32px 30px; overflow: visible; color: var(--ink); font: 400 16px/1.45 'DM Sans', sans-serif;
+  background-color: #E9F9E5; background-image: linear-gradient(rgba(0, 0, 0, .065) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, .065) 1px, transparent 1px); background-size: 18px 18px;
+  border: 4px solid var(--ink); border-radius: 10px; box-shadow: 7px 7px 0 1px var(--ink);
+  .pj-copy { display: flex; flex-direction: column; align-items: flex-start; }
+  .pj-tag { position: absolute; top: -16px; right: 32px; z-index: 2; padding: 2px 10px; border: 2.5px solid var(--ink); border-radius: 8px; background: #E8E879; box-shadow: 3px 3px 0 1px var(--ink); font: 700 12px/1.5 'DM Sans', sans-serif; transform: rotate(-1.5deg); }
+  h3 { margin: 0; padding: 0 12px 3px; border: 4px solid var(--ink); border-radius: 5px; background: #41BC28; box-shadow: 5px 5px 0 var(--ink); font: 900 clamp(30px, 4vw, 44px)/1.05 'DM Sans', sans-serif; letter-spacing: -.02em; transform: rotate(-1.2deg); }
+  .pj-dek { margin: 4px 0 0 18px; padding: 3px 12px 4px; border: 4px solid var(--ink); border-radius: 5px; background: #00A9D8; box-shadow: 5px 5px 0 var(--ink); font: 800 17px/1.25 'DM Sans', sans-serif; transform: rotate(.8deg); }
+  .pj-copy > p:not([class]) { margin-top: 16px; color: #333; }
+  .pj-checks { list-style: none; margin: 16px 0 0; padding: 10px 16px 9px; border: 4px solid var(--ink); border-radius: 10px; background: #2049C5; color: #fff; box-shadow: 5px 5px 0 1px var(--ink); font-weight: 600; font-size: 15px;
+    li { display: flex; align-items: center; gap: 9px; margin: 0 0 3px; } li:last-child { margin: 0; }
+    li:not(.pj-bar)::before { content: ''; flex: none; width: 13px; height: 13px; border: 2px solid #fff; border-radius: 3px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 5.2 4.2 7.4 8.2 2.8' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat; }
+    .pj-bar { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+    .pj-bar::before { content: ''; flex: 1; order: 2; height: 6px; border-radius: 3px; background: #fff; } }
+  .pj-go { padding-top: 20px; }
+  .pj-btn { padding: 3px 16px; border: 3px solid var(--ink); border-radius: 8px; background: #E8E879; box-shadow: 4px 4px 0 1px var(--ink); font-weight: 700; color: var(--ink); white-space: nowrap; transition: transform .12s ease, box-shadow .12s ease;
+    &:hover, &:focus-visible { transform: translate(4px, 4px); box-shadow: 0 0 0 1px var(--ink); } &:active { transform: translate(4px, 4px) scale(.97); } }
+  .pj-alt { color: var(--ink); font-weight: 700; }
+  .pj-out { margin-left: 3px; vertical-align: -.05em; } }
+.pj-shot { margin: 0; border: 4px solid #111; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 7px 7px 0 1px #111; transform: rotate(.8deg);
+  img { display: block; width: 100%; height: auto; } }
+.pj-shot-bar { display: flex; align-items: center; gap: 6px; padding: 5px 10px; background: #D3DED1; border-bottom: 4px solid #111;
+  i { width: 11px; height: 11px; border-radius: 50%; border: 2.5px solid #111; background: #C84600; } i:nth-child(2) { background: #E8E879; } i:nth-child(3) { background: #41BC28; }
+  span { margin-left: 8px; padding: 0 12px; border: 2.5px solid #111; border-radius: 8px; background: #fff; font: 700 12px/1.5 'DM Sans', sans-serif; color: #111; } }
+
+// Biggest Little Media: near-black, cream type, Bebas caps with a script "little", cream pill buttons
+.tz-sub .pj-blm { border-radius: 18px; color: #c4bfb3; font: 400 16px/1.5 'DM Sans', sans-serif; background: radial-gradient(110% 90% at 105% 110%, rgba(160, 86, 38, .42), transparent 58%), #171616;
+  .pj-logo { position: absolute; top: 16px; right: 22px; width: 64px; height: auto; }
+  > p:not([class]) { max-width: 86%; }
+  .pj-tag { font: 600 11px/1.4 'DM Sans', sans-serif; letter-spacing: .32em; text-transform: uppercase; color: #a09a8c; }
+  h3 { font: 400 clamp(38px, 4.4vw, 52px)/.9 'Bebas Neue', sans-serif; letter-spacing: .01em; text-transform: uppercase; color: #ede8d8; }
+  h3 em { margin: 0 .12em 0 .08em; font: 400 .72em/0 'Great Vibes', cursive; text-transform: none; }
+  .pj-btn { padding: 5px 18px; border-radius: 99px; background: #ede8d8; color: #141210; font-weight: 600; font-size: 14px; transition: background .15s ease; &:hover, &:focus-visible { background: #f7f3ea; } }
+  .pj-alt { color: #c4bfb3; } }
+
+// WHOSE DEBUT?: off-white, black Do Hyeon headline, a heavy rule, mono tags, a record
+.tz-sub .pj-wd { border: 3px solid #111; background: #FAF5F0; color: #3A342E; font: 400 18px/1.3 'Do Hyeon', sans-serif; padding-top: 40px;
+  .pj-tag { position: absolute; top: 0; left: 0; padding: 4px 11px; background: #111; color: #fff; font: 400 11px/1.4 ui-monospace, Menlo, Consolas, monospace; letter-spacing: .06em; text-transform: uppercase; }
+  h3 { margin: 0; font: 400 clamp(36px, 4.2vw, 50px)/.95 'Do Hyeon', sans-serif; color: #111; letter-spacing: -.01em; }
+  .pj-rule { align-self: stretch; height: 9px; margin: 10px -26px 12px; background: #111; }
+  .pj-vinyl { position: absolute; top: 12px; right: 20px; z-index: 1; width: 72px; height: 72px; border-radius: 50%; box-shadow: 0 0 0 2px #E5574A;
+    background: radial-gradient(circle, #fff 0 3px, #F05A4D 4px 15px, transparent 15.5px), repeating-radial-gradient(circle, #111 0 2px, #2b2b2b 2px 3px); }
+  .pj-btn { padding: 0 4px; margin: 0 -4px; color: #3A342E; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; transition: background .15s ease, color .15s ease; &:hover, &:focus-visible { background: #111; color: #FAF5F0; } }
+  .pj-alt { color: #3A342E; } }
+
+// Luna Lash & Beauty Co: deep plum, Cormorant serif, white pills, soft lavender and mauve shapes
+.tz-sub .pj-luna { border-radius: 22px; background: #3A2065; color: #F8F8FF; font: 400 15px/1.55 'Montserrat', sans-serif;
+  .pj-tag { font: 500 11px/1.4 'Montserrat', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: #D7C0E4; }
+  h3 { margin: 4px 0 8px; font: 600 clamp(32px, 3.6vw, 40px)/1.05 'Cormorant', serif; color: #F8F8FF; }
+  > p:not([class]) { max-width: 88%; }
+  .pj-leaf { position: absolute; z-index: 0; top: -28px; right: -26px; width: 104px; height: 104px; border-radius: 50% 0 50% 50%; background: #AE669E; }
+  .pj-pebble { position: absolute; z-index: 0; right: 34px; bottom: -18px; width: 56px; height: 56px; border-radius: 16px; background: #D7C0E4; }
+  .pj-swirl { position: absolute; z-index: 0; right: 60px; bottom: 12px; width: 120px; height: 68px; }
+  .pj-btn { padding: 5px 18px; border-radius: 99px; background: #F8F8FF; color: #3A2065; font-weight: 500; font-size: 14px; transition: background-color .2s ease, color .2s ease, transform .2s ease;
+    &:hover, &:focus-visible { background: #AE669E; color: #F8F8FF; transform: scale(1.05); } }
+  .pj-alt { color: #D7C0E4; } }
+
+// Stock Z: forest green, wide-set Michroma caps with a green Z, chamfered gold buttons
+.tz-sub .pj-stockz { --cut: 18px; background: #10241A; color: #DCD3A6; font: 400 16px/1.45 'Barlow', sans-serif;
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  .pj-tag { font: 600 11px/1.4 'Barlow', sans-serif; letter-spacing: .24em; text-transform: uppercase; color: #7FA36A; }
+  h3 { margin: 9px 0 10px; font: 400 clamp(24px, 2.6vw, 28px)/1 'Michroma', sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #F2ECD2; }
+  h3 span { color: #9BCB5E; }
+  .pj-chart { position: absolute; z-index: 0; top: 20px; right: 22px; width: 120px; height: 50px; }
+  .pj-btn { padding: 6px 20px; background: #E8A93A; color: #10241A; font: 600 12px/1.5 'Barlow', sans-serif; letter-spacing: .2em; text-transform: uppercase; box-shadow: inset -3px -3px 0 #A8691E;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); transition: background-color .15s cubic-bezier(.2, .7, .2, 1), transform .12s cubic-bezier(.2, .7, .2, 1);
+    &:hover, &:focus-visible { background: #F5DE82; } &:active { transform: translate(2px, 2px); } }
+  .pj-alt { color: #DCD3A6; } }
+
+// Archivist: not on this machine, so this follows its logo tile (warm paper, black lettering, thin black rules)
+.tz-sub .pj-arch { background: #EBE8E2; color: #111; border: 2px solid #111; border-radius: 12px; font: 400 16px/1.5 'Bricolage Grotesque', system-ui, sans-serif;
+  .pj-tag { font: 400 13px/1.4 'DotGothic16', monospace; letter-spacing: .04em; text-transform: uppercase; }
+  h3 { margin: 6px 0 8px; padding-bottom: 8px; width: 100%; border-bottom: 2px solid #111; font: 800 clamp(32px, 3.6vw, 42px)/1 'Fraunces', Georgia, serif; font-variation-settings: 'SOFT' 100, 'WONK' 1; letter-spacing: -.02em; }
+  .pj-btn { padding: 4px 16px; border: 2px solid #111; border-radius: 6px; background: #111; color: #EBE8E2; font-weight: 600; font-size: 14px; }
+  .pj-alt { color: #111; font-weight: 600; } }
+
+.tz-sub .pj-go .pj-btn:focus-visible, .tz-sub .pj-alt:focus-visible { outline: 3px solid var(--seaglass); outline-offset: 3px; }
+@media (hover: hover) { .tz-sub .pj-blm .pj-btn:hover .pj-arr, .tz-sub .pj-luna .pj-btn:hover .pj-arr { transform: translateX(3px); } }
+@media (prefers-reduced-motion: reduce) { .pj-pin, .pj-pin::before { transition: none !important; } .tz-sub .pj a, .tz-sub .pj .pj-arr { transition: none !important; } }
+
+@media (max-width: 900px) {
+  .tz-sub .pj-intra { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+}
+@media (max-width: 700px) {
+  .pj-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .tz-sub .pj { padding: 20px 20px 22px; }
+  .tz-sub .pj-intra { padding: 24px 18px 24px; }
+  .tz-sub .pj-intra .pj-tag { right: 18px; }
+  .tz-sub .pj-intra .pj-checks { font-size: 14px; }
+  .tz-sub .pj-wd .pj-rule { margin-inline: -20px; }
+}
+
+// An empty seed-packet slot: the seventh card is an invitation.
+.tz-sub .pj-you { background: rgba(255, 255, 255, .4); border: 3px dashed var(--kelp); border-radius: var(--bud); color: var(--peat); font: 400 16px/1.5 'Bricolage Grotesque', system-ui, sans-serif; text-decoration: none; transition: background .3s ease;
+  svg { position: absolute; z-index: 0; right: 22px; top: 18px; width: 84px; height: 84px; fill: var(--lichen); stroke: var(--kelp); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; fill-opacity: .8; }
+  .pj-tag { font: 400 13px/1.4 'DotGothic16', monospace; text-transform: uppercase; color: var(--tangerine); }
+  h3 { font: 800 clamp(30px, 3.4vw, 40px)/1 'Fraunces', Georgia, serif; font-variation-settings: 'SOFT' 100, 'WONK' 1; color: var(--kelp); }
+  > p:not([class]) { max-width: 80%; }
+  .pj-btn { padding: 5px 18px; border: 2px solid rgba(38, 30, 22, .55); border-radius: var(--bud); background: var(--tangerine); box-shadow: var(--moulded); font-weight: 700; }
+  &:hover { background: rgba(197, 215, 126, .45); } }

@@ -102,14 +102,14 @@ export const projects = {
   },
   portfolio: {
     projectTitle: 'Portfolio Website',
-    projectDesc: 'The website you’re viewing now, built with React, Sass, and Gatsby.',
+    projectDesc: 'The website you’re viewing now, built with React, Sass, and Vite.',
     projectLink: '',
     githubLink: 'https://github.com/Africk-Hunter/Portfolio',
     projectImage: portfolioImage,
     technologyArray: [
       { name: 'React.JS' },
       { name: 'Sass' },
-      { name: 'Gatsby' },
+      { name: 'Vite' },
     ]
   },
   twentyOnOff: {

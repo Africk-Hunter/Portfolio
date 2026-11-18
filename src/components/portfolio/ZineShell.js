@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { navigate } from 'gatsby';
+import { useNavigate } from 'react-router-dom';
 import { usePage, useMedia, PHONE, smooth, injectFace } from './kit';
 import ZineFooter from './ZineFooter';
 import { useSlamIntro, ZINE_REVEALS } from './loadIn';
@@ -7,23 +7,25 @@ import '../../styles/portfolio/zine.scss';
 
 const PAPER = '#F2EFDF';
 
-// The zine's paper, running header and footer around any other page (/404).
+// The zine's paper, running header and footer around any other page (/404, /web-design, /music).
 // `sections` is [id, label] pairs for the in-page tabs; each section element carries a matching id.
-// Like the Zine it measures the screen, so it renders client-side only: a blank sheet of paper fills in until then.
-export default function ZineShell({ sections = [], contactId, children }) {
+// `prerender` pages (the indexable ones) ship their full content in the HTML and skip the load-in animation, so search
+// engines and slow connections see the text at once. Other pages (404) render client-side only, after the intro starts.
+export default function ZineShell({ sections = [], contactId, prerender = false, children }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  return mounted
-    ? <Sheet sections={sections} contactId={contactId}>{children}</Sheet>
+  return prerender || mounted
+    ? <Sheet sections={sections} contactId={contactId} intro={!prerender}>{children}</Sheet>
     : <div style={{ position: 'fixed', inset: 0, background: PAPER }} />;
 }
 
-function Sheet({ sections, contactId, children }) {
-  usePage(null, PAPER); // fonts are self-hosted (see gatsby-ssr.js), as for the Zine
+function Sheet({ sections, contactId, intro, children }) {
+  usePage(null, PAPER); // fonts are self-hosted (see _fonts.scss), as for the Zine
   useEffect(injectFace, []);
   const rootEl = useRef(null);
   // No masthead here, so the intro is just a short beat before the same scroll-in reveals the Zine uses.
-  useSlamIntro(rootEl, { mast: '.tz-mast', shake: '.tz-cover', reveals: ZINE_REVEALS, typed: '.tz-nav > button, .tz-nav > div > button:not(.tz-nav-home)' });
+  // `intro` never changes for a given page, so the hook is called the same way on every render.
+  useSlamIntro(rootEl, { mast: '.tz-mast', shake: '.tz-cover', reveals: intro ? ZINE_REVEALS : [], typed: '.tz-nav > button, .tz-nav > div > button:not(.tz-nav-home)', off: !intro });
   const phone = useMedia(PHONE);
   const [active, setActive] = useState(null);
 
@@ -32,6 +34,7 @@ function Sheet({ sections, contactId, children }) {
     if (el) el.scrollIntoView({ behavior: smooth(), block: 'start' });
   };
   const toTop = () => rootEl.current && rootEl.current.scrollTo({ top: 0, behavior: smooth() });
+  const navigate = useNavigate();
   const home = () => navigate('/');
 
   // Lights the tab for the section in view.

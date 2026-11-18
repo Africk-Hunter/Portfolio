@@ -2,3 +2,6 @@ node_modules/
 .cache/
 public
 programmer_docs/linkedin-header/
+.claude/settings.local.json
+dist
+.vite-react-ssg-temp

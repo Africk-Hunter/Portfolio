@@ -4,7 +4,7 @@ import githubIcon from '../images/githubIcon.svg';
 import spotifyIcon from '../images/greenSpotify.svg';
 import arrow from '../images/arrow.svg';
 import aboutPicture from '../images/NewPic.png';
-import scrollTo from 'gatsby-plugin-smoothscroll';
+const scrollTo = (sel) => { const el = document.querySelector(sel); if (el) el.scrollIntoView({ behavior: 'smooth' }); };
 
 
 const About = ({ showSpotify = true, bio }) => {

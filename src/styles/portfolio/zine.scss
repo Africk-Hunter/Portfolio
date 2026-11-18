@@ -661,16 +661,18 @@
   a, button { transition: color .2s, transform .2s var(--boing); }
 }
 .tz-foot-in {
-  display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)); gap: 36px; max-width: 1240px; margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr)) max-content; gap: 32px; max-width: 1240px; margin: 0 auto;
   padding: 56px clamp(16px, 3vw, 36px) 36px;
 }
 .tz-foot-name { font: 900 clamp(34px, 4vw, 52px)/.9 var(--serif); font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1; letter-spacing: -.03em; color: var(--lichen); }
 .tz-foot-line { margin-top: 8px; font: italic 300 17px/1.4 var(--serif); font-variation-settings: 'SOFT' 100; color: rgba(242, 239, 223, .82); }
+.tz-foot-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; padding: 0; list-style: none;
+  li { padding: 3px 11px; border: 1.5px solid rgba(121, 212, 192, .5); border-radius: 999px; font: 400 12px/1.4 var(--lcd); letter-spacing: .04em; text-transform: uppercase; color: var(--seaglass); } }
 .tz .tz-foot .tz-foot-h { margin: 0 0 10px; font: 400 13px/1.4 var(--lcd); font-variation-settings: normal; letter-spacing: .04em; text-transform: uppercase; color: var(--seaglass); }
 .tz-foot-col ul { display: grid; gap: 2px; }
 .tz-foot-col li > a, .tz-foot-col li > button { display: inline-block; padding: 4px 0; font-weight: 600; font-size: 17px; color: var(--shell);
   &:hover { color: var(--fly); transform: translateX(4px); } }
-.tz-foot-mail { display: inline-block; font-weight: 700; font-size: 18px; color: var(--fly); overflow-wrap: anywhere; text-decoration: underline wavy var(--tangerine) 1.5px; text-underline-offset: 5px; &:hover { color: var(--shell); } }
+.tz-foot-mail { display: inline-block; font-weight: 700; font-size: 18px; color: var(--fly); white-space: nowrap; text-decoration: underline wavy var(--tangerine) 1.5px; text-underline-offset: 5px; &:hover { color: var(--shell); } }
 .tz-foot-col .tz-foot-line { max-width: 28ch; }
 .tz-foot-base { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; max-width: 1240px; margin: 0 auto;
   padding: 18px clamp(16px, 3vw, 36px) 26px; border-top: 1.5px solid rgba(121, 212, 192, .3); font: 400 13px/1.4 var(--lcd); color: rgba(242, 239, 223, .72); }
@@ -686,6 +688,7 @@
 
 @media (max-width: 1024px) {
   .tz-foot-in { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; padding-top: 48px; }
+  .tz-foot-mail { font-size: 17px; }
   .tz-foot-brand { grid-column: 1 / -1; }
 }
 @media (max-width: 700px) {
