@@ -3,6 +3,9 @@ import { getStore } from '@netlify/blobs';
 import { DEFAULT_TEMPLATE, TEMPLATE_LIMITS as T, TEMPLATE_ID_RE } from '../../src/data/intake.js';
 
 export const templateStore = () => getStore('intake-templates');
+// Short links made in /admin: code -> { template, name, email, client }. Keeps the client's details out of the URL.
+export const linkStore = () => getStore('intake-links');
+export const CODE_RE = /^[a-z0-9]{10}$/;
 
 const clean = (v, max) => (typeof v === 'string' ? v.replace(/\r\n/g, '\n').trim().slice(0, max) : '');
 

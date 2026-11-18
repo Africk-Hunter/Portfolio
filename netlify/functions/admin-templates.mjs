@@ -3,9 +3,10 @@
 //   GET            -> { templates: [...] }   (the built-in default is included unless you have saved your own "default")
 //   PUT  {template} -> { template }
 //   DELETE ?id=<id> -> { ok: true }
-import { createHash, timingSafeEqual } from 'node:crypto';
+//   POST {link: {template, name, email, client?}} -> { code }   (a short link: /intake?c=<code>)
+import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { DEFAULT_TEMPLATE, TEMPLATE_ID_RE } from '../../src/data/intake.js';
-import { templateStore, sanitizeTemplate } from '../lib/templates.mjs';
+import { templateStore, linkStore, sanitizeTemplate } from '../lib/templates.mjs';
 
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
 const digest = (s) => createHash('sha256').update(String(s)).digest();
@@ -33,6 +34,22 @@ export default async (req) => {
       if (out.error) return json(400, { error: out.error });
       await store.setJSON(out.template.id, out.template);
       return json(200, { template: out.template });
+    }
+    if (req.method === 'POST') {
+      const body = await req.json().catch(() => null);
+      const l = body && body.link;
+      const clean = (v, max) => (typeof v === 'string' ? v.replace(/[\r\n]+/g, ' ').trim().slice(0, max) : '');
+      const template = clean(l && l.template, 40).toLowerCase();
+      const name = clean(l && l.name, 200);
+      const email = clean(l && l.email, 254);
+      const client = clean(l && l.client, 80).replace(/[^\w\- ]/g, '');
+      if (!TEMPLATE_ID_RE.test(template) || !name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { error: 'Add their name and a valid email.' });
+      const links = linkStore();
+      const letters = 'abcdefghjkmnpqrstuvwxyz23456789';
+      let code = '';
+      do { code = Array.from(randomBytes(10), (b) => letters[b % letters.length]).join(''); } while (await links.get(code));
+      await links.setJSON(code, { template, name, email, client, created: new Date().toISOString() });
+      return json(200, { code });
     }
     if (req.method === 'DELETE') {
       const id = new URL(req.url).searchParams.get('id') || '';

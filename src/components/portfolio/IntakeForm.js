@@ -9,9 +9,9 @@ const wipe = (id) => { try { localStorage.removeItem(keyFor(id)); } catch { /* i
 const EMAIL_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Which template this link asks for (?t=<id>), falling back to the built-in one if it can't be fetched (e.g. local dev).
-async function fetchTemplate(id) {
+async function fetchTemplate(id, code) {
   try {
-    const res = await fetch(`/.netlify/functions/intake-template?t=${encodeURIComponent(id)}`);
+    const res = await fetch(`/.netlify/functions/intake-template?${code ? `c=${encodeURIComponent(code)}` : `t=${encodeURIComponent(id)}`}`);
     const t = res.ok ? await res.json() : null;
     return t && Array.isArray(t.questions) && t.questions.length ? t : DEFAULT_TEMPLATE;
   } catch { return DEFAULT_TEMPLATE; }
@@ -40,12 +40,14 @@ export default function IntakeForm() {
     let live = true;
     const params = new URLSearchParams(window.location.search);
     (async () => {
-      const t = await fetchTemplate(params.get('t') || 'default');
+      const t = await fetchTemplate(params.get('t') || 'default', params.get('c'));
       if (!live) return;
       const s = load(t.id);
       // A link made in /admin can carry the client's name and email (?name=&email=), so they don't have to type them.
-      const pn = (params.get('name') || '').trim().slice(0, INTAKE_LIMITS.name);
-      const pe = (params.get('email') || '').trim().slice(0, INTAKE_LIMITS.email);
+      // A short link (?c=) has them stored server-side; older long links carry them in the URL (?name=&email=).
+      const pf = t.prefill || {};
+      const pn = String(pf.name || params.get('name') || '').trim().slice(0, INTAKE_LIMITS.name);
+      const pe = String(pf.email || params.get('email') || '').trim().slice(0, INTAKE_LIMITS.email);
       if (pn && EMAIL_OK.test(pe)) { setKnown(true); setName(pn); setEmail(pe); } else {
         if (s.name) setName(s.name);
         if (s.email) setEmail(s.email);
@@ -54,8 +56,8 @@ export default function IntakeForm() {
       // With name and email already known there is nothing to ask on the welcome screen, so open on the first question.
       const saved = Number.isInteger(s.step) && s.step >= 0 && s.step <= t.questions.length ? s.step : 0;
       setStep(pn && EMAIL_OK.test(pe) ? Math.max(1, saved) : saved);
-      const q = params.get('client');
-      setClient(q ? q.slice(0, INTAKE_LIMITS.client) : (s.client || ''));
+      const q = pf.client || params.get('client');
+      setClient(q ? String(q).slice(0, INTAKE_LIMITS.client) : (s.client || ''));
       setTpl(t);
       setReady(true);
     })();

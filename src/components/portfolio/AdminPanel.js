@@ -36,6 +36,7 @@ export default function AdminPanel() {
   const [toName, setToName] = useState('');
   const [toEmail, setToEmail] = useState('');
   const [copied, setCopied] = useState(false);
+  const [made, setMade] = useState({ key: '', code: '' }); // the short code last made, and the fields it was made for
   const [tab, setTab] = useState('q');   // q = questions, s = screens, send
   const [snap, setSnap] = useState('');   // the draft as last saved, to tell when there are unsaved changes
 
@@ -103,15 +104,26 @@ export default function AdminPanel() {
   };
 
   // Name and email only go into the link when both are filled in (the form then skips asking for them).
+  // With a name and email the link is a short code (/intake?c=k7m2x9qpwa) made on request; without them it is already short.
+  const needsCode = !!(toName.trim() && toEmail.trim());
+  const key = [draft && draft.id, toName.trim(), toEmail.trim(), clientSlug].join('|');
+  const code = made.key === key ? made.code : ''; // editing any of those fields retires the old code
   const link = (() => {
     if (!draft || !draft.id) return '';
+    if (needsCode) return code ? `${window.location.origin}/intake?c=${code}` : '';
     const p = new URLSearchParams();
     if (draft.id !== 'default') p.set('t', draft.id);
     if (clientSlug) p.set('client', clientSlug);
-    if (toName.trim() && toEmail.trim()) { p.set('name', toName.trim()); p.set('email', toEmail.trim()); }
     const qs = p.toString();
     return `${window.location.origin}/intake${qs ? `?${qs}` : ''}`;
   })();
+  const makeLink = async () => {
+    setBusy(true); setNote('');
+    try {
+      const { code: c } = await api(pw, 'POST', '', { link: { template: draft.id, name: toName.trim(), email: toEmail.trim(), client: clientSlug } });
+      setMade({ key, code: c });
+    } catch (e) { setNote(e.message); } finally { setBusy(false); }
+  };
   const copy = async () => {
     try { await navigator.clipboard.writeText(link); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch { setNote('Couldn’t copy. Select the link and copy it.'); }
   };
@@ -232,11 +244,13 @@ export default function AdminPanel() {
                   <label className="ad-lab" htmlFor="ad-client">Tag <em>(optional, shows up in the email you receive)</em></label>
                   <input id="ad-client" className="ad-field" maxLength={80} placeholder="e.g. dr-smith" value={clientSlug} onChange={(e) => setClientSlug(slug(e.target.value, 80))} />
                   <label className="ad-lab" htmlFor="ad-link">Link</label>
-                  <input id="ad-link" className="ad-field ad-link" readOnly value={link} onFocus={(e) => e.target.select()} />
+                  <input id="ad-link" className="ad-field ad-link" readOnly value={link} placeholder={needsCode ? 'Press “Make short link” below' : ''} onFocus={(e) => e.target.select()} />
                   <div className="tz-row">
-                    <button type="button" className="tz-jelly tz-jelly-s" onClick={copy}>{copied ? 'Copied' : 'Copy link'}</button>
-                    <a className="tz-jelly tz-jelly-pale tz-jelly-s" href={link} target="_blank" rel="noopener noreferrer">Preview</a>
+                    {needsCode && !link && <button type="button" className="tz-jelly tz-jelly-s" onClick={makeLink} disabled={busy}>{busy ? 'Making…' : 'Make short link'}</button>}
+                    {link && <button type="button" className="tz-jelly tz-jelly-s" onClick={copy}>{copied ? 'Copied' : 'Copy link'}</button>}
+                    {link && <a className="tz-jelly tz-jelly-pale tz-jelly-s" href={link} target="_blank" rel="noopener noreferrer">Preview</a>}
                   </div>
+                  {needsCode && <p className="ad-hint">Their name and email are kept on the server, not in the link.</p>}
                   {dirty && <p className="ad-hint ad-warn">You have unsaved changes. The link shows the last saved version.</p>}
                 </section>
               </div>
