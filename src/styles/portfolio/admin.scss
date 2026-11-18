@@ -1,8 +1,10 @@
-// /admin: template list on the left, the editor sheet on the right. Builds on the .in-* pieces from intake.scss.
+// /admin: the template list on the left, the editor sheet on the right. Builds on the .in-* pieces from intake.scss.
+// The editor is one sheet: a title, three tabs (questions / screens / send) and a save bar that stays in view.
 .in-wrap.ad-wrap { max-width: 1240px; }
 .ad-out { font: 400 14px var(--lcd); text-transform: uppercase; letter-spacing: .04em; text-decoration: underline wavy var(--tangerine) 1.5px; text-underline-offset: 4px; }
 .ad-grid { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); align-items: start; }
 
+// ── template list ──
 .ad-list { position: sticky; top: 72px;
   ul { display: grid; gap: 10px; margin: 12px 0 16px; }
   li button { display: block; width: 100%; padding: 12px 16px; border-radius: var(--bud); border: 2px solid var(--peat); box-shadow: var(--moulded); background: linear-gradient(180deg, rgba(255, 255, 255, .55), transparent 55%), var(--lichen);
@@ -10,26 +12,73 @@
   li button.is-on { background: linear-gradient(180deg, rgba(255, 255, 255, .55), transparent 55%), var(--tangerine); }
   li b { display: block; font-weight: 700; } li span { font: 400 13px var(--lcd); text-transform: uppercase; letter-spacing: .04em; color: var(--ink2); }
   li .is-on span { color: var(--peat); } }
-
-.ad-editor { .in-nav { margin-top: 16px; } }
 .ad-empty { min-height: 160px; display: grid; align-content: center; }
-.ad-h { margin: 34px 0 0; padding-top: 14px; border-top: 2px dashed var(--seam); font: 900 26px/1.1 var(--serif); font-variation-settings: 'SOFT' 100, 'WONK' 1; letter-spacing: -.02em; color: var(--kelp); }
-.ad-qs { display: grid; gap: 4px; margin: 0 0 14px; padding: 0;
-  li { position: relative; padding-right: 56px; }
-  textarea { resize: vertical; } }
-.ad-qbtns { position: absolute; right: 0; top: 40px; display: grid; gap: 6px;
-  button { width: 44px; height: 36px; display: grid; place-items: center; border-radius: 50%/60%; border: 2px solid var(--peat); background: var(--shell); box-shadow: var(--moulded); font-weight: 700; font-size: 18px; text-align: center;
-    &:hover:not(:disabled) { background: var(--lichen); } &:disabled { opacity: .35; cursor: default; } } }
-.ad-share { margin-top: 10px; }
+
+// ── the editor sheet ──
+.ad-editor { position: relative; min-width: 0; padding: clamp(22px, 3vw, 36px) clamp(18px, 3.4vw, 40px) 0; border-radius: var(--bud); border: 2px solid var(--peat); box-shadow: var(--moulded);
+  background: linear-gradient(170deg, rgba(255, 255, 255, .6), transparent 40%), #FBF9EC; animation: in-rise .35s cubic-bezier(.22, 1, .36, 1) backwards; }
+
+// shared field look: big, high contrast text
+.ad-lab { display: block; margin: 22px 0 6px; font: 400 14px/1.4 var(--lcd); letter-spacing: .04em; text-transform: uppercase; color: var(--ink2); em { font-style: normal; text-transform: none; letter-spacing: 0; opacity: .8; } }
+.ad-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.ad-field { display: block; width: 100%; padding: 14px 18px; border-radius: var(--bud); border: 2px solid var(--peat); background: #fff; color: var(--peat); box-shadow: var(--pressed); resize: vertical;
+  font: 400 20px/1.55 'Bricolage Grotesque', system-ui, sans-serif; transition: background-color .2s;
+  &::placeholder { color: var(--ink2); opacity: .7; } &:focus-visible { outline: 3px solid var(--seaglass); outline-offset: 2px; }
+  &:read-only { background: rgba(255, 255, 255, .55); } }
+textarea.ad-field { min-height: 8.5em; field-sizing: content; } // grows with its text where the browser supports it
+textarea.ad-qfield { min-height: 6.5em; }
+.ad-link { font-size: 17px; }
+.ad-hint { margin-top: 4px; font-size: 16px; color: var(--ink2); }
+.ad-warn { margin-top: 14px; font-weight: 700; color: var(--peat); }
+
+// title row
+.ad-head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 20px; padding-bottom: 18px; border-bottom: 2px dashed var(--seam); }
+.ad-title { flex: 1 1 320px; min-width: 0; .ad-lab { margin-top: 0; } }
+.ad-name { width: 100%; padding: 4px 0 6px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--kelp); transition: border-color .2s;
+  font: 900 clamp(30px, 4vw, 46px)/1.1 var(--serif); font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1; letter-spacing: -.03em;
+  &:hover { border-color: var(--seam); } &:focus-visible { outline: none; border-color: var(--tangerine); } &::placeholder { color: var(--ink2); opacity: .5; } }
+.ad-linkname { flex: 1 1 100%; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 6px; font: 400 14px var(--lcd); letter-spacing: .03em; color: var(--ink2);
+  label { text-transform: uppercase; margin-right: 6px; }
+  input { padding: 2px 6px; border: 0; border-bottom: 2px solid var(--seam); border-radius: 0; background: none; color: var(--peat); font: 400 16px var(--lcd); max-width: 100%;
+    &:focus-visible { outline: none; border-color: var(--tangerine); } &:read-only { border-bottom-color: transparent; } }
+  small { margin-left: 8px; font-size: 13px; } }
+
+// tabs
+.ad-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 6px;
+  button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 20px; border-radius: var(--bud); border: 2px solid var(--peat); font-weight: 700; font-size: 17px; text-align: center;
+    background: rgba(255, 255, 255, .55); box-shadow: var(--moulded); transition: transform .2s, background-color .2s;
+    &:hover:not(:disabled) { transform: translateY(-1px); background: var(--lichen); }
+    &.is-on { background: linear-gradient(180deg, rgba(255, 255, 255, .5), transparent 50%), var(--tangerine); box-shadow: var(--pressed); }
+    &:disabled { opacity: .45; cursor: default; }
+    &:focus-visible { outline: 3px solid var(--seaglass); outline-offset: 2px; } }
+  i { display: grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 999px; font: 400 14px var(--lcd); font-style: normal; background: var(--peat); color: var(--shell); } }
+.ad-panel { padding: 8px 0 28px; animation: in-rise .3s cubic-bezier(.22, 1, .36, 1) backwards; }
+.ad-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; }
+
+// questions: one numbered card each
+.ad-qs { display: grid; gap: 14px; margin: 12px 0 18px; padding: 0; }
+.ad-q { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 14px; align-items: start; padding: 14px; border-radius: var(--bud); border: 2px solid var(--seam); background: rgba(255, 255, 255, .45); }
+.ad-num { display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--pebble); border: 2px solid var(--peat); background: var(--tangerine); box-shadow: var(--moulded); font: 400 20px var(--lcd); }
+.ad-qbtns { display: grid; gap: 6px;
+  button { width: 44px; height: 40px; display: grid; place-items: center; border-radius: 50% / 60%; border: 2px solid var(--peat); background: var(--shell); box-shadow: var(--moulded); font-weight: 700; font-size: 20px; text-align: center;
+    &:hover:not(:disabled) { background: var(--lichen); } &:disabled { opacity: .3; cursor: default; } &:focus-visible { outline: 3px solid var(--seaglass); outline-offset: 2px; } } }
+
+// cards on the screens / send tabs
+.ad-card { min-width: 0; margin-top: 12px; padding: 4px 0;
+  h2 { font: 900 26px/1.1 var(--serif); font-variation-settings: 'SOFT' 100, 'WONK' 1; letter-spacing: -.02em; color: var(--kelp); }
+  .tz-row { margin-top: 22px; } }
+
+// the save bar stays at the foot of the view while you edit
+.ad-bar { position: sticky; bottom: 0; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px 18px; margin: 0 calc(-1 * clamp(18px, 3.4vw, 40px)); padding: 14px clamp(18px, 3.4vw, 40px);
+  border-top: 2px solid var(--seam); border-radius: 0 0 var(--bud) var(--bud); background: #FBF9EC;
+  .tz-jelly { padding: 10px 26px; font-size: 18px; } .tz-jelly:disabled { opacity: .55; cursor: default; transform: none; filter: none; } }
+.ad-status { flex: 1 1 200px; font-weight: 700; color: var(--kelp); min-height: 1.5em; }
+.ad-danger { padding: 8px 6px; font-size: 16px; font-weight: 700; color: var(--ink2); text-decoration: underline; text-underline-offset: 4px; &:hover:not(:disabled) { color: #b3261e; } &:focus-visible { outline: 3px solid var(--seaglass); outline-offset: 2px; } }
 
 @media (max-width: 800px) { .ad-grid { grid-template-columns: minmax(0, 1fr); } .ad-list { position: static; } }
-@media (prefers-reduced-motion: reduce) { .ad-list li button { transition: none; } }
-
-// the editor uses the extra width: basics, welcome and thank-you on the left, the questions on the right
-.ad-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 clamp(24px, 3vw, 48px); }
-.ad-h-first { margin-top: 20px; }
-@media (min-width: 1000px) {
-  .ad-cols { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
-  .ad-h-first { margin-top: 0; padding-top: 0; border-top: 0; }
-  .ad-qs textarea { min-height: 84px; }
+@media (max-width: 640px) {
+  .ad-two { grid-template-columns: minmax(0, 1fr); }
+  .ad-q { grid-template-columns: minmax(0, 1fr) 44px; .ad-num { display: none; } }
+  .ad-bar .tz-jelly { flex: 1; justify-content: center; }
 }
+@media (prefers-reduced-motion: reduce) { .ad-editor, .ad-panel { animation: none; } .ad-list li button, .ad-tabs button, .ad-field, .ad-name { transition: none; } }

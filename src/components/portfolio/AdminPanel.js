@@ -22,6 +22,7 @@ const blank = () => ({
   thanks: { heading: 'Thank you.', blurb: 'I’ve got your answers and I’ll be in touch at {email}. You can close this page.' },
   questions: [{ id: 'q1', prompt: '' }],
 });
+const core = (d) => JSON.stringify({ id: d.id, name: d.name, intro: d.intro, thanks: d.thanks, questions: d.questions }); // what counts as an edit
 const toDraft = (t) => ({ ...t, isNew: false, intro: { heading: '', blurb: '', ...t.intro }, thanks: { heading: '', blurb: '', ...t.thanks } });
 
 export default function AdminPanel() {
@@ -35,6 +36,8 @@ export default function AdminPanel() {
   const [toName, setToName] = useState('');
   const [toEmail, setToEmail] = useState('');
   const [copied, setCopied] = useState(false);
+  const [tab, setTab] = useState('q');   // q = questions, s = screens, send
+  const [snap, setSnap] = useState('');   // the draft as last saved, to tell when there are unsaved changes
 
   const signIn = useCallback(async (password) => {
     setBusy(true); setNote('');
@@ -49,8 +52,10 @@ export default function AdminPanel() {
   useEffect(() => { const p = getPw(); if (p) signIn(p); }, [signIn]);
 
   const signOut = () => { setPw(''); setPass(''); setEntered(''); setTemplates(null); setDraft(null); };
-  const edit = (t) => { setDraft(toDraft(t)); setNote(''); setCopied(false); };
-  const set = (patch) => setDraft((d) => ({ ...d, ...patch }));
+  const open = (d, fresh) => { setDraft(d); setSnap(fresh ? '' : core(d)); };
+  const edit = (t) => { open(toDraft(t)); setTab('q'); setNote(''); setCopied(false); };
+  const dirty = !!draft && core(draft) !== snap;
+  const set = (patch) => { setNote(''); setDraft((d) => ({ ...d, ...patch })); };
   const setQ = (i, prompt) => set({ questions: draft.questions.map((q, j) => (j === i ? { ...q, prompt } : q)) });
   const move = (i, by) => {
     const qs = draft.questions.slice(); const j = i + by;
@@ -63,13 +68,18 @@ export default function AdminPanel() {
     set({ questions: [...draft.questions, { id: `q${n}`, prompt: '' }] });
   };
 
-  // Starts a new, unsaved template from the one being edited. The link name gets a free "-copy" suffix.
-  const duplicate = () => {
+  // Saves an exact copy right away and opens it. The copy gets "Copy of" in its name and a free "-copy" link name.
+  // It copies what is on screen, so unsaved edits come along too.
+  const duplicate = async () => {
     const taken = new Set(templates.map((t) => t.id));
     let id = slug(`${draft.id}-copy`, T.id); let n = 2;
     while (taken.has(id)) id = slug(`${draft.id}-copy-${n++}`, T.id);
-    setDraft({ ...draft, isNew: true, id, name: `Copy of ${draft.name}`.slice(0, T.name), builtin: undefined, updatedAt: undefined });
-    setNote('Copied. Rename it and press Save to keep it.'); setCopied(false);
+    setBusy(true); setNote('');
+    try {
+      const { template } = await api(pw, 'PUT', '', { template: { ...draft, id, name: `Copy of ${draft.name}`.slice(0, T.name) } });
+      setTemplates((list) => [...list, template]);
+      open(toDraft(template)); setCopied(false); setNote('Copied. You’re now editing the copy.');
+    } catch (e) { setNote(e.message); } finally { setBusy(false); }
   };
 
   const saveDraft = async () => {
@@ -77,7 +87,7 @@ export default function AdminPanel() {
     try {
       const { template } = await api(pw, 'PUT', '', { template: draft });
       setTemplates((list) => (list.some((t) => t.id === template.id) ? list.map((t) => (t.id === template.id ? template : t)) : [...list, template]));
-      setDraft(toDraft(template)); setNote('Saved.');
+      open(toDraft(template)); setNote('Saved.');
     } catch (e) { setNote(e.message); } finally { setBusy(false); }
   };
 
@@ -137,77 +147,106 @@ export default function AdminPanel() {
                 <b>{t.name}</b><span>{t.questions.length} questions{t.builtin ? ' · built-in' : ''}</span></button></li>
             ))}
           </ul>
-          <button type="button" className="tz-jelly tz-jelly-s" onClick={() => { setDraft(blank()); setNote(''); }}>+ New template</button>
+          <button type="button" className="tz-jelly tz-jelly-s" onClick={() => { open(blank(), true); setTab('q'); setNote(''); }}>+ New template</button>
         </aside>
 
         {draft ? (
-          <section className="in-sheet ad-editor" aria-label="Edit template">
-            <p className="in-tape"><span>{draft.isNew ? 'New' : 'Editing'}</span></p>
-            <div className="ad-cols"><div className="ad-col">
-            <label className="in-label" htmlFor="ad-name">Template name</label>
-            <input id="ad-name" className="in-input" maxLength={T.name} value={draft.name} onChange={(e) => set({ name: e.target.value, ...(draft.isNew ? { id: slug(e.target.value, T.id) } : {}) })} />
-            <label className="in-label" htmlFor="ad-id">Link name</label>
-            <input id="ad-id" className="in-input" maxLength={T.id} value={draft.id} readOnly={!draft.isNew} onChange={(e) => set({ id: slug(e.target.value, T.id) })} />
-            <p className="in-fine">Used in the link. {draft.isNew ? 'It can’t be changed after saving.' : ''}</p>
+          <section className="ad-editor" aria-label="Edit template">
+            <header className="ad-head">
+              <div className="ad-title">
+                <label className="ad-lab" htmlFor="ad-name">Template name</label>
+                <input id="ad-name" className="ad-name" placeholder="Name this template" maxLength={T.name} value={draft.name} onChange={(e) => set({ name: e.target.value, ...(draft.isNew ? { id: slug(e.target.value, T.id) } : {}) })} />
+              </div>
+              {!draft.isNew && <button type="button" className="tz-jelly tz-jelly-pale tz-jelly-s" onClick={duplicate} disabled={busy}>Duplicate</button>}
+              <div className="ad-linkname">
+                <label htmlFor="ad-id">Link name</label>
+                <span aria-hidden="true">/intake?t=</span>
+                <input id="ad-id" maxLength={T.id} value={draft.id} readOnly={!draft.isNew} size={Math.max(8, draft.id.length + 1)} onChange={(e) => set({ id: slug(e.target.value, T.id) })} />
+                {draft.isNew && <small>Can’t be changed after saving.</small>}
+              </div>
+            </header>
 
-            <h2 className="ad-h">Welcome screen</h2>
-            <label className="in-label" htmlFor="ad-ih">Heading</label>
-            <input id="ad-ih" className="in-input" maxLength={T.heading} value={draft.intro.heading} onChange={(e) => set({ intro: { ...draft.intro, heading: e.target.value } })} />
-            <label className="in-label" htmlFor="ad-ib">Intro text (optional)</label>
-            <textarea id="ad-ib" className="in-input" rows={3} maxLength={T.blurb} value={draft.intro.blurb} onChange={(e) => set({ intro: { ...draft.intro, blurb: e.target.value } })} />
-
-            <h2 className="ad-h">Thank-you screen</h2>
-            <label className="in-label" htmlFor="ad-th">Heading</label>
-            <input id="ad-th" className="in-input" maxLength={T.heading} value={draft.thanks.heading} onChange={(e) => set({ thanks: { ...draft.thanks, heading: e.target.value } })} />
-            <label className="in-label" htmlFor="ad-tb">Text (use {'{email}'} for their address)</label>
-            <textarea id="ad-tb" className="in-input" rows={3} maxLength={T.blurb} value={draft.thanks.blurb} onChange={(e) => set({ thanks: { ...draft.thanks, blurb: e.target.value } })} />
-            </div>
-
-            <div className="ad-col">
-            <h2 className="ad-h ad-h-first">Questions</h2>
-            <ol className="ad-qs">
-              {draft.questions.map((q, i) => (
-                <li key={q.id}>
-                  <label className="in-label" htmlFor={`ad-${q.id}`}>Question {i + 1}</label>
-                  <textarea id={`ad-${q.id}`} className="in-input" rows={2} maxLength={T.prompt} value={q.prompt} onChange={(e) => setQ(i, e.target.value)} />
-                  <div className="ad-qbtns">
-                    <button type="button" aria-label={`Move question ${i + 1} up`} disabled={i === 0} onClick={() => move(i, -1)}>&uarr;</button>
-                    <button type="button" aria-label={`Move question ${i + 1} down`} disabled={i === draft.questions.length - 1} onClick={() => move(i, 1)}>&darr;</button>
-                    <button type="button" aria-label={`Remove question ${i + 1}`} disabled={draft.questions.length === 1} onClick={() => set({ questions: draft.questions.filter((_, j) => j !== i) })}>&times;</button>
-                  </div>
-                </li>
+            <div className="ad-tabs" role="tablist" aria-label="Template sections">
+              {[['q', 'Questions'], ['s', 'Welcome & thank-you'], ['send', 'Send']].map(([id, label]) => (
+                <button key={id} type="button" role="tab" id={`ad-tab-${id}`} aria-selected={tab === id} aria-controls={`ad-panel-${id}`} className={tab === id ? 'is-on' : ''}
+                  disabled={id === 'send' && draft.isNew} title={id === 'send' && draft.isNew ? 'Save the template first' : undefined} onClick={() => setTab(id)}>
+                  {label}{id === 'q' && <i>{draft.questions.length}</i>}
+                </button>
               ))}
-            </ol>
-            <button type="button" className="tz-jelly tz-jelly-pale tz-jelly-s" onClick={addQ} disabled={draft.questions.length >= T.questions}>+ Add question</button>
-            </div></div>
-
-            <p className={`in-note${note ? ' is-on' : ''}`} role="status" aria-live="polite">{note}</p>
-            <div className="tz-row in-nav">
-              <button type="button" className="tz-jelly" onClick={saveDraft} disabled={busy}>{busy ? 'Saving…' : 'Save template'}</button>
-              {!draft.isNew && <button type="button" className="tz-jelly tz-jelly-pale" onClick={duplicate} disabled={busy}>Duplicate</button>}
-              {!draft.isNew && <button type="button" className="tz-jelly tz-jelly-pale" onClick={remove} disabled={busy}>{draft.id === 'default' ? 'Reset to built-in' : 'Delete'}</button>}
             </div>
 
-            {!draft.isNew && (
-              <div className="ad-share">
-                <h2 className="ad-h">Send it</h2>
-                <div className="in-who">
-                  <div><label className="in-label" htmlFor="ad-toname">Their name (optional)</label>
-                    <input id="ad-toname" className="in-input" autoComplete="off" maxLength={200} value={toName} onChange={(e) => setToName(e.target.value)} /></div>
-                  <div><label className="in-label" htmlFor="ad-toemail">Their email (optional)</label>
-                    <input id="ad-toemail" className="in-input" type="email" autoComplete="off" maxLength={254} value={toEmail} onChange={(e) => setToEmail(e.target.value)} /></div>
-                </div>
-                <p className="in-fine">Fill in both and they won&rsquo;t be asked for them.</p>
-                <label className="in-label" htmlFor="ad-client">Tag (optional, shows up in the email)</label>
-                <input id="ad-client" className="in-input" maxLength={80} placeholder="e.g. dr-smith" value={clientSlug} onChange={(e) => setClientSlug(slug(e.target.value, 80))} />
-                <label className="in-label" htmlFor="ad-link">Link</label>
-                <input id="ad-link" className="in-input" readOnly value={link} onFocus={(e) => e.target.select()} />
-                <div className="tz-row in-nav">
-                  <button type="button" className="tz-jelly tz-jelly-s" onClick={copy}>{copied ? 'Copied' : 'Copy link'}</button>
-                  <a className="tz-jelly tz-jelly-pale tz-jelly-s" href={link} target="_blank" rel="noopener noreferrer">Preview</a>
-                </div>
+            {tab === 'q' && (
+              <div role="tabpanel" id="ad-panel-q" aria-labelledby="ad-tab-q" className="ad-panel">
+                <ol className="ad-qs">
+                  {draft.questions.map((q, i) => (
+                    <li key={q.id} className="ad-q">
+                      <span className="ad-num" aria-hidden="true">{i + 1}</span>
+                      <div className="ad-qbody">
+                        <label className="ad-sr" htmlFor={`ad-${q.id}`}>Question {i + 1}</label>
+                        <textarea id={`ad-${q.id}`} className="ad-field ad-qfield" rows={3} maxLength={T.prompt} placeholder="Type the question the client will see" value={q.prompt} onChange={(e) => setQ(i, e.target.value)} />
+                      </div>
+                      <div className="ad-qbtns">
+                        <button type="button" aria-label={`Move question ${i + 1} up`} disabled={i === 0} onClick={() => move(i, -1)}>&uarr;</button>
+                        <button type="button" aria-label={`Move question ${i + 1} down`} disabled={i === draft.questions.length - 1} onClick={() => move(i, 1)}>&darr;</button>
+                        <button type="button" aria-label={`Remove question ${i + 1}`} disabled={draft.questions.length === 1} onClick={() => set({ questions: draft.questions.filter((_, j) => j !== i) })}>&times;</button>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+                <button type="button" className="tz-jelly tz-jelly-pale tz-jelly-s" onClick={addQ} disabled={draft.questions.length >= T.questions}>+ Add question</button>
               </div>
             )}
+
+            {tab === 's' && (
+              <div role="tabpanel" id="ad-panel-s" aria-labelledby="ad-tab-s" className="ad-panel ad-two">
+                <section className="ad-card">
+                  <h2>Welcome screen</h2>
+                  <p className="ad-hint">The first thing they see. Clients with a name and email in their link skip it.</p>
+                  <label className="ad-lab" htmlFor="ad-ih">Heading</label>
+                  <input id="ad-ih" className="ad-field" maxLength={T.heading} value={draft.intro.heading} onChange={(e) => set({ intro: { ...draft.intro, heading: e.target.value } })} />
+                  <label className="ad-lab" htmlFor="ad-ib">Intro text <em>(optional)</em></label>
+                  <textarea id="ad-ib" className="ad-field" rows={5} maxLength={T.blurb} value={draft.intro.blurb} onChange={(e) => set({ intro: { ...draft.intro, blurb: e.target.value } })} />
+                </section>
+                <section className="ad-card">
+                  <h2>Thank-you screen</h2>
+                  <p className="ad-hint">Shown after they send it. Write {'{email}'} to include their address.</p>
+                  <label className="ad-lab" htmlFor="ad-th">Heading</label>
+                  <input id="ad-th" className="ad-field" maxLength={T.heading} value={draft.thanks.heading} onChange={(e) => set({ thanks: { ...draft.thanks, heading: e.target.value } })} />
+                  <label className="ad-lab" htmlFor="ad-tb">Text</label>
+                  <textarea id="ad-tb" className="ad-field" rows={5} maxLength={T.blurb} value={draft.thanks.blurb} onChange={(e) => set({ thanks: { ...draft.thanks, blurb: e.target.value } })} />
+                </section>
+              </div>
+            )}
+
+            {tab === 'send' && !draft.isNew && (
+              <div role="tabpanel" id="ad-panel-send" aria-labelledby="ad-tab-send" className="ad-panel">
+                <section className="ad-card">
+                  <h2>Make a link for someone</h2>
+                  <p className="ad-hint">Fill in their name and email and they won’t be asked for them; the form opens on the first question.</p>
+                  <div className="ad-two">
+                    <div><label className="ad-lab" htmlFor="ad-toname">Their name <em>(optional)</em></label>
+                      <input id="ad-toname" className="ad-field" autoComplete="off" maxLength={200} value={toName} onChange={(e) => setToName(e.target.value)} /></div>
+                    <div><label className="ad-lab" htmlFor="ad-toemail">Their email <em>(optional)</em></label>
+                      <input id="ad-toemail" className="ad-field" type="email" autoComplete="off" maxLength={254} value={toEmail} onChange={(e) => setToEmail(e.target.value)} /></div>
+                  </div>
+                  <label className="ad-lab" htmlFor="ad-client">Tag <em>(optional, shows up in the email you receive)</em></label>
+                  <input id="ad-client" className="ad-field" maxLength={80} placeholder="e.g. dr-smith" value={clientSlug} onChange={(e) => setClientSlug(slug(e.target.value, 80))} />
+                  <label className="ad-lab" htmlFor="ad-link">Link</label>
+                  <input id="ad-link" className="ad-field ad-link" readOnly value={link} onFocus={(e) => e.target.select()} />
+                  <div className="tz-row">
+                    <button type="button" className="tz-jelly tz-jelly-s" onClick={copy}>{copied ? 'Copied' : 'Copy link'}</button>
+                    <a className="tz-jelly tz-jelly-pale tz-jelly-s" href={link} target="_blank" rel="noopener noreferrer">Preview</a>
+                  </div>
+                  {dirty && <p className="ad-hint ad-warn">You have unsaved changes. The link shows the last saved version.</p>}
+                </section>
+              </div>
+            )}
+
+            <div className="ad-bar">
+              <p className="ad-status" role="status" aria-live="polite">{note || (dirty ? 'Unsaved changes' : '')}</p>
+              {!draft.isNew && <button type="button" className="ad-danger" onClick={remove} disabled={busy}>{draft.id === 'default' ? 'Reset to built-in' : 'Delete'}</button>}
+              <button type="button" className="tz-jelly" onClick={saveDraft} disabled={busy || (!dirty && !draft.isNew)}>{busy ? 'Saving…' : draft.isNew ? 'Create template' : 'Save changes'}</button>
+            </div>
           </section>
         ) : (
           <section className="in-sheet ad-empty"><p className="tz-stand">Pick a template to edit, or make a new one.</p>{note && <p className="in-note is-on" role="status">{note}</p>}</section>
