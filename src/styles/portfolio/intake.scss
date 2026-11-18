@@ -49,4 +49,19 @@
 @keyframes in-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes in-pop { from { opacity: 0; transform: scale(.9) rotate(-2deg); } to { opacity: 1; transform: none; } }
 @media (max-width: 640px) { .in-who { grid-template-columns: minmax(0, 1fr); } .in-nav .tz-jelly { flex: 1; justify-content: center; } .in-dots li { width: 14px; height: 14px; } }
+// phones: tighter sheet, shorter text boxes so Next stays near, and the Back/Next row sticks to the bottom of the sheet
+@media (max-width: 640px) {
+  .tz-page.tz-intake { padding-bottom: 24px; }
+  .in-wrap .tz-strip { font-size: 12px; margin-bottom: 26px; }
+  .in-tank { padding: 24px 20px; }
+  .in-sheet { padding: 36px 16px 0; }
+  .in-card h1.in-q { font-size: 24px; }
+  .in-dots { flex-wrap: wrap; gap: 6px; margin: 4px 0 16px; }
+  .in-label { margin-top: 16px; }
+  .in-input { padding: 10px 12px; font-size: 16px; } // 16px+ stops iOS zooming the page on focus
+  .in-big { min-height: 130px; }
+  .in-sheet .in-nav { position: sticky; bottom: 0; z-index: 2; margin: 14px -16px 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: linear-gradient(to bottom, rgba(251, 249, 236, 0), #FBF9EC 30%); border-radius: 0 0 var(--bud) var(--bud); flex-wrap: nowrap; }
+  .in-nav .tz-jelly { min-height: 48px; }
+}
 @media (prefers-reduced-motion: reduce) { .in-card, .in-note.is-on { animation: none; } .in-dots li, .in-input { transition: none; } }
