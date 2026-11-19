@@ -1,19 +1,30 @@
 import React, { useState } from 'react';
 import { links } from './data';
 
+// Hides the honeypot field from people but not from bots. Inline so it doesn't depend on intake.scss being loaded.
+const HONEYPOT = { position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' };
+
 // The zine's back cover: the contact form and the elsewhere links. Used by the Zine.
 export default function ContactBlock({ innerRef }) {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
-  // Same EmailJS service and template as the live portfolio's contact form.
-  const send = (e) => {
+  const [note, setNote] = useState('');
+  // Posts to the contact Netlify function, which emails the message through Gmail (same setup as the intake form).
+  const send = async (e) => {
     e.preventDefault();
-    setSending(true);
-    const form = e.target;
-    // emailjs is only needed on submit, so it stays out of the initial bundle.
-    import('emailjs-com')
-      .then(({ default: emailjs }) => emailjs.sendForm('service_cxyb1s5', 'template_oylvcbn', form, 'CBZDxMNtzcxxOowCO'))
-      .then(() => setSent(true), (err) => { setSending(false); alert('Error: ' + ((err && err.text) || 'could not send, please try again')); });
+    setSending(true); setNote('');
+    const f = new FormData(e.target);
+    try {
+      const res = await fetch('/.netlify/functions/contact', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: f.get('name'), email: f.get('email'), message: f.get('message'), website: f.get('website') }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(body.error || '');
+      setSent(true);
+    } catch (err) {
+      setNote(`That didn’t go through${err.message ? ` (${err.message})` : ''}. Please try again, or email me directly.`);
+    } finally { setSending(false); }
   };
   return (
     <section className="tz-page tz-back" ref={innerRef}>
@@ -25,9 +36,11 @@ export default function ContactBlock({ innerRef }) {
         <p className="tz-sent">Thanks for your message! I&rsquo;ll get back to you soon.</p>
       ) : (
         <form className="tz-form" onSubmit={send}>
+          <div aria-hidden="true" style={HONEYPOT}><label>Website<input tabIndex={-1} autoComplete="off" name="website" /></label></div>
           <input name="name" placeholder="Your name" aria-label="Your name" autoComplete="name" enterKeyHint="next" required />
           <input name="email" type="email" placeholder="Your email address" aria-label="Your email address" autoComplete="email" enterKeyHint="next" required />
           <textarea name="message" rows="5" placeholder="Your message" aria-label="Your message" required />
+          {note && <p className="tz-mail" role="alert">{note}</p>}
           <button type="submit" className="tz-jelly" disabled={sending}>{sending ? 'Sending…' : 'Send message'}</button>
         </form>
       )}

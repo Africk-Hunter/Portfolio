@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import emailjs from 'emailjs-com';
 import plane from '../images/planeIcon.svg';
 
 const Contact = () => {
@@ -14,14 +13,16 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm('service_cxyb1s5', 'template_oylvcbn', e.target, 'CBZDxMNtzcxxOowCO')
-      .then((result) => {
-        console.log(result.text);
+    fetch('/.netlify/functions/contact', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    })
+      .then(async (res) => {
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(body.error || 'could not send, please try again');
         setSubmitted(true);
-      }, (error) => {
-        console.log(error.text);
-        alert('Error: ' + error.text);
-      });
+      })
+      .catch((error) => alert('Error: ' + error.message));
   };
 
   return (
