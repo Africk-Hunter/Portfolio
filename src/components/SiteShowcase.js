@@ -6,6 +6,7 @@ import lunaPlaceholder from '../images/placeholders/lunalashandbeautyco.com_(Des
 import stockZPlaceholder from '../images/placeholders/stock-z.com_main(Desktop).png';
 import whoseDebutPlaceholder from '../images/placeholders/whosedebut.com_(Nest Hub Max).png';
 import biggestLittleMediaPlaceholder from '../images/placeholders/biggestlittlemedia.com_(Desktop).png';
+import buildFlowOSPlaceholder from '../images/placeholders/buildflowos.com_(OG).png';
 import { projects, defaultProjectIds } from '../data/projects';
 
 // Screenshots shown when a site can't be previewed live. Projects without one fall back to their logo.
@@ -15,6 +16,7 @@ const PLACEHOLDER_IMAGES = {
   stockZ: stockZPlaceholder,
   whoseDebut: whoseDebutPlaceholder,
   biggestLittleMedia: biggestLittleMediaPlaceholder,
+  buildFlowOS: buildFlowOSPlaceholder,
 };
 
 // Origins each site allows to embed it, taken from its X-Frame-Options / CSP frame-ancestors
@@ -24,6 +26,7 @@ const PLACEHOLDER_IMAGES = {
 const FRAME_ANCESTORS = {
   intraconnected: ['https://hunterafrick.com'], // frame-ancestors 'self' https://hunterafrick.com
   llabc: [], // X-Frame-Options: DENY
+  buildFlowOS: [], // X-Frame-Options: DENY
   stockZ: ['https://hunterafrick.com', 'https://www.hunterafrick.com'], // frame-ancestors 'self' https://hunterafrick.com https://www.hunterafrick.com
 };
 

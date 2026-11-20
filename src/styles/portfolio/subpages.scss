@@ -95,6 +95,10 @@
 .ws-label { display: inline-block; margin-top: 26px; padding: 12px 20px; border-radius: 6px 22px 6px 22px; border: 2px solid var(--peat); transform: rotate(-1deg);
   background: linear-gradient(170deg, rgba(255, 255, 255, .55), transparent 40%), var(--lichen); box-shadow: var(--moulded); font: 400 13px/1.5 var(--lcd); text-transform: uppercase;
   b { display: block; font: 800 18px var(--serif); font-variation-settings: 'SOFT' 100, 'WONK' 1; text-transform: none; } }
+// The "Want a site?" email button turns seaglass on hover.
+.ws-tank .tz-jelly { transition: transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .35s cubic-bezier(.22, 1, .36, 1), filter .35s ease, background-color .25s ease;
+  &:hover, &:focus-visible { background-color: var(--seaglass); } }
+
 .ws-shelf { margin-top: clamp(56px, 9vh, 96px);
   .tz-kicker { margin: 0; } }
 .ws-shelf-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 20px; margin-bottom: 40px;
@@ -107,7 +111,7 @@
   background: linear-gradient(170deg, rgba(255, 255, 255, .6), transparent 45%), var(--lichen); transform: rotate(-.8deg);
   transition: transform .4s cubic-bezier(.22, 1, .36, 1), box-shadow .4s cubic-bezier(.22, 1, .36, 1);
   .tz-kicker { color: var(--kelp); }
-  b { margin-top: auto; font: 900 clamp(30px, 3.6vw, 48px)/.95 var(--serif); font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1; letter-spacing: -.035em; color: var(--kelp); }
+  b { margin-top: 6px; font: 900 clamp(30px, 3.6vw, 48px)/.95 var(--serif); font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1; letter-spacing: -.035em; color: var(--kelp); }
   .tz-next-note { max-width: 32ch; font-size: 16px; line-height: 1.4; color: var(--ink2); overflow-wrap: anywhere; }
   .tz-next-go { position: absolute; right: 22px; bottom: 22px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--peat); font-style: normal; font-weight: 700; font-size: 22px;
     background: linear-gradient(180deg, rgba(255, 255, 255, .5), transparent 50%), var(--tangerine); transition: transform .4s var(--boing); }

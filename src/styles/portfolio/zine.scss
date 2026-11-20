@@ -176,7 +176,6 @@
 .tz-live { position: relative; width: 100%; overflow: hidden; background: #fff;
   iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; pointer-events: none; background: #fff; } }
 .tz-seed-no { margin-top: 14px; font: 400 13px var(--lcd); color: var(--ink2); span { color: var(--tangerine); } }
-.tz-seed-latin { font: italic 300 18px var(--serif); font-variation-settings: 'SOFT' 100; color: var(--ink2); }
 .tz-seed-meta { margin-top: auto; padding-top: 10px; font: 400 13px var(--lcd); color: var(--ink2); }
 // the cards in a row share a height; the stack line and buttons sit pinned to the bottom of every card
 .tz-seed .tz-row { flex-wrap: nowrap; }
@@ -429,7 +428,6 @@
   }
   .tz-seed-win { aspect-ratio: 16 / 9; }
   .tz-seed-no { margin-top: 12px; font-size: 12px; }
-  .tz-seed-latin { font-size: 16px; }
   .tz-seed-meta { padding-top: 8px; font-size: 12px; }
   .tz-seed .tz-row { margin-top: 14px; gap: 8px; }
 
@@ -582,7 +580,6 @@
   .tz-field .tz-seed::before { width: 70px; height: 20px; margin-left: -35px; top: -10px; }
   .tz-seed-win { aspect-ratio: 16 / 9; }
   .tz-seed-no { margin-top: 10px; font-size: 11px; }
-  .tz-seed-latin { font-size: 15px; }
   .tz-seed-meta { padding-top: 8px; font-size: 11px; }
   .tz-seed .tz-row { margin-top: 12px; gap: 8px; }
 

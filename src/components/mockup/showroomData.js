@@ -1,6 +1,7 @@
 import aboutPicture from '../../images/NewPic.png';
 import cosImage from '../../images/COS.png';
 import llabcShot from '../../images/placeholders/lunalashandbeautyco.com_(Desktop).png';
+import buildFlowOSShot from '../../images/placeholders/buildflowos.com_(OG).png';
 import stockZShot from '../../images/placeholders/stock-z.com_main(Desktop).png';
 
 // Content for the showroom mockup. Project details come from src/data/projects.js;
@@ -51,7 +52,7 @@ export const screens = {
   biggestLittleMedia: { live: true },
   llabc: { still: llabcShot },
   stockZ: { still: stockZShot },
-  archivist: {},
+  buildFlowOS: { still: buildFlowOSShot }, // sends X-Frame-Options: DENY
 };
 
 export const domainOf = (url) => url.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, '').toLowerCase();

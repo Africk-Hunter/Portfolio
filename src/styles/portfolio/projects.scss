@@ -9,7 +9,7 @@
 @font-face{font-family:'Barlow';font-weight:600;font-display:swap;src:url(/fonts/Barlow-600.woff2) format('woff2')}
 
 .pj-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px 30px; align-items: stretch; }
-// Every card is pinned up with washi tape, tilted a little; on hover it swings straight and the tape peels (as on the main page).
+// Every card is pinned up with washi tape, tilted a little; on hover it swings straight.
 .pj-pin { position: relative; display: flex; min-width: 0; transform: rotate(var(--tilt, 0deg)); transform-origin: 50% 0; transition: transform .7s var(--boing), filter .5s ease;
   &.is-wide { grid-column: 1 / -1; --tilt: -.4deg; } &.pj-pin-0 { --tilt: -.7deg; } &.pj-pin-1 { --tilt: .6deg; } &.pj-pin-2 { --tilt: -.3deg; }
   > .pj { flex: 1; }
@@ -20,7 +20,7 @@
   &.pj-pin-2::before { background-color: rgba(212, 242, 60, .8); transform: rotate(-2deg); }
   &.is-wide::before { left: 12%; background-color: rgba(255, 107, 44, .78); }
   filter: drop-shadow(0 14px 14px rgba(18, 37, 29, .22)); }
-@media (hover: hover) { .pj-pin:hover { transform: rotate(0) scale(1.015); &::before { transform: rotate(-14deg) translateY(-2px); } } }
+@media (hover: hover) { .pj-pin:hover { transform: rotate(0) scale(1.015); } }
 .tz-sub .pj { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 22px 26px 24px; overflow: hidden; min-width: 0;
   > * { position: relative; z-index: 1; }
   h3 { margin: 8px 0 10px; font-weight: 400; }
@@ -103,15 +103,19 @@
     &:hover, &:focus-visible { background: #F5DE82; } &:active { transform: translate(2px, 2px); } }
   .pj-alt { color: #DCD3A6; } }
 
-// Archivist: not on this machine, so this follows its logo tile (warm paper, black lettering, thin black rules)
-.tz-sub .pj-arch { background: #EBE8E2; color: #111; border: 2px solid #111; border-radius: 12px; font: 400 16px/1.5 'Bricolage Grotesque', system-ui, sans-serif;
-  .pj-tag { font: 400 13px/1.4 'DotGothic16', monospace; letter-spacing: .04em; text-transform: uppercase; }
-  h3 { margin: 6px 0 8px; padding-bottom: 8px; width: 100%; border-bottom: 2px solid #111; font: 800 clamp(32px, 3.6vw, 42px)/1 'Fraunces', Georgia, serif; font-variation-settings: 'SOFT' 100, 'WONK' 1; letter-spacing: -.02em; }
-  .pj-btn { padding: 4px 16px; border: 2px solid #111; border-radius: 6px; background: #111; color: #EBE8E2; font-weight: 600; font-size: 14px; }
-  .pj-alt { color: #111; font-weight: 600; } }
+// BuildFlowOS: from its own stylesheet. Navy ground (#0a111e), blue (#4c9aff) rules, orange (#ff7a1a) accent, Barlow
+.tz-sub .pj-bfos { background: #0a111e; color: #eaf0fa; border: 1px solid #2a3c5c; border-radius: 6px; font: 400 16px/1.5 'Barlow', system-ui, sans-serif;
+  .pj-tag { font: 600 11px/1.4 'Barlow', sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #4c9aff; }
+  h3 { margin: 8px 0 10px; padding-bottom: 8px; width: 100%; border-bottom: 2px solid #1d5fd1; font: 700 clamp(28px, 3.2vw, 38px)/1 'Barlow', sans-serif; letter-spacing: .02em; text-transform: uppercase; color: #fff; }
+  .pj-wordmark { display: block; width: min(100%, 260px); height: auto; margin-bottom: 2px; }
+  // Button copied from buildflowos.com's hero (.bf-btn--accent): orange, chunky bottom edge, lighter orange on hover, sinks when pressed.
+  .pj-btn { padding: 8px 20px; border: 2px solid #c4570a; border-bottom-width: 4px; border-radius: 4px; background: #ff7a1a; color: #0a111e; font: 700 14px/1 'Barlow', sans-serif; letter-spacing: .07em; text-transform: uppercase; transition: background-color .15s ease, border-color .15s ease, transform .15s ease;
+    &:hover, &:focus-visible { background: #ff9140; }
+    &:active { transform: translateY(2px); border-bottom-width: 2px; } }
+  .pj-alt { color: #4c9aff; } }
 
 .tz-sub .pj-go .pj-btn:focus-visible, .tz-sub .pj-alt:focus-visible { outline: 3px solid var(--seaglass); outline-offset: 3px; }
-@media (hover: hover) { .tz-sub .pj-blm .pj-btn:hover .pj-arr, .tz-sub .pj-luna .pj-btn:hover .pj-arr { transform: translateX(3px); } }
+@media (hover: hover) { .tz-sub .pj-blm .pj-btn:hover .pj-arr, .tz-sub .pj-luna .pj-btn:hover .pj-arr, .tz-sub .pj-bfos .pj-btn:hover .pj-arr { transform: translateX(3px); } }
 @media (prefers-reduced-motion: reduce) { .pj-pin, .pj-pin::before { transition: none !important; } .tz-sub .pj a, .tz-sub .pj .pj-arr { transition: none !important; } }
 
 @media (max-width: 900px) {

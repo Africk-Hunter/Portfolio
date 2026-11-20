@@ -8,7 +8,7 @@ import intraTile from '../../images/intraconnected.svg';
 import debutTile from '../../images/whoseDebut.svg';
 import blmTile from '../../images/BiggestLittleMedia.svg';
 import lunaTile from '../../images/lunalashlogo.svg';
-import archTile from '../../images/archivist.svg';
+import bfosTile from '../../images/placeholders/buildflowos.com_(OG).png';
 import stockTile from '../../images/StockZ-4x3.png';
 import portraitImg from '../../images/opt/portrait.webp';
 import partyImg from '../../images/opt/candid.webp'; // resized WebP of hunter-candid.jpg (see src/images/opt)
@@ -63,12 +63,12 @@ export const work = [
     links: [],
   },
   {
-    id: 'archivist', title: 'Archivist', kind: 'Web app', kinds: ['build', 'write'],
-    image: archTile, tile: archTile, square: true,
-    blurb: 'Serves up random words and their definitions, scraped from Mariam Webster and powered by Python and SQL.',
-    long: 'A Vue and Flask-based web app that dynamically displays random words and their definitions, powered by a Python web scraper and an SQL database.',
-    role: 'Full stack', stack: ['Vue', 'Python', 'Flask', 'SQL', 'AWS'],
-    links: [['GitHub', 'https://github.com/Africk-Hunter/Archivist']],
+    id: 'buildflowos', title: 'BuildFlowOS', kind: 'Website', kinds: ['build'],
+    image: bfosTile, tile: bfosTile,
+    blurb: 'Marketing site for BuildFlowOS, construction planning software that connects quantities, crews, labor hours, schedule and cost in one model.',
+    long: 'I designed and built the company’s website, including a technology efficiency scorecard and a booking flow. The planning software itself is theirs.',
+    role: 'Website design & build', stack: ['React', 'TypeScript'],
+    links: [['Visit', 'https://buildflowos.com']],
   },
   {
     id: 'luna', title: 'Luna Lash & Beauty Co', kind: 'Website', kinds: ['build'],

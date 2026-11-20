@@ -40,7 +40,7 @@ const phoneShots = { blm: blmShot, whosedebut: debutShot };
 const FACE = "@font-face{font-family:'Microgramma D Extended';font-weight:700;font-display:swap;src:local('Microgramma D Extended Bold'),local('MicrogrammaDExtended-Bold');}";
 const album = work.find((w) => w.id === 'cos');
 const intra = work.find((w) => w.id === 'intraconnected');
-const siteOrder = ['intraconnected', 'blm', 'whosedebut', 'luna', 'stockz', 'archivist'];
+const siteOrder = ['intraconnected', 'blm', 'whosedebut', 'buildflowos', 'stockz', 'luna'];
 export const sites = work.filter((w) => w.kinds.includes('build'))
   .sort((a, b) => siteOrder.indexOf(a.id) - siteOrder.indexOf(b.id));
 const icIcons = {
@@ -186,7 +186,6 @@ export const SitePackets = ({ items }) => (
           : <Live w={s} />}</div>
         <p className="tz-seed-no">No. {String(i + 1).padStart(2, '0')}</p>
         <h3>{s.title}</h3>
-        <p className="tz-seed-latin" aria-hidden="true">&nbsp;</p>
         <p>{s.blurb}</p>
         <p className="tz-seed-meta">Built with {s.stack.join(', ')}</p>
         <div className="tz-row">{s.links.map(([l, h]) => <a key={l} className={`tz-jelly tz-jelly-s${l === 'Visit' ? '' : ' tz-jelly-pale'}`} href={h} target="_blank" rel="noopener noreferrer">{l}</a>)}</div>

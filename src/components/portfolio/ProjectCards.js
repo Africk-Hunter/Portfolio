@@ -1,12 +1,13 @@
 import React from 'react';
 import { work } from './data';
 import blmLogo from '../../images/blm-logo.svg';
+import bfosLogo from '../../images/buildflowos-logo.svg';
 import intraShot from '../../images/opt/intraconnected.webp';
 import '../../styles/portfolio/projects.scss';
 
 // Each card wears the look of the site it represents (colors, type and button style come from that site's own
 // stylesheet; see projects.scss). Copy comes from data.js, so this stays in step with the rest of the portfolio.
-const order = ['intraconnected', 'blm', 'whosedebut', 'luna', 'stockz', 'archivist'];
+const order = ['intraconnected', 'blm', 'whosedebut', 'buildflowos', 'stockz', 'luna'];
 const byId = (id) => work.find((w) => w.id === id);
 const stackOf = (w) => w.stack.filter((s) => s !== 'Claude');
 const num = (i) => `No. ${String(i + 1).padStart(2, '0')}`;
@@ -101,18 +102,18 @@ const Stock = ({ w, i }) => (
   </article>
 );
 
-// Archivist is not on this machine, so its look is taken from its logo tile: warm paper, black hand lettering.
-const Archivist = ({ w, i }) => (
-  <article className="pj pj-arch">
-    <p className="pj-tag">{num(i)} &middot; Side project</p>
-    <h3>{w.title}</h3>
+// BuildFlowOS wears its own site's look: deep navy, blue rules, one orange accent, Barlow caps.
+const Bfos = ({ w, i }) => (
+  <article className="pj pj-bfos">
+    <p className="pj-tag">{num(i)} &middot; Client website</p>
+    <h3><img className="pj-wordmark" src={bfosLogo} alt={w.title} loading="lazy" decoding="async" /></h3>
     <p>{w.blurb}</p>
     <Meta w={w} />
-    <Links w={w} />
+    <Links w={w} arrow={<span className="pj-arr"> &rarr;</span>} />
   </article>
 );
 
-const cards = { intraconnected: Intra, blm: Blm, whosedebut: Debut, luna: Luna, stockz: Stock, archivist: Archivist };
+const cards = { intraconnected: Intra, blm: Blm, whosedebut: Debut, luna: Luna, stockz: Stock, buildflowos: Bfos };
 
 export default function ProjectCards() {
   return (

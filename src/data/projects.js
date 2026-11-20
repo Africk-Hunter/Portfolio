@@ -3,7 +3,7 @@ import ghostwryteImage from '../images/ghostwryte.png';
 import portfolioImage from '../images/portfolio.png';
 import twentyOnImage from '../images/20on20off.png';
 import llabcImage from '../images/lunalashlogo.svg';
-import archImg from '../images/archivist.svg';
+import buildFlowOSImg from '../images/placeholders/buildflowos.com_(OG).png';
 import intraconnectedImg from '../images/intraconnected.svg';
 import biggestLittleMediaImg from '../images/BiggestLittleMedia.svg';
 import whoseDebutImg from '../images/whoseDebut.svg';
@@ -73,18 +73,15 @@ export const projects = {
       { name: 'Firebase' }
     ]
   },
-  archivist: {
-    projectTitle: 'Archivist',
-    projectDesc: 'A Vue and Flask-based web app that dynamically displays random words and their definitions, powered by a Python web scraper and an SQL database.',
-    projectLink: '',
-    githubLink: 'https://github.com/Africk-Hunter/Archivist',
-    projectImage: archImg,
+  buildFlowOS: {
+    projectTitle: 'BuildFlowOS',
+    projectDesc: 'Marketing site for BuildFlowOS, construction planning software that connects quantities, crews, labor hours, schedule and cost in one model. I designed and built the website; the software is theirs.',
+    projectLink: 'https://buildflowos.com',
+    githubLink: '',
+    projectImage: buildFlowOSImg,
     technologyArray: [
-      { name: 'Vue.js' },
-      { name: 'Python' },
-      { name: 'SQL' },
-      { name: 'Flask' },
-      { name: 'AWS' },
+      { name: 'React.js' },
+      { name: 'TypeScript' },
     ]
   },
   ghostwryte: {
@@ -126,4 +123,4 @@ export const projects = {
 };
 
 // Order used by the home page. Keep exactly this order.
-export const defaultProjectIds = ['intraconnected', 'whoseDebut', 'biggestLittleMedia', 'llabc', 'stockZ', 'archivist'];
+export const defaultProjectIds = ['intraconnected', 'whoseDebut', 'biggestLittleMedia', 'buildFlowOS', 'stockZ', 'llabc'];
