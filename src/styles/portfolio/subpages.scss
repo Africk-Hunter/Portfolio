@@ -3,7 +3,6 @@
 // The zine's own pages start far down (clamp 80-140px) to sit as full-screen spreads; these read as ordinary pages, so start just under the nav.
 .tz-page.tz-sub { padding-top: clamp(56px, 7vh, 72px); }
 .tz-sub { padding-bottom: 20px;
-  a:not(.tz-jelly):not(.mu-wd):not(.pj-you):not(.tz-next):not(.tz-next-home) { text-decoration: underline wavy var(--tangerine) 1.5px; text-underline-offset: 4px; }
   h2 { font-size: clamp(30px, 3.8vw, 48px); }
   .tz-strip a { text-decoration: none; } }
 
@@ -88,8 +87,7 @@
 .ws-art { position: relative; width: min(100%, 420px); margin: 0 auto; padding: 8% 6% 4%;
   &::before { content: ''; position: absolute; inset: 0; border-radius: 54% 46% 42% 58% / 44% 50% 50% 56%; z-index: -1; border: 3px solid var(--peat);
     background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, .6), transparent 45%), linear-gradient(160deg, var(--seaglass), var(--lichen)); box-shadow: 0 0 0 9px var(--shell), 0 0 0 10.5px var(--seam), 0 30px 40px -18px rgba(18, 37, 29, .6); }
-  .tz-sprout { position: relative; inset: auto; width: 100%; height: auto; transform-origin: 50% 90%; animation: ws-sway 7s ease-in-out infinite; filter: drop-shadow(0 10px 10px rgba(18, 37, 29, .25)); }
-  .ws-burst { right: -4%; top: 2%; left: auto; } }
+  .tz-sprout { position: relative; inset: auto; width: 100%; height: auto; transform-origin: 50% 90%; animation: ws-sway 7s ease-in-out infinite; filter: drop-shadow(0 10px 10px rgba(18, 37, 29, .25)); } }
 @keyframes ws-sway { 0%, 100% { transform: rotate(4deg); } 50% { transform: rotate(9deg); } }
 
 .ws-label { display: inline-block; margin-top: 26px; padding: 12px 20px; border-radius: 6px 22px 6px 22px; border: 2px solid var(--peat); transform: rotate(-1deg);
@@ -136,4 +134,47 @@
   .mu-cols { text-align: left; }
   .tz-sub .tz-tank h2 { font-size: clamp(40px, 13vw, 64px); }
 }
+// The footer's email shares the zine's wavy underline; on these pages it goes plain like the rest of their links.
+.tz-shell:has(.tz-sub) .tz-foot-mail { text-decoration: none; }
+
+// ── web design on phones: a compact cover ───────────────────────────────────────
+// Type only: the strip, the title, the stand-first and the degree label, so the title and the start of the shelf share
+// the first screen. No sprout on phones (it reads as stretched at this size).
+@media (max-width: 700px) {
+  .tz-page.tz-sub.ws { padding-top: 24px; } // the sticky header already takes its own room in the flow
+  .tz-sub.ws .tz-sub-head { margin-bottom: 0;
+    .tz-strip { margin-bottom: 18px; }
+    h1 { font-size: clamp(38px, 11.4vw, 48px); line-height: .9; }
+    .tz-stand { max-width: 34ch; margin-top: 16px; font-size: 17px; line-height: 1.4; }
+    .tz-sub-art { display: none; }
+    .ws-label { margin-top: 22px; padding: 10px 16px; font-size: 11px;
+      b { font-size: 16px; } } }
+  // Music: the same compact cover, but the album stays: a small sleeve (record peeking out) beside the stand-first,
+  // and the three listen buttons as one row of icon tiles. The copy wrapper dissolves (display: contents) so its
+  // children share one grid with the sleeve; they take over its entrance animation and stacking.
+  .tz-page.tz-sub.mu { padding-top: 24px; }
+  .tz-sub.mu .tz-sub-head { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'strip strip' 'title title' 'stand stand' 'art art' 'listen listen'; gap: 0 18px; align-items: center; margin-bottom: 0;
+    .tz-sub-copy { display: contents; }
+    .tz-sub-copy > * { position: relative; z-index: 1; animation: sub-in .8s cubic-bezier(.22, 1, .36, 1) backwards; }
+    .tz-strip { grid-area: strip; margin-bottom: 18px; }
+    h1 { grid-area: title; font-size: clamp(38px, 11.4vw, 48px); line-height: .9; animation-delay: .05s; }
+    .tz-stand { grid-area: stand; margin-top: 18px; font-size: 17px; line-height: 1.4; animation-delay: .1s; }
+    .tz-sub-art { grid-area: art; order: 0; margin: 26px 0 50px; justify-self: center; width: 100%; animation-delay: .15s; }
+    .tz-row { grid-area: listen; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 24px; animation-delay: .2s; }
+    .tz-jelly-ico { flex-direction: column; justify-content: center; gap: 4px; min-height: 64px; padding: 8px 6px; border-radius: 18px; font-size: 14px; line-height: 1.15; text-align: center;
+      &::before { left: 10px; right: 10px; } }
+    .mu-on { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
+  .tz-sub.mu .mu-deck { width: min(100%, 320px); margin: 0 auto; padding-right: 24%;
+    .mu-sleeve { border-radius: 4px; box-shadow: inset 0 2px 0 rgba(255, 255, 255, .5), 0 26px 34px -18px rgba(18, 37, 29, .7), 0 0 0 3px var(--peat); }
+    .mu-burst { width: 84px; left: -3%; } }
+  .tz-sub.mu .mu-record img { border-width: 2px; }
+  .tz-sub.mu .mu-tape { margin-top: 30px; }
+  .tz-sub.mu .mu-notes { margin-top: 48px; }
+  .tz-sub.mu .tz-tank { margin-top: 48px; }
+
+  .tz-sub.ws .ws-shelf { margin-top: 44px; }
+  .tz-sub.ws .ws-shelf-head { margin-bottom: 30px; }
+  .tz-sub.ws .tz-tank { margin-top: 48px; }
+}
+
 @media (prefers-reduced-motion: reduce) { .mu-tape > div { animation: none; } .tz-next, .tz-next *, .tz-next-home span { transition: none !important; } }

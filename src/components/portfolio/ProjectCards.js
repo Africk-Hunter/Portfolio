@@ -44,10 +44,11 @@ const Intra = ({ w, i }) => (
       </ul>
       <Links w={w} arrow={<Ext />} />
     </div>
-    <figure className="pj-shot">
-      <div className="pj-shot-bar" aria-hidden="true"><i /><i /><i /><span>intraconnected.app</span></div>
-      <img src={intraShot} alt="Intraconnected on the web: a project open with a note, a checklist and idea cards on a green grid" loading="eager" decoding="async" />
-    </figure>
+    {/* The preview is a link to the live site too, like the button. */}
+    <a className="pj-shot" href={w.links.find(([l]) => l === 'Visit')[1]} target="_blank" rel="noopener noreferrer" aria-label="Visit intraconnected.app (opens in a new tab)">
+      <span className="pj-shot-bar" aria-hidden="true"><i /><i /><i /><span>intraconnected.app</span></span>
+      <img src={intraShot} alt="" loading="eager" decoding="async" />
+    </a>
   </article>
 );
 
@@ -122,7 +123,7 @@ export default function ProjectCards() {
         const C = cards[id];
         return <div key={id} className={`pj-pin pj-pin-${i % 3}${id === 'intraconnected' ? ' is-wide' : ''}`}><C w={byId(id)} i={i} /></div>;
       })}
-      <div className="pj-pin pj-pin-1">
+      <div className="pj-pin pj-pin-1 pj-pin-you">
         <a className="pj pj-you" href="mailto:HunterAfrick@gmail.com">
           <svg viewBox="0 0 60 60" aria-hidden="true"><path d="M30 52C28 40 33 30 30 14" /><path d="M30 40C20 40 14 33 13 25C23 25 29 31 30 40Z" /><path d="M31 30C40 30 46 24 47 16C37 16 31 21 31 30Z" /></svg>
           <p className="pj-tag">No. 07 &middot; Next</p>

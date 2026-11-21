@@ -31,7 +31,6 @@ const Sprout = () => (
 const Art = () => (
   <div className="ws-art">
     <Sprout />
-    <p className="mu-burst ws-burst" aria-hidden="true"><b>made</b> by one person</p>
   </div>
 );
 
@@ -39,7 +38,7 @@ export default function WebDesignPage() {
   return (
     <SubPage path={PATH} tone="ws" kicker="Web design" folio="p.12 · Build" art={<Art />}
       title="Web design and development in Reno, NV"
-      stand="I design and build custom websites and web apps for Reno small businesses and local creators. The design and the code come from the same person."
+      stand="I design and build custom websites and web apps from scratch."
       actions={(
         <p className="ws-label">
           <b>B.S. Computer Science &amp; Engineering</b>

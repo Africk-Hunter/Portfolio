@@ -53,8 +53,12 @@
     &:hover, &:focus-visible { transform: translate(4px, 4px); box-shadow: 0 0 0 1px var(--ink); } &:active { transform: translate(4px, 4px) scale(.97); } }
   .pj-alt { color: var(--ink); font-weight: 700; }
   .pj-out { margin-left: 3px; vertical-align: -.05em; } }
-.pj-shot { margin: 0; border: 4px solid #111; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 7px 7px 0 1px #111; transform: rotate(.8deg);
-  img { display: block; width: 100%; height: auto; } }
+.pj-shot { display: block; margin: 0; border: 4px solid #111; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 7px 7px 0 1px #111; transform: rotate(.8deg);
+  transition: transform .12s ease, box-shadow .12s ease;
+  img { display: block; width: 100%; height: auto; }
+  // pressed like the card's own button: it sinks into its shadow
+  &:hover, &:focus-visible { transform: rotate(.8deg) translate(4px, 4px); box-shadow: 3px 3px 0 1px #111; }
+  &:focus-visible { outline: 3px solid var(--seaglass); outline-offset: 3px; } }
 .pj-shot-bar { display: flex; align-items: center; gap: 6px; padding: 5px 10px; background: #D3DED1; border-bottom: 4px solid #111;
   i { width: 11px; height: 11px; border-radius: 50%; border: 2.5px solid #111; background: #C84600; } i:nth-child(2) { background: #E8E879; } i:nth-child(3) { background: #41BC28; }
   span { margin-left: 8px; padding: 0 12px; border: 2.5px solid #111; border-radius: 8px; background: #fff; font: 700 12px/1.5 'DM Sans', sans-serif; color: #111; } }
@@ -128,7 +132,50 @@
   .tz-sub .pj-intra .pj-tag { right: 18px; }
   .tz-sub .pj-intra .pj-checks { font-size: 14px; }
   .tz-sub .pj-wd .pj-rule { margin-inline: -20px; }
+  // WHOSE DEBUT?'s black "No. 03" tab sits flush in the corner, so the title needs the card's full top padding back
+  // (the phone padding above would pull it up under the tab); the record shrinks into the corner to clear the title.
+  .tz-sub .pj-wd { padding-top: 46px; }
+  .tz-sub .pj-wd .pj-vinyl { top: 8px; right: 10px; width: 52px; height: 52px; }
+
+  // ── phones: the shelf becomes a deck ──
+  // Intraconnected leads on its own; the five site cards after it pile up as you scroll, each sliding over the last and
+  // pinning a little lower, so the earlier cards' top edges and tape stay visible like a stack of pinned prints.
+  // Flex, not grid: a grid item's sticky range is its own row, so it would never stick.
+  .pj-grid { display: flex; flex-direction: column; gap: 28px; }
+  .pj-pin-you { display: none; } // the tank and the closing card already ask for email
+  // Tap targets: every link on a card is at least 44px tall (the box grows; the visible text link does not).
+  .tz-sub .pj .pj-go { gap: 4px 18px; }
+  .tz-sub .pj .pj-go a { display: inline-flex; align-items: center; min-height: 44px; }
+  .tz-sub .pj .pj-go .pj-alt { display: none; } // one link per card on phones: the live site
+  // Intraconnected, shorter: no progress bar, screenshot cropped to its top. The "No. 01 · Flagship" label and the
+  // site's button share the top row (label left, button right) instead of the label hanging over the title.
+  .tz-sub .pj-intra .pj-copy { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; justify-items: start;
+    > * { grid-column: 1 / -1; } }
+  .tz-sub .pj-intra .pj-tag { position: relative; top: auto; right: auto; grid-column: 1; margin: 0 0 16px; }
+  .tz-sub .pj-intra .pj-go { grid-column: 2; grid-row: 1; justify-self: end; margin: 0 0 16px; padding: 0; }
+  // The button keeps its own size next to the small label; an invisible margin brings its hit area to 44px.
+  .tz-sub .pj-intra .pj-go .pj-btn { position: relative; min-height: 34px; padding: 2px 12px; font-size: 14px;
+    &::after { content: ''; position: absolute; inset: -6px -4px; } }
+  .tz-sub .pj-intra .pj-checks .pj-bar { display: none; }
+  .tz-sub .pj-intra .pj-go { padding-top: 14px; }
+  .pj-shot img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+  .tz-sub .pj-luna .pj-swirl { display: none; }
 }
+// Only where a card fits under the header with room to spare; on very short screens the shelf just scrolls.
+@media (max-width: 700px) and (min-height: 560px) {
+  .pj-pin:not(.is-wide) { position: sticky; top: calc(66px + var(--n, 0) * 10px); }
+  .pj-pin:nth-child(3) { --n: 1; } .pj-pin:nth-child(4) { --n: 2; } .pj-pin:nth-child(5) { --n: 3; } .pj-pin:nth-child(6) { --n: 4; }
+  // Near-equal heights: a card is never more than ~30px shorter than the tallest, so all that can peek out below the card
+  // on top of it is the bottom padding of the one underneath (a clean edge, not a strip of text).
+  // (Tallest card at 360-430px wide is about 372px; at 320px about 416px.)
+  .pj-pin:not(.is-wide) > .pj { min-height: 344px; }
+  // A focused link in a covered card comes to the top of the pile.
+  .pj-pin:focus-within { z-index: 2; }
+  // A pinned card can only stay put while its container still has room below it. Without this run-out the last card
+  // (Luna) never lands on the pile: the whole deck scrolls away the moment it arrives.
+  .pj-grid::after { content: ''; flex: none; height: 26vh; margin-top: -28px; }
+}
+@media (max-width: 340px) and (min-height: 560px) { .pj-pin:not(.is-wide) > .pj { min-height: 388px; } }
 
 // An empty seed-packet slot: the seventh card is an invitation.
 .tz-sub .pj-you { background: rgba(255, 255, 255, .4); border: 3px dashed var(--kelp); border-radius: var(--bud); color: var(--peat); font: 400 16px/1.5 'Bricolage Grotesque', system-ui, sans-serif; text-decoration: none; transition: background .3s ease;

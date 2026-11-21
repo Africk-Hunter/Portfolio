@@ -12,7 +12,7 @@ const LOGOS = {
   Bandcamp: <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 18 8.2 6H22.5l-6.7 12Z" fill="currentColor" /></svg>,
 };
 const PATH = '/music/';
-const DESC = 'Collection of Sounds is the debut album by Hunter Africk, a conscious, alternative hip hop record from Reno, NV. Listen on Spotify, Apple Music or Bandcamp.';
+const DESC = 'Collection of Sounds is the debut album by Hunter Africk, with every part of it, from the songwriting to the cover art, done by one person. Listen on Spotify, Apple Music or Bandcamp.';
 const album = work.find((w) => w.id === 'cos');
 const BANDCAMP = 'https://huntersmusic.bandcamp.com';
 const APPLE = album.links.find(([l]) => l === 'Apple Music')[1];
@@ -40,7 +40,7 @@ const Listen = () => (
   <div className="tz-row">
     {album.links.map(([l, h], i) => (
       <a key={l} className={`tz-jelly tz-jelly-ico${i ? ' tz-jelly-pale' : ''}`} href={h} target="_blank" rel="noopener noreferrer">
-        {LOGOS[l]}Listen on {l}
+        {LOGOS[l]}<span><span className="mu-on">Listen on </span>{l}</span>
       </a>
     ))}
   </div>
@@ -49,8 +49,8 @@ const Listen = () => (
 export default function MusicPage() {
   return (
     <SubPage path={PATH} tone="mu" kicker="Music" folio="Side A" art={<Deck />} actions={<Listen />}
-      title="Hunter Africk: hip hop from Reno, NV"
-      stand="I write, produce, record, mix and master my own music. My debut album is Collection of Sounds.">
+      title="Music by Hunter Africk"
+      stand="Collection of Sounds is my debut album, and every part of it is mine, from the lyrics to the cover.">
 
       {/* a strip of tape across the page: six jobs, one person */}
       <div className="mu-tape" role="img" aria-label={`${JOBS.join(', ')}: all by Hunter Africk`}>
