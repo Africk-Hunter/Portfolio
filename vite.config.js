@@ -54,8 +54,9 @@ export default defineConfig({
       }
       // Same file names the Gatsby build produced, so robots.txt and Search Console keep working.
       const urls = SITEMAP_PATHS.map((p) => `  <url><loc>${SITE}${p}</loc></url>`).join('\n');
-      fs.writeFileSync(path.join(dir, 'sitemap-0.xml'),
-        `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
+      const urlset = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+      fs.writeFileSync(path.join(dir, 'sitemap-0.xml'), urlset);
+      fs.writeFileSync(path.join(dir, 'sitemap.xml'), urlset);
       fs.writeFileSync(path.join(dir, 'sitemap-index.xml'),
         `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${SITE}/sitemap-0.xml</loc></sitemap>\n</sitemapindex>\n`);
     },
