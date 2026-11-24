@@ -141,7 +141,7 @@
 // spread: the debut
 .tz-spread { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
 .tz-album { position: sticky; top: 80px;
-  img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; transform: rotate(-2deg); box-shadow: 0 2px 0 rgba(255, 255, 255, .5) inset, 0 36px 50px -24px rgba(18, 37, 29, .7), 0 0 0 3px var(--peat); }
+  img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 6px; transform: rotate(-2deg); box-shadow: 0 2px 0 rgba(255, 255, 255, .5) inset, 0 36px 50px -24px rgba(18, 37, 29, .7), 0 0 0 3px var(--peat); }
   figcaption { margin-top: 18px; font: 400 13px var(--lcd); color: var(--ink2); } }
 .tz-feature h2 { margin-top: 10px; }
 // the title spans the top row, above the sleeve; a clear break separates it from the websites

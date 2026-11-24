@@ -49,9 +49,8 @@ export default defineConfig({
     },
     // "*" routes are never prerendered by vite-react-ssg, so 404 is an explicit route (see src/main.jsx).
     onFinished(dir) {
-      // Build bookkeeping that nothing at runtime reads.
-      fs.rmSync(path.join(dir, 'static-loader-data'), { recursive: true, force: true });
-      fs.readdirSync(dir).filter((f) => f.startsWith('static-loader-data-manifest')).forEach((f) => fs.rmSync(path.join(dir, f)));
+      // static-loader-data and its manifest must stay: the client fetches the manifest on in-app navigation (e.g. footer
+      // links). If missing, Netlify answers with the 404 HTML page and JSON parsing fails.
       // Netlify serves /404.html for unknown URLs.
       const nested = path.join(dir, '404', 'index.html');
       if (fs.existsSync(nested)) {
