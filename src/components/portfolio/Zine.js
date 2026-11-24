@@ -28,6 +28,9 @@ const useMedia = (q) => {
 };
 const smooth = () => (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
 // Screenshots for sites whose `image` is a square logo tile.
+// Intrinsic sizes of the preview images, so the browser reserves their space before they load.
+const SHOT_SIZE = { blm: [720, 405], whosedebut: [720, 450], luna: [720, 405], buildflowos: [720, 378], intraconnected: [800, 450] };
+const shotDims = (id) => { const [width, height] = SHOT_SIZE[id] || [960, 540]; return { width, height }; };
 const phoneShots = { blm: blmShot, whosedebut: debutShot };
 
 // Terrarium portfolio: a printed zine, Issue 04. Cover, contents, feature spreads, an interview and a back cover.
@@ -94,11 +97,11 @@ export const Live = ({ w, W = 1280, H = 800, interactive = false, defer = true }
     return () => ro.disconnect();
   }, [W, shot]);
   const url = liveUrl(w);
-  if (!url) return <img src={w.image} alt={`${w.title} preview`} loading="lazy" decoding="async" />;
-  if (shot) return <img src={shot} alt={`${w.title} preview`} loading="lazy" decoding="async" />;
+  if (!url) return <img src={w.image} {...shotDims(w.id)} alt={`${w.title} preview`} loading="lazy" decoding="async" />;
+  if (shot) return <img src={shot} {...shotDims(w.id)} alt={`${w.title} preview`} loading="lazy" decoding="async" />;
   return (
     <div className={`tz-live${interactive ? ' tz-live-on' : ''}`} ref={box} style={{ aspectRatio: `${W} / ${H}` }}>
-      {defer && !loaded && <img className="tz-live-ph" width={W} height={H} src={phoneShots[w.id] || w.image} alt={`${w.title} preview`} loading="lazy" decoding="async" />}
+      {defer && !loaded && <img className="tz-live-ph" {...shotDims(w.id)} src={phoneShots[w.id] || w.image} alt={`${w.title} preview`} loading="lazy" decoding="async" />}
       {armed && (
         <iframe src={url} title={`${w.title}, live site`} tabIndex={interactive ? 0 : -1} sandbox="allow-scripts allow-same-origin" referrerPolicy="no-referrer"
           onLoad={() => setLoaded(true)}
@@ -337,7 +340,7 @@ export default function Zine() {
         <p className="tz-strip"><span>Developer &middot; Musician &middot; Writer &middot; Illustrator</span><span>{bio.where}</span><span>Open to commissions</span></p>
         <h1 className="tz-mast" aria-label="Hunter Africk, Reno web developer and designer">{[...'HUNTER'].map((c, i) => <span key={i} aria-hidden="true">{c}</span>)}</h1>
         <figure className="tz-cover-photo">
-          <img src={candid} width="800" height="800" alt="Hunter, looking up at the camera, holding a glowing green alien balloon" fetchpriority="high" decoding="async" />
+          <img src={candid} width="640" height="640" alt="Hunter, looking up at the camera, holding a glowing green alien balloon" fetchpriority="high" decoding="async" />
           {[1, 2, 3, 4, 5].map((n) => <i key={n} className={`tz-fly tz-fly-${n}`} aria-hidden="true" />)}
         </figure>
         <ul className="tz-lines">
@@ -387,7 +390,7 @@ export default function Zine() {
         <DebutTitle />
         <figure className="tz-album">
           <i className="tz-vinyl" aria-hidden="true" />
-          <img src={album.image} width="800" height="800" alt="Collection of Sounds album cover, drawn by Hunter" loading="lazy" decoding="async" />
+          <img src={album.image} width="640" height="640" alt="Collection of Sounds album cover, drawn by Hunter" loading="lazy" decoding="async" />
         </figure>
         <article className="tz-feature">
           <p className="tz-kicker">p.06 &middot; The debut</p>
@@ -445,7 +448,7 @@ export default function Zine() {
       {/* FEATURE: Q&A */}
       <section className="tz-page tz-qa" ref={reg('qa')}>
         <figure className="tz-qa-photo">
-          <img src={portrait} width="800" height="505" alt="Hunter grinning in the driver's seat" loading="lazy" decoding="async" />
+          <img src={portrait} width="640" height="404" alt="Hunter grinning in the driver's seat" loading="lazy" decoding="async" />
         </figure>
         <article>
           <p className="tz-kicker">p.24 &middot; The interview</p>

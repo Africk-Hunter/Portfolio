@@ -47,7 +47,7 @@ const Intra = ({ w, i }) => (
     {/* The preview is a link to the live site too, like the button. */}
     <a className="pj-shot" href={w.links.find(([l]) => l === 'Visit')[1]} target="_blank" rel="noopener noreferrer" aria-label="Visit intraconnected.app (opens in a new tab)">
       <span className="pj-shot-bar" aria-hidden="true"><i /><i /><i /><span>intraconnected.app</span></span>
-      <img src={intraShot} width="1000" height="563" alt="" loading="eager" decoding="async" />
+      <img src={intraShot} width="800" height="450" alt="" loading="eager" decoding="async" />
     </a>
   </article>
 );
