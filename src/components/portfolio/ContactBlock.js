@@ -31,7 +31,7 @@ export default function ContactBlock({ innerRef }) {
       <p className="tz-kicker">Contact</p>
       <h2>Get in touch</h2>
       <p className="tz-stand">Commissions, collaborations, or even a song you think I&rsquo;d like.</p>
-      <p className="tz-mail">Or write me directly at <a href="mailto:HunterAfrick@Gmail.com">HunterAfrick@gmail.com</a></p>
+      <p className="tz-mail">Or write me directly at <a href="mailto:HunterAfrick@gmail.com">HunterAfrick@gmail.com</a></p>
       {sent ? (
         <p className="tz-sent">Thanks for your message! I&rsquo;ll get back to you soon.</p>
       ) : (
@@ -44,7 +44,7 @@ export default function ContactBlock({ innerRef }) {
           <button type="submit" className="tz-jelly" disabled={sending}>{sending ? 'Sending…' : 'Send message'}</button>
         </form>
       )}
-      <div className="tz-row">{links.map((l) => <a key={l.name} className="tz-jelly tz-jelly-pale" href={l.href} target="_blank" rel="noopener noreferrer">{l.name}</a>)}</div>
+      <div className="tz-row">{links.map((l) => <a key={l.name} className="tz-jelly tz-jelly-pale" href={l.href} target="_blank" rel="noopener noreferrer" aria-label={l.name === "Spotify" ? "Spotify artist page" : l.name}>{l.name}</a>)}</div>
     </section>
   );
 }

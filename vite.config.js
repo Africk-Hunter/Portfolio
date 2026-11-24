@@ -39,7 +39,13 @@ export default defineConfig({
     // Head tags are inserted first; put the charset declaration back at the very top so it is inside the first 1024 bytes.
     onPageRendered(_route, html) {
       const charset = '<meta charset="utf-8">';
-      return html.includes(charset) ? html.replace(charset, '').replace('<head>', `<head>${charset}`) : html;
+      let out = html.includes(charset) ? html.replace(charset, '').replace('<head>', `<head>${charset}`) : html;
+      // Inline each page's stylesheet: a separate CSS file blocks the first paint for a whole round trip.
+      out = out.replace(/<link rel="stylesheet" href="(\/assets\/[^"]+\.css)"[^>]*>/g, (tag, href) => {
+        const file = path.join(root, 'dist', href);
+        return fs.existsSync(file) ? `<style>${fs.readFileSync(file, 'utf8')}</style>` : tag;
+      });
+      return out;
     },
     // "*" routes are never prerendered by vite-react-ssg, so 404 is an explicit route (see src/main.jsx).
     onFinished(dir) {

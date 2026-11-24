@@ -8,8 +8,8 @@ import intraTile from '../../images/intraconnected.svg';
 import debutTile from '../../images/whoseDebut.svg';
 import blmTile from '../../images/BiggestLittleMedia.svg';
 import lunaTile from '../../images/lunalashlogo.svg';
-import bfosTile from '../../images/placeholders/buildflowos.com_(OG).png';
-import stockTile from '../../images/StockZ-4x3.png';
+import bfosTile from '../../images/opt/buildflowos.webp';
+import stockTile from '../../images/opt/stockz-tile.webp';
 import portraitImg from '../../images/opt/portrait.webp';
 import partyImg from '../../images/opt/candid.webp'; // resized WebP of hunter-candid.jpg (see src/images/opt)
 

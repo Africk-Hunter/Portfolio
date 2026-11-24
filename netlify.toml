@@ -11,16 +11,27 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Fonts and icons keep fixed URLs (they are referenced from CSS and the manifest), so cache them for a week.
+# Fonts and icons keep fixed URLs (they are referenced from CSS and the manifest). They effectively never change;
+# if one is ever replaced, give the new file a new name.
 [[headers]]
   for = "/fonts/*"
   [headers.values]
-    Cache-Control = "public, max-age=604800"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/icons/*"
   [headers.values]
-    Cache-Control = "public, max-age=604800"
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/og-image.png"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/favicon*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
 
 [[headers]]
   for = "/*"
@@ -28,6 +39,8 @@
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "same-origin"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Cross-Origin-Opener-Policy = "same-origin"
 
 [functions]
   directory = "netlify/functions"

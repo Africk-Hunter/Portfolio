@@ -34,7 +34,7 @@
 .tz { scrollbar-width: none; &::-webkit-scrollbar { display: none; } } // native bar hidden: no gutter, nothing squeezed
 // floating overlay thumb (OverlayScrollbar in Zine.js): moulded kelp pebble that warms to tangerine
 .tz.tz-intro .tz-sb { visibility: hidden; transition: none; } // stays out until the load-in animation is done
-@keyframes tz-sb-in { from { opacity: 0; clip-path: inset(0 -8px 100% -8px); } to { opacity: .9; clip-path: inset(0 -8px -8px -8px); } } // wipes in top to bottom
+@keyframes tz-sb-in { from { opacity: 0; } to { opacity: .9; } }
 .tz-sb.is-reveal { animation: tz-sb-in .8s cubic-bezier(.22, .8, .3, 1) backwards; }
 .tz-sb {
   position: fixed; top: 0; right: 4px; z-index: 60; width: 10px; display: none; border-radius: 999px; cursor: grab; touch-action: none;
@@ -151,9 +151,9 @@
 .tz-drop::first-letter { float: left; margin: 4px 10px 0 0; padding-top: 2px; font: 900 76px/.78 var(--serif); font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1; color: var(--tangerine); }
 .tz-pull { margin: 32px 0; padding: 22px 0 22px 28px; border-left: 6px solid var(--lichen); font: italic 600 clamp(24px, 2.6vw, 32px)/1.2 var(--serif); font-variation-settings: 'SOFT' 100, 'WONK' 1; color: var(--kelp); text-indent: -.4em; }
 .tz-packet { padding: 18px 22px; border-radius: var(--bud); background: linear-gradient(170deg, rgba(255, 255, 255, .5), transparent 40%), var(--lichen); border: 2px solid var(--peat); box-shadow: var(--moulded); transform: rotate(-1deg);
-  dt { margin-bottom: 8px; font: 900 22px var(--serif); font-variation-settings: 'SOFT' 100, 'WONK' 1; text-transform: uppercase; letter-spacing: .04em; }
-  div { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; dd:first-child { font: 400 14px var(--lcd); } dd:last-child { margin-left: auto; font-weight: 700; } &::after { content: none; } }
-  div dd:first-child::after { content: ''; } }
+  .tz-packet-h { margin: 0 0 8px; font: 900 22px var(--serif); font-variation-settings: 'SOFT' 100, 'WONK' 1; text-transform: uppercase; letter-spacing: .04em; }
+  dl { margin: 0; }
+  dl div { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; dt { font: 400 14px var(--lcd); margin: 0; } dd { margin: 0 0 0 auto; font-weight: 700; } &::after { content: none; } } }
 
 // field guide
 .tz-field-head { max-width: 780px; margin-bottom: 44px; }
@@ -312,9 +312,9 @@
   li:nth-child(3) .tz-intra-n { background: #2B701D; color: #fff; }
   li:nth-child(4) .tz-intra-n { background: #7322C3; color: #fff; } }
 .tz-ic-bg .tz-packet { transform: none; padding: 12px 16px; border-radius: 8px; border: 3px solid #111; background: #fff; box-shadow: 4px 4px 0 1px #111;
-  dt { font: 700 16px 'DM Sans', sans-serif; letter-spacing: .02em; }
-  div dd:first-child { font: 500 12px 'DM Sans', sans-serif; text-transform: uppercase; }
-  div dd:last-child { font-weight: 700; } }
+  .tz-packet-h { font: 700 16px 'DM Sans', sans-serif; letter-spacing: .02em; }
+  div dt { font: 500 12px 'DM Sans', sans-serif; text-transform: uppercase; }
+  div dd { font-weight: 700; } }
 
 // Intraconnected neo-brutal buttons (flat fill, 3px border, hard shadow, slides in on press)
 .tz-nb {
@@ -457,10 +457,10 @@
   .tz-ic-bg .tz-ic-row { gap: 12px; margin-top: 14px; }
   .tz-ic-bg .tz-ic-row .tz-nb { height: 50px; gap: 8px; padding: 0 12px; font-size: 16px; }
   .tz-ic-bg .tz-intra .tz-packet { padding: 10px 14px;
-    dt { margin-bottom: 4px; font-size: 13px; letter-spacing: .06em; }
+    .tz-packet-h { margin-bottom: 4px; font-size: 13px; letter-spacing: .06em; }
     div { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 8px; align-items: baseline; padding: 2px 0; }
-    div dd:first-child { font-size: 11px; }
-    div dd:last-child { margin-left: 0; font-size: 14px; line-height: 1.35; }
+    div dt { font-size: 11px; }
+    div dd { margin-left: 0; font-size: 14px; line-height: 1.35; }
   }
   .tz-intra-stage > .tz-intra-nodes { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 4px; }
   .tz-intra-nodes {
@@ -613,10 +613,10 @@
   .tz-ic-bg .tz-ic-row .tz-nb:hover { box-shadow: 3px 3px 0 1px #111; translate: none; }
   .tz-ic-bg .tz-ic-row .tz-nb:active { box-shadow: 0 0 0 1px #111; translate: 3px 3px; }
   .tz-ic-bg .tz-intra .tz-packet { padding: 10px 12px; box-shadow: 3px 3px 0 1px #111;
-    dt { margin-bottom: 4px; font-size: 12px; letter-spacing: .06em; }
+    .tz-packet-h { margin-bottom: 4px; font-size: 12px; letter-spacing: .06em; }
     div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 8px; align-items: baseline; padding: 2px 0; }
-    div dd:first-child { font-size: 11px; }
-    div dd:last-child { margin-left: 0; font-size: 14px; line-height: 1.35; }
+    div dt { font-size: 11px; }
+    div dd { margin-left: 0; font-size: 14px; line-height: 1.35; }
   }
   // the four steps: titles only (the green box already says them in full), two by two
   .tz-intra-stage > .tz-intra-nodes { gap: 10px; margin-top: 0; }

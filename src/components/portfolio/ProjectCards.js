@@ -47,14 +47,14 @@ const Intra = ({ w, i }) => (
     {/* The preview is a link to the live site too, like the button. */}
     <a className="pj-shot" href={w.links.find(([l]) => l === 'Visit')[1]} target="_blank" rel="noopener noreferrer" aria-label="Visit intraconnected.app (opens in a new tab)">
       <span className="pj-shot-bar" aria-hidden="true"><i /><i /><i /><span>intraconnected.app</span></span>
-      <img src={intraShot} alt="" loading="eager" decoding="async" />
+      <img src={intraShot} width="1000" height="563" alt="" loading="eager" decoding="async" />
     </a>
   </article>
 );
 
 const Blm = ({ w, i }) => (
   <article className="pj pj-blm">
-    <img className="pj-logo" src={blmLogo} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+    <img className="pj-logo" src={blmLogo} width="325" height="338" alt="" aria-hidden="true" loading="lazy" decoding="async" />
     <p className="pj-tag">{num(i)} &middot; Client work</p>
     <h3>Biggest <em>little</em> Media</h3>
     <p>{w.blurb}</p>
@@ -107,7 +107,7 @@ const Stock = ({ w, i }) => (
 const Bfos = ({ w, i }) => (
   <article className="pj pj-bfos">
     <p className="pj-tag">{num(i)} &middot; Client website</p>
-    <h3><img className="pj-wordmark" src={bfosLogo} alt={w.title} loading="lazy" decoding="async" /></h3>
+    <h3><img className="pj-wordmark" src={bfosLogo} width="1206" height="225" alt={w.title} loading="lazy" decoding="async" /></h3>
     <p>{w.blurb}</p>
     <Meta w={w} />
     <Links w={w} arrow={<span className="pj-arr"> &rarr;</span>} />

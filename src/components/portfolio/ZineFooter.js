@@ -41,7 +41,7 @@ export default function ZineFooter({ nav = [], onTop }) {
           <h2 className="tz-foot-h">Elsewhere</h2>
           <ul>
             {links.map((l) => (
-              <li key={l.name}><a href={l.href} target="_blank" rel="noopener noreferrer">{l.name}<span aria-hidden="true"> &#8599;</span></a></li>
+              <li key={l.name}><a href={l.href} target="_blank" rel="noopener noreferrer" aria-label={l.name === "Spotify" ? "Spotify artist page" : l.name}>{l.name}<span aria-hidden="true"> &#8599;</span></a></li>
             ))}
           </ul>
         </div>

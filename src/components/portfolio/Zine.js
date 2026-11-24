@@ -98,7 +98,7 @@ export const Live = ({ w, W = 1280, H = 800, interactive = false, defer = true }
   if (shot) return <img src={shot} alt={`${w.title} preview`} loading="lazy" decoding="async" />;
   return (
     <div className={`tz-live${interactive ? ' tz-live-on' : ''}`} ref={box} style={{ aspectRatio: `${W} / ${H}` }}>
-      {defer && !loaded && <img className="tz-live-ph" src={phoneShots[w.id] || w.image} alt={`${w.title} preview`} loading="lazy" decoding="async" />}
+      {defer && !loaded && <img className="tz-live-ph" width={W} height={H} src={phoneShots[w.id] || w.image} alt={`${w.title} preview`} loading="lazy" decoding="async" />}
       {armed && (
         <iframe src={url} title={`${w.title}, live site`} tabIndex={interactive ? 0 : -1} sandbox="allow-scripts allow-same-origin" referrerPolicy="no-referrer"
           onLoad={() => setLoaded(true)}
@@ -188,7 +188,7 @@ export const SitePackets = ({ items }) => (
         <h3>{s.title}</h3>
         <p>{s.blurb}</p>
         <p className="tz-seed-meta">Built with {s.stack.join(', ')}</p>
-        <div className="tz-row">{s.links.map(([l, h]) => <a key={l} className={`tz-jelly tz-jelly-s${l === 'Visit' ? '' : ' tz-jelly-pale'}`} href={h} target="_blank" rel="noopener noreferrer">{l}</a>)}</div>
+        <div className="tz-row">{s.links.map(([l, h]) => <a key={l} className={`tz-jelly tz-jelly-s${l === 'Visit' ? '' : ' tz-jelly-pale'}`} href={h} target="_blank" rel="noopener noreferrer" aria-label={`${l === 'Visit' ? 'Visit' : l} ${s.title}`}>{l}</a>)}</div>
       </li>
     ))}
   </ul>
@@ -337,7 +337,7 @@ export default function Zine() {
         <p className="tz-strip"><span>Developer &middot; Musician &middot; Writer &middot; Illustrator</span><span>{bio.where}</span><span>Open to commissions</span></p>
         <h1 className="tz-mast" aria-label="Hunter Africk, Reno web developer and designer">{[...'HUNTER'].map((c, i) => <span key={i} aria-hidden="true">{c}</span>)}</h1>
         <figure className="tz-cover-photo">
-          <img src={candid} alt="Hunter, looking up at the camera, holding a glowing green alien balloon" fetchPriority="high" decoding="async" />
+          <img src={candid} width="800" height="800" alt="Hunter, looking up at the camera, holding a glowing green alien balloon" fetchpriority="high" decoding="async" />
           {[1, 2, 3, 4, 5].map((n) => <i key={n} className={`tz-fly tz-fly-${n}`} aria-hidden="true" />)}
         </figure>
         <ul className="tz-lines">
@@ -387,7 +387,7 @@ export default function Zine() {
         <DebutTitle />
         <figure className="tz-album">
           <i className="tz-vinyl" aria-hidden="true" />
-          <img src={album.image} alt="Collection of Sounds album cover, drawn by Hunter" loading="lazy" decoding="async" />
+          <img src={album.image} width="800" height="800" alt="Collection of Sounds album cover, drawn by Hunter" loading="lazy" decoding="async" />
         </figure>
         <article className="tz-feature">
           <p className="tz-kicker">p.06 &middot; The debut</p>
@@ -398,7 +398,7 @@ export default function Zine() {
             <p>It is a conscious, alternative hip hop record, released in October {album.year}, and it doubles as a résumé: songwriting, production, engineering and illustration on a single sleeve.</p>
           </div>
           <blockquote className="tz-pull">&ldquo;Produced, written, recorded, mixed, and mastered by me. The album art is also by me.&rdquo;</blockquote>
-          <div className="tz-row">{album.links.map(([l, h]) => <a key={l} className="tz-jelly tz-jelly-ico tz-jelly-pale" href={h} target="_blank" rel="noopener noreferrer">{svc[l]}{l}</a>)}</div>
+          <div className="tz-row">{album.links.map(([l, h]) => <a key={l} className="tz-jelly tz-jelly-ico tz-jelly-pale" href={h} target="_blank" rel="noopener noreferrer" aria-label={`${l}: Collection of Sounds`}>{svc[l]}{l}</a>)}</div>
         </article>
       </section>
 
@@ -417,13 +417,15 @@ export default function Zine() {
             <Live w={intra} H={720} interactive />
           </figure>
         <aside className="tz-intra-side">
-          <dl className="tz-packet">
-            <dt>The specs</dt>
-            <div><dd>Role</dd><dd>Full Stack, Product Design, UI/UX</dd></div>
-            <div><dd>Made with</dd><dd>{intra.stack.join(', ')}</dd></div>
-          </dl>
+          <div className="tz-packet">
+            <p className="tz-packet-h">The specs</p>
+            <dl>
+              <div><dt>Role</dt><dd>Full Stack, Product Design, UI/UX</dd></div>
+              <div><dt>Made with</dt><dd>{intra.stack.join(', ')}</dd></div>
+            </dl>
+          </div>
           <div>
-            <div className="tz-row tz-ic-row">{intra.links.map(([l, h], i) => <a key={l} className={`tz-nb ${i ? 'tz-nb-link' : 'tz-nb-confirm'}`} href={h} target="_blank" rel="noopener noreferrer">{icIcons[l]}{l}</a>)}</div>
+            <div className="tz-row tz-ic-row">{intra.links.map(([l, h], i) => <a key={l} className={`tz-nb ${i ? 'tz-nb-link' : 'tz-nb-confirm'}`} href={h} target="_blank" rel="noopener noreferrer" aria-label={`${l} ${intra.title}`}>{icIcons[l]}{l}</a>)}</div>
           </div>
         </aside>
           <ol className="tz-intra-nodes">
@@ -443,7 +445,7 @@ export default function Zine() {
       {/* FEATURE: Q&A */}
       <section className="tz-page tz-qa" ref={reg('qa')}>
         <figure className="tz-qa-photo">
-          <img src={portrait} alt="Hunter grinning in the driver's seat" loading="lazy" decoding="async" />
+          <img src={portrait} width="800" height="505" alt="Hunter grinning in the driver's seat" loading="lazy" decoding="async" />
         </figure>
         <article>
           <p className="tz-kicker">p.24 &middot; The interview</p>
